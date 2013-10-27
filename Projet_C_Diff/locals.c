@@ -1,1 +1,0 @@
-int locals = 1;
