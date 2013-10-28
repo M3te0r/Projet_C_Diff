@@ -36,7 +36,7 @@ int main(int argc, char** argv[])
 	int argument_q = 0;
 	int argument_y = 0;
 
-
+	int arrrr = 1;
 	//count options
 
 	int i, countOptions = 0;
