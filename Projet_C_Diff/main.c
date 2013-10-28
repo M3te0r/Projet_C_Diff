@@ -66,11 +66,28 @@ int main(int argc, char** argv[])
 			countOptions++;
 
 		}
-		if (strcmp(argv[i], "-t") == 0 || strcmp(argv[i])
+		if (strcmp(argv[i], "-t") == 0 || strcmp(argv[i], "--expand-tables") == 0)
+		{
+			arguments[3] = 1;
+			countOptions++;
+
+		}
+		if (strcmp(argv[i], "-N") == 0 || strcmp(argv[i], "--new-file") == 0)
+		{
+			arguments[4] = 1;
+			countOptions++;
+
+		}
+		if (strcmp(argv[i], "-i") == 0 || strcmp(argv[i], "--ignore-case")
+		{
+			arguments[5] = 1;
+			countOptions++;
+
+		}
+		if (strcmp(argv[i], "-E") == 0 || strcmp(argv[i], "
 		{
 
 		}
-		
 	}
 
 }
