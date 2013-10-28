@@ -11,7 +11,7 @@
 int main(int argc, char** argv[])
 {
 
-	//if there are less than 2 arguments then the program closes
+	//Vérification du nombre d'arguments
 	if (argc < 2)
 	{
 		printf("You have entered less than 2(two) arguments, please try again with more arguments");
