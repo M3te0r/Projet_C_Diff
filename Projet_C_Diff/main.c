@@ -11,10 +11,10 @@
 int main(int argc, char** argv[])
 {
 
-	//Vérification du nombre d'arguments
+	//Checking of the number of arguments
 	if (argc < 2)
 	{
-		printf("You have entered less than 2(two) arguments, please try again with more arguments");
+		printf("Invalid number of arguments, please enter at least 2 arguments");
 		return 1;
 	}
 
