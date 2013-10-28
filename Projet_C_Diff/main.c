@@ -31,7 +31,7 @@ int main(int argc, char** argv[])
 	index 3 = -t || --expand-tables
 	index 4 = -N || --new-file
 	index 5 = -i || --ignore-case
-	index 6 = -E || ingrore-tab-expansion
+	index 6 = -E || --ignore-tab-expansion
 	index 7 = -b || --ignore-space-change
 	index 8 = -h || --help
 	index 9 = -v || --version
@@ -84,7 +84,7 @@ int main(int argc, char** argv[])
 			countOptions++;
 
 		}
-		if (strcmp(argv[i], "-E") == 0 || strcmp(argv[i], "
+		if (strcmp(argv[i], "-E") == 0 || strcmp(argv[i], "--ignore-tab-expansion"
 		{
 
 		}
