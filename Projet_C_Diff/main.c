@@ -22,60 +22,55 @@ int main(int argc, char** argv[])
 	/*
 
 	Options init*/
+	//tab of options where argument[n] = 0 or 1
+	//n is the option
+	/*
+	index 0 = -q || --brief
+	index 1 = -s || --report-identical-files
+	index 2 = -y || --side-by-side
+	index 3 = -t || --expand-tables
+	index 4 = -N || --new-file
+	index 5 = -i || --ignore-case
+	index 6 = -E || ingrore-tab-expansion
+	index 7 = -b || --ignore-space-change
+	index 8 = -h || --help
+	index 9 = -v || --version
+	index 10 = -w || --width
+	
+	
+	*/
+	int arguments[11];
 
-	int argument_i = 0;
-	int argument_b = 0;
-	int argument_E = 0;
-	int argument_v = 0;
-	int argument_h = 0;
-	int argument_w = 0;
-	int argument_N = 0;
-	int argument_t = 0;
 
-	int argument_s = 0;
-	int argument_q = 0;
-	int argument_y = 0;
 
-	int arrrr = 1;
 	//count options
 
 	int i, countOptions = 0;
 
 	for (i = 0; i < argc; i++)
 	{
-		if (strcmp(argv[i], "-j") == 0 || strcmp(argv[i], "--ignore-case") == 0)
+
+		if (strcmp(argv[i], "-q") == 0 || strcmp(argv[i], "--brief") == 0)
 		{
-			argument_i = 1;
+			arguments[0] = 1;
+			countOptions++;
+		}
+		if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--report-identical-files") == 0)
+		{
+			arguments[1] = 1;
+			countOptions++;
+		}
+		if (strcmp(argv[i], "-y") == 0 || strcmp(argv[i], "--side-by-side") == 0)
+		{
+			arguments[2] = 1;
 			countOptions++;
 
 		}
-		if (strcmp(argv[i], "-b") == 0 || strcmp(argv[i], "--ignore-space-change") == 0)
+		if (strcmp(argv[i], "-t") == 0 || strcmp(argv[i])
 		{
-			argument_b = 1;
-			countOptions++;
-
 
 		}
-		if (strcmp(argv[i], "-E") == 0 || strcmp(argv[i], "--ignore-tab-expansion") == 0)
-		{
-			argument_E = 1;
-			countOptions++;
-
-		}
-		if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
-		{
-			argument_v = 1;
-			//printf de la version
-			return 0;
-
-		}
-		if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
-		{
-			argument_h = 1;
-			printf("Usage of diff command :\n");
-			printf("[OPTIONS] file1 file2\n\n");
-
-		}
+		
 	}
 
 }
