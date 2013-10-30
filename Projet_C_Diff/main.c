@@ -22,7 +22,7 @@ int main(int argc, char** argv[])
 	/*
 
 	Options init*/
-	//tab of options where argument[n] = 0 or 1
+	//tab of options where arguments[n] = 0 or 1
 	//n is the option
 	/*
 	index 0 = -q || --brief
@@ -87,18 +87,30 @@ int main(int argc, char** argv[])
 		if (strcmp(argv[i], "-E") == 0 || strcmp(argv[i], "--ignore-tab-expansion") == 0)
 		{
 			arguments[6] = 1;
-			countOptions;
+			countOptions++;
 
 		}
 		if (strcmp(argv[i], "-b") == 0 || strcmp(argv[i], "--ignore-space-change") == 0)
 		{
 			arguments[7] = 1;
-			countOptions;
+			countOptions++;
 		}
-		if (strcmp(argv[i], "-h")
+		if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
 		{
-
+			arguments[8] = 1;
+			countOptions++;
 		}
+		if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
+		{
+			arguments[9] = 1;
+			countOptions++;
+		}
+		if (strcmp(argv[i], "-w") == 0 || strcmp(argv[i], "--width") == 0)
+		{
+			arguments[10] = 1;
+			countOptions++;
+		}
+		
 	}
 
 }
