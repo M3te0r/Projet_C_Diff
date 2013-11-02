@@ -49,62 +49,62 @@ int main(int argc, char** argv[])
 	for (i = 0; i < argc; i++)
 	{
 
-		if (strcmp(argv[i], "-q") == 0 || strcmp(argv[i], "--brief") == 0)
+		if (strcomp(argv[i], "-q") == 0 || strcomp(argv[i], "--brief") == 0)
 		{
 			arguments[0] = 1;
 			countOptions++;
 		}
-		if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--report-identical-files") == 0)
+		if (strcomp(argv[i], "-s") == 0 || strcomp(argv[i], "--report-identical-files") == 0)
 		{
 			arguments[1] = 1;
 			countOptions++;
 		}
-		if (strcmp(argv[i], "-y") == 0 || strcmp(argv[i], "--side-by-side") == 0)
+		if (strcomp(argv[i], "-y") == 0 || strcomp(argv[i], "--side-by-side") == 0)
 		{
 			arguments[2] = 1;
 			countOptions++;
 
 		}
-		if (strcmp(argv[i], "-t") == 0 || strcmp(argv[i], "--expand-tables") == 0)
+		if (strcomp(argv[i], "-t") == 0 || strcomp(argv[i], "--expand-tables") == 0)
 		{
 			arguments[3] = 1;
 			countOptions++;
 
 		}
-		if (strcmp(argv[i], "-N") == 0 || strcmp(argv[i], "--new-file") == 0)
+		if (strcomp(argv[i], "-N") == 0 || strcomp(argv[i], "--new-file") == 0)
 		{
 			arguments[4] = 1;
 			countOptions++;
 
 		}
-		if (strcmp(argv[i], "-i") == 0 || strcmp(argv[i], "--ignore-case") == 0)
+		if (strcomp(argv[i], "-i") == 0 || strcomp(argv[i], "--ignore-case") == 0)
 		{
 			arguments[5] = 1;
 			countOptions++;
 
 		}
-		if (strcmp(argv[i], "-E") == 0 || strcmp(argv[i], "--ignore-tab-expansion") == 0)
+		if (strcomp(argv[i], "-E") == 0 || strcomp(argv[i], "--ignore-tab-expansion") == 0)
 		{
 			arguments[6] = 1;
 			countOptions++;
 
 		}
-		if (strcmp(argv[i], "-b") == 0 || strcmp(argv[i], "--ignore-space-change") == 0)
+		if (strcomp(argv[i], "-b") == 0 || strcomp(argv[i], "--ignore-space-change") == 0)
 		{
 			arguments[7] = 1;
 			countOptions++;
 		}
-		if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0)
+		if (strcomp(argv[i], "-h") == 0 || strcomp(argv[i], "--help") == 0)
 		{
 			arguments[8] = 1;
 			countOptions++;
 		}
-		if (strcmp(argv[i], "-v") == 0 || strcmp(argv[i], "--version") == 0)
+		if (strcomp(argv[i], "-v") == 0 || strcomp(argv[i], "--version") == 0)
 		{
 			arguments[9] = 1;
 			countOptions++;
 		}
-		if (strcmp(argv[i], "-w") == 0 || strcmp(argv[i], "--width") == 0)
+		if (strcomp(argv[i], "-w") == 0 || strcomp(argv[i], "--width") == 0)
 		{
 			arguments[10] = 1;
 			countOptions++;
@@ -115,7 +115,9 @@ int main(int argc, char** argv[])
 }
 
 
-int strcmp(const char* s1, const char* s2)
+// fonction strcomp source wiki
+
+int strcomp(const char* s1, const char* s2)
 {
 	while ((*s1++ == *s2++) && (*s1 != '\0'));
 	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
