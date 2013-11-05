@@ -1,1 +1,1 @@
-int strcmp(const char* s1, const char* s2);
+int strcomp(const char* s1, const char* s2);
