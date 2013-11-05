@@ -112,6 +112,16 @@ int main(int argc, char** argv[])
 		
 	}
 
+	//FIlenames are taken after the option(s)
+	argv[1] = argv[countOptions + 1];
+	argv[2] = argv[countOptions + 2];
+
+
+	//Fonction principale diff
+
+	char* firstFile = argv[1];
+	char* secondFile = argv[2];
+
 }
 
 
@@ -122,3 +132,9 @@ int strcomp(const char* s1, const char* s2)
 	while ((*s1++ == *s2++) && (*s1 != '\0'));
 	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
 }
+
+
+
+
+
+
