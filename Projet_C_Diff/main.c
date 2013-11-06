@@ -35,8 +35,8 @@ int main(int argc, char** argv[])
 	index 8 = -h || --help
 	index 9 = -v || --version
 	index 10 = -w || --width
-	
-	
+
+
 	*/
 	int arguments[11];
 
@@ -102,25 +102,45 @@ int main(int argc, char** argv[])
 		if (strcomp(argv[i], "-v") == 0 || strcomp(argv[i], "--version") == 0)
 		{
 			arguments[9] = 1;
-			countOptions++;
+			printf("Version 0.1 pre-alpha\n\n Programme écrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre");
+			FILE* esgi = NULL;
+			char esgiChain[1000];
+			esgi = fopen("esgi_logo.txt", "r");
+
+			if (esgi != NULL)
+
+			{
+				while (fgets(esgiChain, 1000, esgi) != NULL)
+				{
+					printf("%s", esgiChain);
+
+				}
+
+				fclose(esgi);
+				printf("\n");
+			}
+
+
+
+			if (strcomp(argv[i], "-w") == 0 || strcomp(argv[i], "--width") == 0)
+			{
+				arguments[10] = 1;
+				countOptions++;
+			}
+
 		}
-		if (strcomp(argv[i], "-w") == 0 || strcomp(argv[i], "--width") == 0)
-		{
-			arguments[10] = 1;
-			countOptions++;
-		}
-		
+
+		//FIlenames are taken after the option(s)
+		argv[1] = argv[countOptions + 1];
+		argv[2] = argv[countOptions + 2];
+
+
+		//Fonction principale diff
+
+		char* firstFile = argv[1];
+		char* secondFile = argv[2];
+
 	}
-
-	//FIlenames are taken after the option(s)
-	argv[1] = argv[countOptions + 1];
-	argv[2] = argv[countOptions + 2];
-
-
-	//Fonction principale diff
-
-	char* firstFile = argv[1];
-	char* secondFile = argv[2];
 
 }
 
