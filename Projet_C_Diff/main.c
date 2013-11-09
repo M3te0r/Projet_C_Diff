@@ -140,6 +140,7 @@ int main(int argc, char** argv[])
 
 	int LinesOfFile1 = linesOfFile(firstFile);
 	int LinesOfFile2 = linesOfFile(secondFile);
+
 }
 
 
