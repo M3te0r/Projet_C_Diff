@@ -102,7 +102,7 @@ int main(int argc, char** argv[])
 		if (strcomp(argv[i], "-v") == 0 || strcomp(argv[i], "--version") == 0)
 		{
 			arguments[9] = 1;
-			printf("Version 0.1 pre-alpha\n\n Programme écrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre");
+			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre",130);
 			FILE* esgi = NULL;
 			char esgiChain[1000];
 			esgi = fopen("esgi_logo.txt", "r");
@@ -130,28 +130,30 @@ int main(int argc, char** argv[])
 
 		}
 
-		//FIlenames are taken after the option(s)
-		argv[1] = argv[countOptions + 1];
-		argv[2] = argv[countOptions + 2];
-
-
-		//Fonction principale diff
-
-		char* firstFile = argv[1];
-		char* secondFile = argv[2];
-
 	}
 
+	//Filenames are taken after the option(s)
+	argv[1] = argv[countOptions + 1];
+	argv[2] = argv[countOptions + 2];
+
+
+	//Fonction principale diff
+
+	char* firstFile = argv[1];
+	char* secondFile = argv[2];
+
+	
+
+	int LinesOfFile1 = linesOfFile(firstFile);
+	int LinesOfFile2 = linesOfFile(secondFile);
+
+
+
 }
 
 
-// fonction strcomp source wiki
 
-int strcomp(const char* s1, const char* s2)
-{
-	while ((*s1++ == *s2++) && (*s1 != '\0'));
-	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
-}
+
 
 
 
