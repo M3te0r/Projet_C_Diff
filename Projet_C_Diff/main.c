@@ -36,11 +36,9 @@ int main(int argc, char** argv[])
 	index 9 = -v || --version
 	index 10 = -w || --width
 
-
+	Autres options à envisager...
 	*/
 	int arguments[11];
-
-
 
 	//count options
 
@@ -97,7 +95,8 @@ int main(int argc, char** argv[])
 		if (strcomp(argv[i], "-h") == 0 || strcomp(argv[i], "--help") == 0)
 		{
 			arguments[8] = 1;
-			countOptions++;
+			help_option();
+			return 0;
 		}
 		if (strcomp(argv[i], "-v") == 0 || strcomp(argv[i], "--version") == 0)
 		{
@@ -119,36 +118,28 @@ int main(int argc, char** argv[])
 				fclose(esgi);
 				printf("\n");
 			}
-
-
+			return 0;
 
 			if (strcomp(argv[i], "-w") == 0 || strcomp(argv[i], "--width") == 0)
 			{
 				arguments[10] = 1;
 				countOptions++;
 			}
-
 		}
-
 	}
 
 	//Filenames are taken after the option(s)
 	argv[1] = argv[countOptions + 1];
 	argv[2] = argv[countOptions + 2];
 
-
 	//Fonction principale diff
 
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
 
-	
 
 	int LinesOfFile1 = linesOfFile(firstFile);
 	int LinesOfFile2 = linesOfFile(secondFile);
-
-
-
 }
 
 

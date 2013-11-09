@@ -6,12 +6,11 @@
 
 void help_option()
 {
-	printf("Usage: diff [OPTION]... FICHIERS");
-	printf("Comparer les fichiers ligne par ligne.");
+	printf("Usage: diff [OPTION]... FICHIERS\n");
+	printf("Comparer les fichiers ligne par ligne.\n");
 
 	//suite des détails d'options
 }
-
 
 // fonction strcomp source wiki
 
@@ -20,7 +19,6 @@ int strcomp(const char* s1, const char* s2)
 	while ((*s1++ == *s2++) && (*s1 != '\0'));
 	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
 }
-
 
 int myStrlen(char *s)
 {
@@ -33,8 +31,8 @@ int myStrlen(char *s)
 	return s - start;
 }
 
-
 /*Count lines
+There is no need to define the max length  of a line
 */
 int linesOfFile(char* file)
 {
@@ -50,11 +48,8 @@ int linesOfFile(char* file)
 		if (c == '\n')
 			newline_count++;
 	}
-
 	fclose(fileParam);
 	return newline_count;
-
-
 }
 
 
