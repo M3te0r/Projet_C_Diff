@@ -146,9 +146,14 @@ int main(int argc, char** argv[])
 
 
 	//debug lignes
-	printf("Le fichier 1 comprend %i lignes", LinesOfFile1);
+	printf("Le fichier 1 comprend %i lignes\n", LinesOfFile1);
 
-	printf("Le fichier 2 comprend %i lignes", LinesOfFile2);
+	printf("Le fichier 2 comprend %i lignes\n", LinesOfFile2);
+
+	char** tabFile1 = fileToTab(firstFile, LinesOfFile1);
+	char** tabFile2 = fileToTab(secondFile, LinesOfFile2);
+
+
 
 }
 

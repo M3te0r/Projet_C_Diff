@@ -62,4 +62,73 @@ int linesOfFile(char* file)
 
 }
 
+int CaractecrsOfFile(char* file)
+{
+	FILE* fileParam = NULL;
+	int  c = 0;
+	int cars = 0;
+	fileParam = fopen(file, "r");
+
+	if (fileParam != NULL)
+	{
+		/* count the numbers of characters */
+		while ((c = fgetc(fileParam)) != EOF) {
+				cars++;
+		}
+		fclose(fileParam);
+
+		return cars;
+
+
+	}
+	else
+	{
+		printf("Impossible de lire le fichier");
+		return -1;
+	}
+
+}
+
+char** fileToTab(char* file, int lines)
+{
+	char** tab = NULL;
+	FILE* fileToTab = NULL;
+	char c = 0, i = 0;
+	int numberOfCars = CaractecrsOfFile(file);
+
+	fileToTab = fopen(file,"r");
+
+	tab = (char**)malloc(numberOfCars*sizeof(char*));
+
+	if (tab==NULL)
+	{
+		printf("Can not alloc");
+		return 0;
+	}
+
+	if (fileToTab!=NULL)
+	{
+		while ((c = fgetc(fileToTab)) != EOF) {
+			tab[i] = NULL;
+			tab[i] = (char)malloc(sizeof(char));
+			tab[i] = c;
+			i++;
+
+			
+			
+		}
+		fclose(fileToTab);
+
+	}
+	else
+	{
+		printf("Can not open input file");
+		return 0;
+	}
+
+
+	return tab;
+
+}
+
 
