@@ -89,43 +89,43 @@ int CaractecrsOfFile(char* file)
 
 }
 
-char** fileToTab(char* file, int lines)
+
+char** fileToTabs(char* file, int lines)
 {
 	char** tab = NULL;
 	FILE* fileToTab = NULL;
-	char c = 0, i = 0;
-	int numberOfCars = CaractecrsOfFile(file);
+	char c = 0;
+	unsigned long numberOfCars = CaractecrsOfFile(file);
+	unsigned long i = 0;
 
 	fileToTab = fopen(file,"r");
 
-	tab = (char**)malloc(numberOfCars*sizeof(char*));
+	tab = (char**)malloc((numberOfCars)*sizeof(char*));
 
 	if (tab==NULL)
 	{
 		printf("Can not alloc");
-		return 0;
+		exit(0);
 	}
 
 	if (fileToTab!=NULL)
 	{
 		while ((c = fgetc(fileToTab)) != EOF) {
 			tab[i] = NULL;
-			tab[i] = (char)malloc(sizeof(char));
-			tab[i] = c;
+			tab[i] = malloc(sizeof(char));
+			tab[i] = c;			
 			i++;
-
-			
-			
 		}
 		fclose(fileToTab);
-
 	}
 	else
 	{
 		printf("Can not open input file");
-		return 0;
+		exit(0);
 	}
 
+	tab[i] = malloc(sizeof(char));
+	tab[i] = '\0';
 
 	return tab;
 

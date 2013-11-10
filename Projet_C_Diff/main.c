@@ -141,19 +141,19 @@ int main(int argc, char** argv[])
 	int LinesOfFile1 = linesOfFile(firstFile);
 	int LinesOfFile2 = linesOfFile(secondFile);
 
-	//Probleme : si le chemins des fichiers est passé en parametre avec VS, le prog plante
+	//Probleme : si le chemins absolu des fichiers est passé en parametre avec VS, le prog plante
 	//Si passé avec l'invite de commande ça fonctionne
 
 
-	//debug lignes
+	//debug lignes 
+	//compte les sauts de lignes '\n'
+	//Dans un fichier texte normal +1 pour avoir le nombre de lignes
 	printf("Le fichier 1 comprend %i lignes\n", LinesOfFile1);
 
 	printf("Le fichier 2 comprend %i lignes\n", LinesOfFile2);
 
-	char** tabFile1 = fileToTab(firstFile, LinesOfFile1);
-	char** tabFile2 = fileToTab(secondFile, LinesOfFile2);
-
-
+	char** tabFile1 = fileToTabs(firstFile, LinesOfFile1);
+	char** tabFile2 = fileToTabs(secondFile, LinesOfFile2);
 
 }
 
