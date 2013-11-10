@@ -37,19 +37,29 @@ There is no need to define the max length  of a line
 int linesOfFile(char* file)
 {
 	FILE* fileParam = NULL;
-
+	int  c;
+	unsigned long newline_count = 0;
 	fileParam = fopen(file, "r");
 
-	int  c; 
-	unsigned long newline_count = 0;
+	if (fileParam!=NULL)
+	{
+		/* count the newline characters */
+		while ((c = fgetc(fileParam)) != EOF) {
+			if (c == '\n')
+				newline_count++;
+		}
+		fclose(fileParam);
 
-	/* count the newline characters */
-	while ((c = fgetc(fileParam)) != EOF) {
-		if (c == '\n')
-			newline_count++;
+		return newline_count;
+
+
 	}
-	fclose(fileParam);
-	return newline_count;
+	else
+	{
+		printf("Impossible de lire le fichier");
+		return -1;
+	}
+
 }
 
 

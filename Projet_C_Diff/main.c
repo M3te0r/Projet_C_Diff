@@ -137,9 +137,18 @@ int main(int argc, char** argv[])
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
 
-
+	//Call of LinesOfFile function to get the number of line for each files
 	int LinesOfFile1 = linesOfFile(firstFile);
 	int LinesOfFile2 = linesOfFile(secondFile);
+
+	//Probleme : si le chemins des fichiers est passé en parametre avec VS, le prog plante
+	//Si passé avec l'invite de commande ça fonctionne
+
+
+	//debug lignes
+	printf("Le fichier 1 comprend %i lignes", LinesOfFile1);
+
+	printf("Le fichier 2 comprend %i lignes", LinesOfFile2);
 
 }
 
