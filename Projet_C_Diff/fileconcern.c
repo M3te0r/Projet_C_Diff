@@ -284,7 +284,7 @@ void compare(const char *nomDuFichier1, const char *nomDuFichier2)
             nbLigneGlobale = nbLigneFic2;
         }
 
-		for (j=0; j<nbLigneFic1; j++)
+		for (j=0; j<nbLigneGlobale; j++)
 		{
             // Initialisation
 			char *tabLigne1 = NULL;
