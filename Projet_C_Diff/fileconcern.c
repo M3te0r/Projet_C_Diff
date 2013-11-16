@@ -266,7 +266,7 @@ void compare(const char *nomDuFichier1, const char *nomDuFichier2)
 	FILE *fichier1 = NULL, *fichier2 = NULL;
 	fichier1 = fopen(nomDuFichier1, "r");
 	fichier2 = fopen(nomDuFichier2, "r");
-	int taille1 = 0, taille2 = 0, i = 0, j = 0, nbLigneFic1 = 1, nbLigneFic2 = 1, tailleTableau = 0;
+	int taille1 = 0, taille2 = 0, i = 0, j = 0, nbLigneFic1 = 1, nbLigneFic2 = 1, tailleTableau = 0, nbLigneGlobale = 0;
     long position1 = 0, position2 = 0;
 
 	if (fichier1 != NULL && fichier2 != NULL)
@@ -275,6 +275,14 @@ void compare(const char *nomDuFichier1, const char *nomDuFichier2)
 		nbLigneFic1 = compteLigneFichier(nomDuFichier1);
 		// Nombre de lignes du fichier 2
 		nbLigneFic2 = compteLigneFichier(nomDuFichier2);
+		if (nbLigneFic1 > nbLigneFic2)
+        {
+            nbLigneGlobale = nbLigneFic1;
+        }
+        else
+        {
+            nbLigneGlobale = nbLigneFic2;
+        }
 
 		for (j=0; j<nbLigneFic1; j++)
 		{
