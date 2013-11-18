@@ -90,10 +90,11 @@ int CaractecrsOfFile(char* file)
 
 }
 
-
-char** fileToTabs(char* file, int lines)
+//Renvoie un tableau rempli de tous les caractères du fichier
+//Caractère par caractère
+char* fileToTabs(char* file, int lines)
 {
-	char** tab = NULL;
+	char* tab = NULL;
 	FILE* fileToTab = NULL;
 	char c = 0;
 	unsigned long numberOfCars = CaractecrsOfFile(file);
@@ -101,7 +102,7 @@ char** fileToTabs(char* file, int lines)
 
 	fileToTab = fopen(file,"r");
 
-	tab = (char**)malloc((numberOfCars)*sizeof(char*));
+	tab = malloc((numberOfCars)*sizeof(char*));
 
 	if (tab==NULL)
 	{
