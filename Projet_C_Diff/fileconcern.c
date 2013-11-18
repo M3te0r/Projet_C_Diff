@@ -38,7 +38,7 @@ int linesOfFile(char* file)
 {
 	FILE* fileParam = NULL;
 	int  c;
-	unsigned long newline_count = 0;
+	unsigned long newline_count = 1;
 	fileParam = fopen(file, "r");
 
 	if (fileParam!=NULL)
@@ -62,6 +62,7 @@ int linesOfFile(char* file)
 
 }
 
+//Renvoie le nombre de caractères dans un fichier
 int CaractecrsOfFile(char* file)
 {
 	FILE* fileParam = NULL;
@@ -129,32 +130,6 @@ char** fileToTabs(char* file, int lines)
 
 	return tab;
 
-}
-
-// Renvoie le nombre de lignes du fichier
-int compteLigneFichier(const char *nomFichier)
-{
-	FILE *fichier = NULL;
-	int caractereActuel = 0, nb = 1;
-	fichier = fopen(nomFichier, "r");
-	if (fichier != NULL)
-	{
-		// Nombre de lignes du fichier
-		while (caractereActuel != EOF)
-		{
-			caractereActuel = fgetc(fichier);
-			if (caractereActuel == '\n')
-			{
-				nb++;
-			}
-		}
-	}
-	else
-	{
-		nb = 0;
-	}
-	fclose(fichier);
-	return nb;
 }
 
 // Modifie le tableau existant et ajoute les caractères d'une ligne dedans
@@ -272,9 +247,9 @@ void compare(const char *nomDuFichier1, const char *nomDuFichier2)
 	if (fichier1 != NULL && fichier2 != NULL)
 	{
 		// Nombre de lignes du fichier 1
-		nbLigneFic1 = compteLigneFichier(nomDuFichier1);
+		nbLigneFic1 = linesOfFile(nomDuFichier1);
 		// Nombre de lignes du fichier 2
-		nbLigneFic2 = compteLigneFichier(nomDuFichier2);
+		nbLigneFic2 = linesOfFile(nomDuFichier2);
 		if (nbLigneFic1 > nbLigneFic2)
         {
             nbLigneGlobale = nbLigneFic1;
