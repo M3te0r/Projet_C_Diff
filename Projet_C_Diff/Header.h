@@ -18,4 +18,4 @@ int nombreCaractereLigne(const char *nomFichier, int numLigne);
 void afficheLigne(const char *nomFichier, int numLigne);
 void compare(const char *nomDuFichier1, const char *nomDuFichier2);
 
-int ignoreCase(char* tabFile1, char* tabFile2);
+int ignoreCase(char c1, char c2);
