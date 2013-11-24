@@ -17,3 +17,5 @@ int retourLigneCurseur(const char *nomFichier, int numLigne);
 int nombreCaractereLigne(const char *nomFichier, int numLigne);
 void afficheLigne(const char *nomFichier, int numLigne);
 void compare(const char *nomDuFichier1, const char *nomDuFichier2);
+
+int ignoreCase(char* tabFile1, char* tabFile2);

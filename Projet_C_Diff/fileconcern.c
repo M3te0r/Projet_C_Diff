@@ -322,3 +322,36 @@ void compare(const char *nomDuFichier1, const char *nomDuFichier2)
 		printf("Erreur de lecture du fichier %s ou le fichier %s", nomDuFichier1, nomDuFichier2);
 	}
 }
+
+/*Fonction ignoreCase
+Renvoie 1 si c1!=c2 même en ignorant la casse
+Renvoie 0 si c1==c2 en ignorant la casse
++32 et -32 = Table ACSII maj vers min ou min vers maj
+
+
+A intégrer dans le diff principal si option -i pour chaque caractère*/
+int ignoreCase(char c1, char c2)
+{
+	if (c1==c2)
+	{
+		return 1;
+	}
+
+	if (((c1 >= 65 && c1 <= 90) || (c1 >= 97 && c1 <= 122)) && ((c2 >= 65 && c2 <= 90) || (c2 >= 97 && c2 <= 122)))
+	{
+		if ((c1 == c2 + 32) || (c1 == c2 - 32))
+		{
+			return 0;
+
+		}
+		else
+		{
+			return 1;
+		}
+
+	}
+	else
+	{
+		return 1;
+	}
+}
