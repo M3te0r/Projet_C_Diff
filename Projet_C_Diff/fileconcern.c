@@ -371,3 +371,22 @@ void briefing(int differ, char firstFile, char secondFile)
 	}
 	//Rien si 0
 }
+
+
+/*
+-s N'empeche pas l'affichage du diff principale si les fichiers diffèrent
+
+Appel à la fin du diff princpal après toutes les options de comportement s'il y en a
+Reçoie 1 si différent
+Rzçoie 0 si contenu identique
+*/
+void identicalFiles(int same, char firstFile, char secondFile)
+{
+	if (same==0)
+	{
+		printf("\nContent of files %s and %s are the same", firstFile, secondFile);
+
+	}
+
+	//Rien si different
+}

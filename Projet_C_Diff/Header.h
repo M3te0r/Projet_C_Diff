@@ -21,3 +21,5 @@ void compare(const char *nomDuFichier1, const char *nomDuFichier2);
 int ignoreCase(char c1, char c2);
 
 void briefing(int differ, char firstFile, char secondFile);
+
+void identicalFiles(int same, char firstFile, char secondFile);
