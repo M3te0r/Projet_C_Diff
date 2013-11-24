@@ -355,3 +355,19 @@ int ignoreCase(char c1, char c2)
 		return 1;
 	}
 }
+
+/*
+Appel dans le diff après les options de comportement
+Dans le diff principal dès qu'un caractère diffère on envoie 1
+
+Sinon à la fin du diff principal si toujours aucun caractère ne diffère on envoie 0
+*/
+void briefing(int differ, char firstFile, char secondFile)
+{
+	if (differ==1)
+	{
+		printf("Files %s and %s", firstFile, secondFile);
+
+	}
+	//Rien si 0
+}
