@@ -164,7 +164,7 @@ char* fileToTabs(char* file, int lines)
 		if (fileToTab != NULL)
 		{
 			while ((c = fgetc(fileToTab)) != EOF) {
-				tab[i] = NULL;
+			//	tab[i] = NULL;
 				tab[i] = (char*)malloc(sizeof(char));
 				tab[i] = c;
 				i++;
