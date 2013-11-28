@@ -47,58 +47,58 @@ int main(int argc, char** argv[])
 	for (i = 0; i < argc; i++)
 	{
 
-		if (strcomp(argv[i], "-q") == 0 || strcomp(argv[i], "--brief") == 0)
+		if (strcomp1(argv[i], "-q") == 0 || strcomp1(argv[i], "--brief") == 0)
 		{
 			arguments[0] = 1;
 			countOptions++;
 		}
-		if (strcomp(argv[i], "-s") == 0 || strcomp(argv[i], "--report-identical-files") == 0)
+		if (strcomp1(argv[i], "-s") == 0 || strcomp1(argv[i], "--report-identical-files") == 0)
 		{
 			arguments[1] = 1;
 			countOptions++;
 		}
-		if (strcomp(argv[i], "-y") == 0 || strcomp(argv[i], "--side-by-side") == 0)
+		if (strcomp1(argv[i], "-y") == 0 || strcomp1(argv[i], "--side-by-side") == 0)
 		{
 			arguments[2] = 1;
 			countOptions++;
 
 		}
-		if (strcomp(argv[i], "-t") == 0 || strcomp(argv[i], "--expand-tables") == 0)
+		if (strcomp1(argv[i], "-t") == 0 || strcomp1(argv[i], "--expand-tables") == 0)
 		{
 			arguments[3] = 1;
 			countOptions++;
 
 		}
-		if (strcomp(argv[i], "-N") == 0 || strcomp(argv[i], "--new-file") == 0)
+		if (strcomp1(argv[i], "-N") == 0 || strcomp1(argv[i], "--new-file") == 0)
 		{
 			arguments[4] = 1;
 			countOptions++;
 
 		}
-		if (strcomp(argv[i], "-i") == 0 || strcomp(argv[i], "--ignore-case") == 0)
+		if (strcomp1(argv[i], "-i") == 0 || strcomp1(argv[i], "--ignore-case") == 0)
 		{
 			arguments[5] = 1;
 			countOptions++;
 
 		}
-		if (strcomp(argv[i], "-E") == 0 || strcomp(argv[i], "--ignore-tab-expansion") == 0)
+		if (strcomp1(argv[i], "-E") == 0 || strcomp1(argv[i], "--ignore-tab-expansion") == 0)
 		{
 			arguments[6] = 1;
 			countOptions++;
 
 		}
-		if (strcomp(argv[i], "-b") == 0 || strcomp(argv[i], "--ignore-space-change") == 0)
+		if (strcomp1(argv[i], "-b") == 0 || strcomp1(argv[i], "--ignore-space-change") == 0)
 		{
 			arguments[7] = 1;
 			countOptions++;
 		}
-		if (strcomp(argv[i], "-h") == 0 || strcomp(argv[i], "--help") == 0)
+		if (strcomp1(argv[i], "-h") == 0 || strcomp1(argv[i], "--help") == 0)
 		{
 			arguments[8] = 1;
 			help_option();
 			return 0;
 		}
-		if (strcomp(argv[i], "-v") == 0 || strcomp(argv[i], "--version") == 0)
+		if (strcomp1(argv[i], "-v") == 0 || strcomp1(argv[i], "--version") == 0)
 		{
 			arguments[9] = 1;
 			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre",130);
@@ -120,7 +120,7 @@ int main(int argc, char** argv[])
 			}
 			return 0;
 
-			if (strcomp(argv[i], "-w") == 0 || strcomp(argv[i], "--width") == 0)
+			if (strcomp1(argv[i], "-w") == 0 || strcomp1(argv[i], "--width") == 0)
 			{
 				arguments[10] = 1;
 				countOptions++;
