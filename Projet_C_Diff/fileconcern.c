@@ -14,7 +14,7 @@ void help_option()
 
 // fonction strcomp source wiki
 
-int strcomp(const char* s1, const char* s2)
+int strcomp1(const char* s1, const char* s2)
 {
 	while ((*s1++ == *s2++) && (*s1 != '\0'));
 	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
@@ -95,39 +95,95 @@ int CaractecrsOfFile(char* file)
 char* fileToTabs(char* file, int lines)
 {
 	char* tab = NULL;
-	FILE* fileToTab = NULL;
-	char c = 0;
-	unsigned long numberOfCars = CaractecrsOfFile(file);
-	unsigned long i = 0;
+	unsigned int fileSize = GetFileSize(file);
 
-	fileToTab = fopen(file,"r");
-
-	tab = malloc((numberOfCars)*sizeof(char*));
-
-	if (tab==NULL)
+	//Files bigger than 12 Mo
+	if (fileSize > 12000000)
 	{
-		printf("Can not alloc");
-		exit(0);
+		char c = 0;
+		unsigned long numberOfCars = CaractecrsOfFile(file);
+		unsigned long i = 0;
+		char* buffer;
+		
+		int sizeBuffer =  4096 ; //BUFSIZ : Sous VS2013 = 512
+		FILE* fileToTab = NULL;
+		tab = malloc((numberOfCars)*sizeof(char*));
+		
+
+			fileToTab = fopen(file, "r");
+
+			if (fileToTab == NULL)
+			{
+				printf("Can not open input file");
+				return EXIT_FAILURE;
+
+			}
+			buffer = malloc((sizeBuffer)*sizeof(char*));
+			if (buffer==NULL)
+			{
+				printf("Error while allocating buffer of size : %d\n", sizeBuffer);
+				return EXIT_FAILURE;
+
+			}
+
+			printf("buffer of size : %d\n", sizeBuffer);
+
+			while (i < 16384) {
+				c = fgetc(fileToTab);
+				
+				buffer[i] = c;
+				i++;
+			}
+			fclose(fileToTab);
+
+			free(buffer);
+
+		
+	
+
+
 	}
-
-	if (fileToTab!=NULL)
+	else //Files smaller than 12 Mo
 	{
-		while ((c = fgetc(fileToTab)) != EOF) {
-			tab[i] = NULL;
-			tab[i] = malloc(sizeof(char));
-			tab[i] = c;			
-			i++;
+		
+		FILE* fileToTab = NULL;
+		char c = 0;
+		unsigned long numberOfCars = CaractecrsOfFile(file);
+		unsigned long i = 0;
+
+		fileToTab = fopen(file, "r");
+
+		tab = malloc((numberOfCars)*sizeof(char*));
+
+		if (tab == NULL)
+		{
+			printf("Can not alloc");
+			exit(0);
 		}
-		fclose(fileToTab);
-	}
-	else
-	{
-		printf("Can not open input file");
-		exit(0);
+
+		if (fileToTab != NULL)
+		{
+			while ((c = fgetc(fileToTab)) != EOF) {
+				tab[i] = NULL;
+				tab[i] = malloc(sizeof(char));
+				tab[i] = c;
+				i++;
+			}
+			fclose(fileToTab);
+		}
+		else
+		{
+			printf("Can not open input file");
+			exit(0);
+		}
+
+		tab[i] = malloc(sizeof(char));
+		tab[i] = '\0';
+
 	}
 
-	tab[i] = malloc(sizeof(char));
-	tab[i] = '\0';
+	
+	
 
 	return tab;
 
@@ -390,3 +446,30 @@ void identicalFiles(int same, char firstFile, char secondFile)
 
 	//Rien si different
 }
+
+//Renvoie la taille du fichier en octet
+unsigned long GetFileSize(char *file)
+{
+	FILE* fileSize = NULL;
+
+	fileSize = fopen(file, "r");
+
+	if (fileSize != NULL)
+	{
+		unsigned long t = 0;
+		fseek(fileSize, 0, SEEK_END);
+		t = ftell(fileSize);
+		fclose(fileSize);
+		return t;
+
+	}
+	else
+	{
+		printf("Impossible de lire le fichier");
+		return -1;
+	}
+
+
+}
+
+

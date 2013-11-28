@@ -1,6 +1,6 @@
 //Prototypes des fonctions
 
-int strcomp(const char* s1, const char* s2);
+int strcomp1(const char* s1, const char* s2);
 
 int myStrlen(char *s);
 int linesOfFile(char* file);
@@ -23,3 +23,5 @@ int ignoreCase(char c1, char c2);
 void briefing(int differ, char firstFile, char secondFile);
 
 void identicalFiles(int same, char firstFile, char secondFile);
+
+unsigned long GetFileSize(char *file);
