@@ -152,8 +152,8 @@ int main(int argc, char* argv[])
 
 	printf("Le fichier 2 comprend %i lignes\n", LinesOfFile2);
 
-	char** tabFile1 = fileToTabs(firstFile, LinesOfFile1);
-	char** tabFile2 = fileToTabs(secondFile, LinesOfFile2);
+	char* tabFile1 = fileToTabs(firstFile, LinesOfFile1);
+	char* tabFile2 = fileToTabs(secondFile, LinesOfFile2);
 
 }
 
