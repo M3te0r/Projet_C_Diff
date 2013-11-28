@@ -379,6 +379,28 @@ void compare(const char *nomDuFichier1, const char *nomDuFichier2)
 	}
 }
 
+/*
+Fonction -t  : Retourne le tableau en transformant les tabulations par un espace
+CODE ASCII : TAB = 09
+			 SP = 32
+*/
+char* tabToSpace(char *tab, int tailleTab)
+{
+    int i;
+    if (tab != NULL)
+    {
+        for(i = 0; i < tailleTab; i++)
+        {
+            if (tab[i] == '\t')
+            {
+                tab[i] = ' ';
+            }
+        }
+    }
+    return tab;
+}
+
+
 /*Fonction ignoreCase
 Renvoie 1 si c1!=c2 même en ignorant la casse
 Renvoie 0 si c1==c2 en ignorant la casse
