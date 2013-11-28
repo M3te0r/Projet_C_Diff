@@ -35,10 +35,12 @@ int main(int argc, char* argv[])
 	index 8 = -h || --help
 	index 9 = -v || --version
 	index 10 = -w || --width
+	index 11 = --normal
+	index 12 = -l || --paginate
 
 	Autres options à envisager...
 	*/
-	int arguments[11];
+	int arguments[13];
 
 	//count options
 
@@ -101,7 +103,7 @@ int main(int argc, char* argv[])
 		if (strcomp1(argv[i], "-v") == 0 || strcomp1(argv[i], "--version") == 0)
 		{
 			arguments[9] = 1;
-			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre",130);
+			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
 			FILE* esgi = NULL;
 			char esgiChain[1000];
 			esgi = fopen("esgi_logo.txt", "r");
@@ -120,11 +122,23 @@ int main(int argc, char* argv[])
 			}
 			return 0;
 
-			if (strcomp1(argv[i], "-w") == 0 || strcomp1(argv[i], "--width") == 0)
-			{
-				arguments[10] = 1;
-				countOptions++;
-			}
+		}
+
+		if (strcomp1(argv[i], "-w") == 0 || strcomp1(argv[i], "--width") == 0)
+		{
+			arguments[10] = 1;
+			countOptions++;
+		}
+
+		if (strcomp1(argv[i], "--normal") == 0)
+		{
+			arguments[11] = 1;
+			countOptions++;
+		}
+		if (strcomp1(argv[i], "-l") == 0 || strcomp1(argv[i], "--paginate") == 0)
+		{
+			arguments[11] = 1;
+			countOptions++;
 		}
 	}
 
@@ -141,13 +155,8 @@ int main(int argc, char* argv[])
 	int LinesOfFile1 = linesOfFile(firstFile);
 	int LinesOfFile2 = linesOfFile(secondFile);
 
-	//Probleme : si le chemins absolu des fichiers est passé en parametre avec VS, le prog plante
-	//Si passé avec l'invite de commande ça fonctionne
-
-
 	//debug lignes 
 	//compte les sauts de lignes '\n'
-	//Dans un fichier texte normal +1 pour avoir le nombre de lignes
 	printf("Le fichier 1 comprend %i lignes\n", LinesOfFile1);
 
 	printf("Le fichier 2 comprend %i lignes\n", LinesOfFile2);
@@ -155,6 +164,14 @@ int main(int argc, char* argv[])
 	char* tabFile1 = fileToTabs(firstFile, LinesOfFile1);
 	char* tabFile2 = fileToTabs(secondFile, LinesOfFile2);
 
+	printf("\nok");
+	//debug affichage tableau
+	/*int j = 0;
+	while (tabFile1[j]!='\0')
+	{
+	printf("%c", tabFile1[j]);
+	j++;
+	}*/
 }
 
 
