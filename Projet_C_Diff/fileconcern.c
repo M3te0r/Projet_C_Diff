@@ -164,8 +164,6 @@ char* fileToTabs(char* file, int lines)
 		if (fileToTab != NULL)
 		{
 			while ((c = fgetc(fileToTab)) != EOF) {
-			//	tab[i] = NULL;
-				tab[i] = (char*)malloc(sizeof(char));
 				tab[i] = c;
 				i++;
 			}
@@ -176,8 +174,6 @@ char* fileToTabs(char* file, int lines)
 			printf("Can not open input file");
 			exit(0);
 		}
-
-		tab[i] = (char*)malloc(sizeof(char));
 		tab[i] = '\0';
 
 	}

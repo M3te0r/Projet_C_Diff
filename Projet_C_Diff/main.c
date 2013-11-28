@@ -168,12 +168,12 @@ int main(int argc, char* argv[])
 
 	printf("\nok");
 	//debug affichage tableau
-	/*int j = 0;
+	int j = 0;
 	while (tabFile1[j]!='\0')
 	{
 	printf("%c", tabFile1[j]);
 	j++;
-	}*/
+	}
 }
 
 
