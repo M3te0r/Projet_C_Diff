@@ -107,7 +107,7 @@ char* fileToTabs(char* file, int lines)
 		
 		int sizeBuffer =  4096 ; //BUFSIZ : Sous VS2013 = 512
 		FILE* fileToTab = NULL;
-		tab = malloc((numberOfCars)*sizeof(char*));
+		tab = (char*)malloc((numberOfCars)*sizeof(char*));
 		
 
 			fileToTab = fopen(file, "r");
@@ -115,14 +115,14 @@ char* fileToTabs(char* file, int lines)
 			if (fileToTab == NULL)
 			{
 				printf("Can not open input file");
-				return EXIT_FAILURE;
+				//return EXIT_FAILURE;
 
 			}
-			buffer = malloc((sizeBuffer)*sizeof(char*));
+			buffer = (char*)malloc((sizeBuffer)*sizeof(char*));
 			if (buffer==NULL)
 			{
 				printf("Error while allocating buffer of size : %d\n", sizeBuffer);
-				return EXIT_FAILURE;
+				//return EXIT_FAILURE;
 
 			}
 
@@ -153,7 +153,7 @@ char* fileToTabs(char* file, int lines)
 
 		fileToTab = fopen(file, "r");
 
-		tab = malloc((numberOfCars)*sizeof(char*));
+		tab = (char*)malloc((numberOfCars)*sizeof(char*));
 
 		if (tab == NULL)
 		{
@@ -165,7 +165,7 @@ char* fileToTabs(char* file, int lines)
 		{
 			while ((c = fgetc(fileToTab)) != EOF) {
 				tab[i] = NULL;
-				tab[i] = malloc(sizeof(char));
+				tab[i] = (char*)malloc(sizeof(char));
 				tab[i] = c;
 				i++;
 			}
@@ -177,7 +177,7 @@ char* fileToTabs(char* file, int lines)
 			exit(0);
 		}
 
-		tab[i] = malloc(sizeof(char));
+		tab[i] = (char*)malloc(sizeof(char));
 		tab[i] = '\0';
 
 	}
@@ -190,7 +190,7 @@ char* fileToTabs(char* file, int lines)
 }
 
 // Modifie le tableau existant et ajoute les caractères d'une ligne dedans
-void ajouterATableauLigneFichier(const char *nomFichier, char *tabLigne, int numLigne, int tailleTableau)
+void ajouterATableauLigneFichier(char *nomFichier, char *tabLigne, int numLigne, int tailleTableau)
 {
 	FILE *fichier = NULL;
 	int caractereActuel = 0, i = 0;
@@ -210,7 +210,7 @@ void ajouterATableauLigneFichier(const char *nomFichier, char *tabLigne, int num
 }
 
 // Retourne la position du curseur au début de la ligne voulue
-int retourLigneCurseur(const char *nomFichier, int numLigne)
+int retourLigneCurseur(char *nomFichier, int numLigne)
 {
 	FILE *fichier = NULL;
 	int caractereActuel = 0, nb = 0, nombreBackSlashN = 0;
@@ -236,7 +236,7 @@ int retourLigneCurseur(const char *nomFichier, int numLigne)
 }
 
 // Renvoie le nombre de caractères pour une ligne
-int nombreCaractereLigne(const char *nomFichier, int numLigne)
+int nombreCaractereLigne(char *nomFichier, int numLigne)
 {
 	FILE *fichier = NULL;
 	int caractereActuel = 0, nb = 0;
@@ -265,7 +265,7 @@ int nombreCaractereLigne(const char *nomFichier, int numLigne)
 }
 
 // Affichage de la ligne voulue
-void afficheLigne(const char *nomFichier, int numLigne)
+void afficheLigne(char *nomFichier, int numLigne)
 {
 	FILE *fichier = NULL;
 	int caractereActuel = 0, i = 0;
@@ -293,7 +293,7 @@ void afficheLigne(const char *nomFichier, int numLigne)
 }
 
 // Algorithme qui compare 2 fichiers ligne par ligne
-void compare(const char *nomDuFichier1, const char *nomDuFichier2)
+void compare(char *nomDuFichier1, char *nomDuFichier2)
 {
 	FILE *fichier1 = NULL, *fichier2 = NULL;
 	fichier1 = fopen(nomDuFichier1, "r");

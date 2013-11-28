@@ -11,12 +11,12 @@ char* fileToTabs(char* file, int lines);
 void help_option();
 
 
-int compteLigneFichier(const char *nomFichier);
-void ajouterATableauLigneFichier(const char *nomFichier, char *tabLigne, int numLigne, int tailleTableau);
-int retourLigneCurseur(const char *nomFichier, int numLigne);
-int nombreCaractereLigne(const char *nomFichier, int numLigne);
-void afficheLigne(const char *nomFichier, int numLigne);
-void compare(const char *nomDuFichier1, const char *nomDuFichier2);
+int compteLigneFichier(char *nomFichier);
+void ajouterATableauLigneFichier(char *nomFichier, char *tabLigne, int numLigne, int tailleTableau);
+int retourLigneCurseur(char *nomFichier, int numLigne);
+int nombreCaractereLigne(char *nomFichier, int numLigne);
+void afficheLigne(char *nomFichier, int numLigne);
+void compare(char *nomDuFichier1,char *nomDuFichier2);
 
 int ignoreCase(char c1, char c2);
 
