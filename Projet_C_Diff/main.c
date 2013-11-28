@@ -7,7 +7,7 @@
 *
 **
 */
-int main(int argc, char** argv[])
+int main(int argc, char* argv[])
 {
 
 	//Checking of the number of arguments
