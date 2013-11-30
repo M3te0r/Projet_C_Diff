@@ -36,9 +36,8 @@ int main(int argc, char* argv[])
 	index 7 = -b || --ignore-space-change
 	index 8 = -h || --help
 	index 9 = -v || --version
-	index 10 = -w || --width
-	index 11 = --normal
-	index 12 = -l || --paginate
+	index 10 = --normal
+	index 11 = -l || --paginate
 
 	Autres options à envisager...
 	*/
@@ -46,64 +45,75 @@ int main(int argc, char* argv[])
 
 	//count options
 
-	int i, countOptions = 0;
+	int i, countOptions = 0, flag = 0;
 
-	for (i = 0; i < argc; i++)
+	for (i = 1; i < argc; i++)
 	{
+		flag = 0;
 
 		if (strcomp1(argv[i], "-q") == 0 || strcomp1(argv[i], "--brief") == 0)
 		{
 			arguments[0] = 1;
 			countOptions++;
+			flag = 1;
 		}
 		if (strcomp1(argv[i], "-s") == 0 || strcomp1(argv[i], "--report-identical-files") == 0)
 		{
 			arguments[1] = 1;
 			countOptions++;
+			flag = 1;
 		}
 		if (strcomp1(argv[i], "-y") == 0 || strcomp1(argv[i], "--side-by-side") == 0)
 		{
 			arguments[2] = 1;
 			countOptions++;
+			flag = 1;
 
 		}
 		if (strcomp1(argv[i], "-t") == 0 || strcomp1(argv[i], "--expand-tables") == 0)
 		{
 			arguments[3] = 1;
 			countOptions++;
+			flag = 1;
 
 		}
 		if (strcomp1(argv[i], "-N") == 0 || strcomp1(argv[i], "--new-file") == 0)
 		{
 			arguments[4] = 1;
 			countOptions++;
+			flag = 1;
 
 		}
 		if (strcomp1(argv[i], "-i") == 0 || strcomp1(argv[i], "--ignore-case") == 0)
 		{
 			arguments[5] = 1;
 			countOptions++;
+			flag = 1;
 
 		}
 		if (strcomp1(argv[i], "-E") == 0 || strcomp1(argv[i], "--ignore-tab-expansion") == 0)
 		{
 			arguments[6] = 1;
 			countOptions++;
+			flag = 1;
 
-		}
-		if (strcomp1(argv[i], "-b") == 0 || strcomp1(argv[i], "--ignore-space-change") == 0)
-		{
-			arguments[7] = 1;
-			countOptions++;
 		}
 		if (strcomp1(argv[i], "-h") == 0 || strcomp1(argv[i], "--help") == 0)
 		{
+			arguments[7] = 1;
+			countOptions++;
+			flag = 1;
+		}
+		if (strcomp1(argv[i], "-h") == 0 || strcomp1(argv[i], "--help") == 0)
+		{
+			flag = 1;
 			arguments[8] = 1;
 			help_option();
 			return 0;
 		}
 		if (strcomp1(argv[i], "-v") == 0 || strcomp1(argv[i], "--version") == 0)
 		{
+			flag = 1;
 			arguments[9] = 1;
 			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
 			FILE* esgi = NULL;
@@ -126,22 +136,34 @@ int main(int argc, char* argv[])
 
 		}
 
-		if (strcomp1(argv[i], "-w") == 0 || strcomp1(argv[i], "--width") == 0)
-		{
-			arguments[10] = 1;
-			countOptions++;
-		}
-
 		if (strcomp1(argv[i], "--normal") == 0)
 		{
-			arguments[11] = 1;
+			flag = 1;
+			arguments[10] = 1;
 			countOptions++;
 		}
 		if (strcomp1(argv[i], "-l") == 0 || strcomp1(argv[i], "--paginate") == 0)
 		{
+			flag = 1;
 			arguments[11] = 1;
 			countOptions++;
 		}
+
+		if ((argv[i][0]=='-') && (flag == 0))
+		{
+			printf("diff: l'option -- %c %s %c est invalide\n", 174, argv[i], 175);
+			printf("diff: Pour en savoir davantage, utilisez: %c diff --help %c.\n", 174, 175);
+			return 0;
+
+		}
+	}
+
+	if ((arguments[10]==1 && arguments[2]==1))
+	{
+		printf("diff: options de style de sortie conflictuelles\n");
+		printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n",174,175);
+		return 0;
+
 	}
 
 	//Filenames are taken after the option(s)
