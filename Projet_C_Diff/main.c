@@ -176,14 +176,15 @@ int main(int argc, char* argv[])
 	char* tabFile1 = fileToTabs(firstFile);
 	char* tabFile2 = fileToTabs(secondFile);
 
+
 	printf("\naffectation des tableaux ok\n");
 	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests
-	int j = 0;
+	/*int j = 0;
 	while (tabFile1[j]!='\0')
 	{
 	printf("%c", tabFile1[j]);
 	j++;
-	}
+	}*/
 }
 
 
