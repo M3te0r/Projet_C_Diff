@@ -169,27 +169,15 @@ int main(int argc, char* argv[])
 	//Filenames are taken after the option(s)
 	argv[1] = argv[countOptions + 1];
 	argv[2] = argv[countOptions + 2];
-
-	//Fonction principale diff
-
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
 
-	//Call of LinesOfFile function to get the number of line for each files
-	int LinesOfFile1 = linesOfFile(firstFile);
-	int LinesOfFile2 = linesOfFile(secondFile);
+	//Appel de fileToTabs pour récupérer les tableaux contenant l'intégralité des fichiers
+	char* tabFile1 = fileToTabs(firstFile);
+	char* tabFile2 = fileToTabs(secondFile);
 
-	//debug lignes 
-	//compte les sauts de lignes '\n'
-	printf("Le fichier 1 comprend %i lignes\n", LinesOfFile1);
-
-	printf("Le fichier 2 comprend %i lignes\n", LinesOfFile2);
-
-	char* tabFile1 = fileToTabs(firstFile, LinesOfFile1);
-	char* tabFile2 = fileToTabs(secondFile, LinesOfFile2);
-
-	printf("\nok");
-	//debug affichage tableau
+	printf("\naffectation des tableaux ok\n");
+	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests
 	int j = 0;
 	while (tabFile1[j]!='\0')
 	{

@@ -92,96 +92,47 @@ int CaractecrsOfFile(char* file)
 
 //Renvoie un tableau rempli de tous les caractères du fichier
 //Caractère par caractère
-char* fileToTabs(char* file, int lines)
+char* fileToTabs(char* file)
 {
-	char* tab = NULL;
 	unsigned int fileSize = GetFileSize(file);
-
-	//Files bigger than 12 Mo
-	if (fileSize > 12000000)
-	{
-		char c = 0;
-		unsigned long numberOfCars = CaractecrsOfFile(file);
-		unsigned long i = 0;
-		char* buffer;
-		
-		int sizeBuffer =  4096 ; //BUFSIZ : Sous VS2013 = 512
-		FILE* fileToTab = NULL;
-		tab = (char*)malloc((numberOfCars)*sizeof(char*));
+	unsigned long i = 0;
+	char* buffer;
+	FILE* fileToTab = NULL;
 		
 
-			fileToTab = fopen(file, "r");
+	//Lecture en mode binaire pour la fonction fread
+		fileToTab = fopen(file, "rb");
 
-			if (fileToTab == NULL)
-			{
-				printf("Can not open input file");
-				//return EXIT_FAILURE;
-
-			}
-			buffer = (char*)malloc((sizeBuffer)*sizeof(char*));
-			if (buffer==NULL)
-			{
-				printf("Error while allocating buffer of size : %d\n", sizeBuffer);
-				//return EXIT_FAILURE;
-
-			}
-
-			printf("buffer of size : %d\n", sizeBuffer);
-
-			while (i < 16384) {
-				c = fgetc(fileToTab);
-				
-				buffer[i] = c;
-				i++;
-			}
-			fclose(fileToTab);
-
-			free(buffer);
-
-		
-	
-
-
-	}
-	else //Files smaller than 12 Mo
-	{
-		
-		FILE* fileToTab = NULL;
-		char c = 0;
-		unsigned long numberOfCars = CaractecrsOfFile(file);
-		unsigned long i = 0;
-
-		fileToTab = fopen(file, "r");
-
-		tab = (char*)malloc((numberOfCars)*sizeof(char*));
-
-		if (tab == NULL)
-		{
-			printf("Can not alloc");
-			exit(0);
-		}
-
-		if (fileToTab != NULL)
-		{
-			while ((c = fgetc(fileToTab)) != EOF) {
-				tab[i] = c;
-				i++;
-			}
-			fclose(fileToTab);
-		}
-		else
+		if (fileToTab == NULL)
 		{
 			printf("Can not open input file");
-			exit(0);
+			exit(EXIT_FAILURE);
+
 		}
-		tab[i] = '\0';
+		//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
+		buffer = calloc(1,fileSize+1);
+		if (buffer==NULL)
+		{
+			exit(EXIT_FAILURE);
 
-	}
+		}
 
-	
-	
+		//Copie du fichier dans le buffer
+		if (1 != fread(buffer, fileSize, 1, fileToTab))
+		{
+			fclose(fileToTab);
+			free(buffer);
+			fputs("entire read fails", stderr);
+			exit(EXIT_FAILURE);
+		}
 
-	return tab;
+		//fileSize = la taille du fichier mais indique aussi le dernier caractère
+		buffer[fileSize] = '\0';
+				
+
+		fclose(fileToTab);
+
+	return buffer;
 
 }
 
