@@ -38,6 +38,7 @@ int main(int argc, char* argv[])
 	index 9 = -v || --version
 	index 10 = --normal
 	index 11 = -l || --paginate
+	index 12 = -a || --text
 
 	Autres options à envisager...
 	*/
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
 
 	//count options
 
-	int i, countOptions = 0, flag = 0, optionT = 0;
+	int i, countOptions = 0, flag = 0, optionT = 0,optionSpe = 0;
 	char* tabFile1;
 	char* tabFile2;
 
@@ -152,6 +153,14 @@ int main(int argc, char* argv[])
 			countOptions++;
 		}
 
+		if (strcomp1(argv[i], "-a") == 0 || strcomp1(argv[i], "--text") == 0)
+		{
+			flag = 1;
+			arguments[12] = 1;
+			optionSpe = 1;
+			countOptions++;
+		}
+
 		if ((argv[i][0]=='-') && (flag == 0))
 		{
 			printf("diff: l'option -- %c %s %c est invalide\n", 174, argv[i], 175);
@@ -184,8 +193,8 @@ int main(int argc, char* argv[])
 	else
 	{
 		//Appel de fileToTabs pour récupérer les tableaux contenant l'intégralité des fichiers
-		tabFile1 = fileToTabs(firstFile);
-		tabFile2 = fileToTabs(secondFile);
+		tabFile1 = fileToTabs(firstFile,optionSpe);
+		tabFile2 = fileToTabs(secondFile,optionSpe);
 	}
 
 

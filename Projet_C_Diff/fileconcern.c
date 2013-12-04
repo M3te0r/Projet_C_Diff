@@ -92,16 +92,24 @@ int CaractecrsOfFile(char* file)
 
 //Renvoie un tableau rempli de tous les caractères du fichier
 //Caractère par caractère
-char* fileToTabs(char* file)
+char* fileToTabs(char* file,int optionSpe)
 {
 	unsigned int fileSize = GetFileSize(file);
 	unsigned long i = 0;
 	char* buffer;
 	FILE* fileToTab = NULL;
-		
-
-	//Lecture en mode binaire pour la fonction fread
+	
+	//Forcer la lecture en mode text si option -a || --text
+	if (optionSpe==1)
+	{
+		fileToTab = fopen(file, "r");
+	}
+	else
+	{
+		//Lecture en mode binaire pour fread
 		fileToTab = fopen(file, "rb");
+	}
+		
 
 		if (fileToTab == NULL)
 		{

@@ -8,7 +8,7 @@ int myStrlen(char *s);
 //Prototypes des fonctions de opérant sur les fichiers
 int linesOfFile(char* file);
 int CaractecrsOfFile(char* file);
-char* fileToTabs(char* file);
+char* fileToTabs(char* file,int optionSpe);
 char* fileToTabsOptionT(char* file);
 
 int compteLigneFichier(char *nomFichier);
