@@ -441,4 +441,26 @@ unsigned long GetFileSize(char *file)
 
 }
 
+//Fonction diff principale (implémentations des options ultérieure)
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
+{
+	//Déclaration des indices de parcours des tableaux ainsi que de leur temp
+	int i = 0, j = 0;
+	int isave = i, jsave = j;
 
+	while (i < lengthOldFile && j < lengthNewFile)
+	{
+
+	}
+}
+
+
+//Renvoie un tableau de dimension 2 contenant les tailles respectives de la prochaine ligne des tableaux passés en paramètres
+//à partir de l'indice passé
+
+int* length_next_line_from_idx(char* tab1, char* tab2, int id1, int id2)
+{
+	char current = tab1[id1];
+	int*
+	while (tab[id1] != )
+}
