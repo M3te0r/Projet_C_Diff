@@ -9,6 +9,7 @@ int myStrlen(char *s);
 int linesOfFile(char* file);
 int CaractecrsOfFile(char* file);
 char* fileToTabs(char* file);
+char* fileToTabsOptionT(char* file);
 
 int compteLigneFichier(char *nomFichier);
 void ajouterATableauLigneFichier(char *nomFichier, char *tabLigne, int numLigne, int tailleTableau);

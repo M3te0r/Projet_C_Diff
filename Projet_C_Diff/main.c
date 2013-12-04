@@ -45,7 +45,9 @@ int main(int argc, char* argv[])
 
 	//count options
 
-	int i, countOptions = 0, flag = 0;
+	int i, countOptions = 0, flag = 0, optionT = 0;
+	char* tabFile1;
+	char* tabFile2;
 
 	for (i = 1; i < argc; i++)
 	{
@@ -75,6 +77,7 @@ int main(int argc, char* argv[])
 			arguments[3] = 1;
 			countOptions++;
 			flag = 1;
+			optionT = 1;
 
 		}
 		if (strcomp1(argv[i], "-N") == 0 || strcomp1(argv[i], "--new-file") == 0)
@@ -172,14 +175,25 @@ int main(int argc, char* argv[])
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
 
-	//Appel de fileToTabs pour récupérer les tableaux contenant l'intégralité des fichiers
-	char* tabFile1 = fileToTabs(firstFile);
-	char* tabFile2 = fileToTabs(secondFile);
+	if (optionT==1)
+	{
+		tabFile1 = fileToTabsOptionT(firstFile);
+		tabFile2 = fileToTabsOptionT(secondFile);
+
+	}
+	else
+	{
+		//Appel de fileToTabs pour récupérer les tableaux contenant l'intégralité des fichiers
+		tabFile1 = fileToTabs(firstFile);
+		tabFile2 = fileToTabs(secondFile);
+	}
+
+
 
 
 	printf("\naffectation des tableaux ok\n");
 	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests
-	/*int j = 0;
+	/*unsigned long j = 0;
 	while (tabFile1[j]!='\0')
 	{
 	printf("%c", tabFile1[j]);

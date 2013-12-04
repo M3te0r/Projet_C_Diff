@@ -441,6 +441,98 @@ unsigned long GetFileSize(char *file)
 
 }
 
+//Renvoie un tableau rempli de tous les caractères du fichier les tabulations ---> 8 espaces
+//Donc ajout de 7 caractères
+//Caractère par caractère
+char* fileToTabsOptionT(char* file)
+{
+	unsigned long fileSize = GetFileSize(file);
+	unsigned long i = 0, nbEsc = 0;
+	char* buffer;
+	char* tabEsc;
+	FILE* fileToTab = NULL;
+	//Lecture en mode binaire pour la fonction fread
+	fileToTab = fopen(file, "rb");
+
+	if (fileToTab == NULL)
+	{
+		printf("Can not open input file");
+		exit(EXIT_FAILURE);
+
+	}
+	//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
+	buffer = calloc(1, fileSize + 1);
+	if (buffer == NULL)
+	{
+		exit(EXIT_FAILURE);
+
+	}
+	//Copie du fichier dans le buffer
+	if (1 != fread(buffer, fileSize, 1, fileToTab))
+	{
+		fclose(fileToTab);
+		free(buffer);
+		fputs("entire read fails", stderr);
+		exit(EXIT_FAILURE);
+	}
+	//fileSize = la taille du fichier mais indique aussi le dernier caractère
+	buffer[fileSize] = '\0';
+
+	fclose(fileToTab);
+	//Si caractère tabulation \t nbEsc +7 : caractère tab en moins + 8 espaces
+	i = 0;
+	while (buffer[i]!='\0')
+	{
+		if (buffer[i]=='\t')
+		{
+			nbEsc += 7;
+		}
+		i++;
+	}
+
+	fileSize += nbEsc;
+	tabEsc = calloc(1, fileSize+1);
+
+	if (tabEsc == NULL)
+	{
+		exit(EXIT_FAILURE);
+
+	}
+	i = 0;
+	int k = 0;
+	unsigned long j = 0;
+
+	while (buffer[i] != '\0')
+	{
+		if (buffer[i] == '\t')
+		{
+			k = 0;
+			//si tab trouvé tabEsc est rempli de 8 espaces
+			for (k = 0; k < 8; j++,k++)
+			{
+				//Code ASCII de espace = 32
+				tabEsc[j] = 32;
+			}
+			//decrementation à cause de la boucle for qui va quand même incrementer jusqu'à 8
+			j--;
+
+		}
+		else
+		{
+			tabEsc[j] = buffer[i];
+		}
+		j++;
+		i++;
+
+	}
+	//j = derniere case du tabEsc
+	tabEsc[j] = '\0';
+	free(buffer);
+	return tabEsc;
+}
+
+
+
 //Fonction diff principale (implémentations des options ultérieure)
 void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 {
@@ -461,6 +553,6 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 int* length_next_line_from_idx(char* tab1, char* tab2, int id1, int id2)
 {
 	char current = tab1[id1];
-	int*
-	while (tab[id1] != )
+	//int*
+	//while (tab[id1] != );
 }
