@@ -564,3 +564,30 @@ int* length_next_line_from_idx(char* tab1, char* tab2, int id1, int id2)
 	//int*
 	//while (tab[id1] != );
 }
+
+//Fonction d'ouverture de fichier renvoi un pointeur de type FILE
+//Création de cette fonction pour simplification, gestion des options et fichiers *lourds 
+FILE *OpenAFile(char* nomFichier, int optionOpen)
+{
+	FILE* file = NULL;
+
+	if (optionOpen==1)
+	{
+		file = fopen(nomFichier, "r");
+	}
+	else
+	{
+		file = fopen(nomFichier, "rb");
+	}
+
+	//Verification de l'ouverture du fichier
+	if (file == NULL)
+	{
+		printf("Can not open input file : %s\n",nomFichier);
+		exit(EXIT_FAILURE);
+
+	}
+
+	return file;
+
+}
