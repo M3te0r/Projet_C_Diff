@@ -6,7 +6,7 @@ int myStrlen(char *s);
 
 
 //Prototypes des fonctions de opérant sur les fichiers
-//FILE *OpenAFile(char* nomFichier, int optionOpen);
+
 int linesOfFile(char* file);
 int CaractecrsOfFile(char* file);
 char* fileToTabs(char* file,int optionSpe);

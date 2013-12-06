@@ -186,8 +186,8 @@ int main(int argc, char* argv[])
 
 	if (optionT==1)
 	{
-		tabFile1 = fileToTabsOptionT(firstFile);
-		tabFile2 = fileToTabsOptionT(secondFile);
+		tabFile1 = fileToTabsOptionT(firstFile,optionSpe);
+		tabFile2 = fileToTabsOptionT(secondFile,optionSpe);
 
 	}
 	else

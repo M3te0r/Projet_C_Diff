@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+FILE* OpenAFile(char* nomFichier, int optionOpen);
 //Options fonctions of the diff command
 
 void help_option()
@@ -99,46 +100,29 @@ char* fileToTabs(char* file,int optionSpe)
 	char* buffer;
 	FILE* fileToTab = NULL;
 	
-	//Forcer la lecture en mode text si option -a || --text
-	if (optionSpe==1)
+	fileToTab = OpenAFile(file, optionSpe);
+	//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
+	buffer = calloc(1,fileSize+1);
+	if (buffer==NULL)
 	{
-		fileToTab = fopen(file, "r");
+		exit(EXIT_FAILURE);
+
 	}
-	else
+
+	//Copie du fichier dans le buffer
+	if (1 != fread(buffer, fileSize, 1, fileToTab))
 	{
-		//Lecture en mode binaire pour fread
-		fileToTab = fopen(file, "rb");
+		fclose(fileToTab);
+		free(buffer);
+		fputs("entire read fails", stderr);
+		exit(EXIT_FAILURE);
 	}
-		
 
-		if (fileToTab == NULL)
-		{
-			printf("Can not open input file");
-			exit(EXIT_FAILURE);
-
-		}
-		//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
-		buffer = calloc(1,fileSize+1);
-		if (buffer==NULL)
-		{
-			exit(EXIT_FAILURE);
-
-		}
-
-		//Copie du fichier dans le buffer
-		if (1 != fread(buffer, fileSize, 1, fileToTab))
-		{
-			fclose(fileToTab);
-			free(buffer);
-			fputs("entire read fails", stderr);
-			exit(EXIT_FAILURE);
-		}
-
-		//fileSize = la taille du fichier mais indique aussi le dernier caractère
-		buffer[fileSize] = '\0';
+	//fileSize = la taille du fichier mais indique aussi le dernier caractère
+	buffer[fileSize] = '\0';
 				
 
-		fclose(fileToTab);
+	fclose(fileToTab);
 
 	return buffer;
 
@@ -452,22 +436,16 @@ unsigned long GetFileSize(char *file)
 //Renvoie un tableau rempli de tous les caractères du fichier les tabulations ---> 8 espaces
 //Donc ajout de 7 caractères
 //Caractère par caractère
-char* fileToTabsOptionT(char* file)
+char* fileToTabsOptionT(char* file,int optionSpe)
 {
 	unsigned long fileSize = GetFileSize(file);
 	unsigned long i = 0, nbEsc = 0;
 	char* buffer;
 	char* tabEsc;
 	FILE* fileToTab = NULL;
-	//Lecture en mode binaire pour la fonction fread
-	fileToTab = fopen(file, "rb");
-
-	if (fileToTab == NULL)
-	{
-		printf("Can not open input file");
-		exit(EXIT_FAILURE);
-
-	}
+	
+	fileToTab = OpenAFile(file, optionSpe);
+	
 	//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
 	buffer = calloc(1, fileSize + 1);
 	if (buffer == NULL)
@@ -567,7 +545,7 @@ int* length_next_line_from_idx(char* tab1, char* tab2, int id1, int id2)
 
 //Fonction d'ouverture de fichier renvoi un pointeur de type FILE
 //Création de cette fonction pour simplification, gestion des options et fichiers *lourds 
-FILE *OpenAFile(char* nomFichier, int optionOpen)
+FILE* OpenAFile(char* nomFichier, int optionOpen)
 {
 	FILE* file = NULL;
 
