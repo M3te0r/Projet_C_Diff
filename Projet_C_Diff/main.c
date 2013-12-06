@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include "Header.h"
 
-
-
 /*
 **Main of the diff fonction
 *
@@ -18,10 +16,7 @@ int main(int argc, char* argv[])
 		printf("Invalid number of arguments, please enter at least 2 arguments");
 		return 1;
 	}
-
-
 	/*
-
 	Options init*/
 	//tab of options where arguments[n] = 0 or 1
 	//n is the option
@@ -93,7 +88,6 @@ int main(int argc, char* argv[])
 			arguments[5] = 1;
 			countOptions++;
 			flag = 1;
-
 		}
 		if (strcomp1(argv[i], "-E") == 0 || strcomp1(argv[i], "--ignore-tab-expansion") == 0)
 		{
@@ -137,7 +131,6 @@ int main(int argc, char* argv[])
 				printf("\n");
 			}
 			return 0;
-
 		}
 
 		if (strcomp1(argv[i], "--normal") == 0)
@@ -184,6 +177,33 @@ int main(int argc, char* argv[])
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
 
+	unsigned long fileSizeFile1 = GetFileSize(firstFile, optionSpe);
+	unsigned long fileSizeFile2 = GetFileSize(secondFile, optionSpe);
+	//Taille max du fichier à determiner 
+	//100 000 000 octets valeur arbitraire 
+
+
+	if (fileSizeFile1 > 100000000)
+	{
+		short overSized1 = 1;
+		FILE* file1 = OpenAFile(firstFile, optionSpe);
+		//Retour du curseur au début du fichier si déjà opéré dessus
+		rewind(file1);
+
+		//modèle d'utilisation :
+		//char* cara = pointFile(file1); avec un boucle while != EOF sur les deux fichiers
+
+	}
+	if (fileSizeFile2 > 100000000)
+	{
+		short overSized2 = 1;
+		FILE* file2 = OpenAFile(firstFile, optionSpe);
+		//Retour du curseur au début du fichier si déjà opéré dessus
+		rewind(file2);
+	}
+
+
+
 	if (optionT==1)
 	{
 		tabFile1 = fileToTabsOptionT(firstFile,optionSpe);
@@ -196,11 +216,6 @@ int main(int argc, char* argv[])
 		tabFile1 = fileToTabs(firstFile,optionSpe);
 		tabFile2 = fileToTabs(secondFile,optionSpe);
 	}
-
-
-
-
-	printf("\naffectation des tableaux ok\n");
 	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests
 	/*unsigned long j = 0;
 	while (tabFile1[j]!='\0')
@@ -209,13 +224,3 @@ int main(int argc, char* argv[])
 	j++;
 	}*/
 }
-
-
-
-
-
-
-
-
-
-

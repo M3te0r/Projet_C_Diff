@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-FILE* OpenAFile(char* nomFichier, int optionOpen);
+
 //Options fonctions of the diff command
 
 void help_option()
@@ -95,12 +95,13 @@ int CaractecrsOfFile(char* file)
 //Caractère par caractère
 char* fileToTabs(char* file,int optionSpe)
 {
-	unsigned int fileSize = GetFileSize(file);
+	
 	unsigned long i = 0;
 	char* buffer;
 	FILE* fileToTab = NULL;
 	
 	fileToTab = OpenAFile(file, optionSpe);
+	unsigned long fileSize = GetFileSize(file,optionSpe);
 	//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
 	buffer = calloc(1,fileSize+1);
 	if (buffer==NULL)
@@ -339,12 +340,10 @@ char* tabToSpace(char *tab, int tailleTab)
     return tab;
 }
 
-
 /*Fonction ignoreCase
 Renvoie 1 si c1!=c2 même en ignorant la casse
 Renvoie 0 si c1==c2 en ignorant la casse
 +32 et -32 = Table ACSII maj vers min ou min vers maj
-
 
 A intégrer dans le diff principal si option -i pour chaque caractère*/
 int ignoreCase(char c1, char c2)
@@ -384,15 +383,12 @@ void briefing(int differ, char firstFile, char secondFile)
 	if (differ==1)
 	{
 		printf("Files %s and %s", firstFile, secondFile);
-
 	}
 	//Rien si 0
 }
 
-
 /*
 -s N'empeche pas l'affichage du diff principale si les fichiers diffèrent
-
 Appel à la fin du diff princpal après toutes les options de comportement s'il y en a
 Reçoie 1 si différent
 Rzçoie 0 si contenu identique
@@ -402,18 +398,15 @@ void identicalFiles(int same, char firstFile, char secondFile)
 	if (same==0)
 	{
 		printf("\nContent of files %s and %s are the same", firstFile, secondFile);
-
 	}
-
 	//Rien si different
 }
 
 //Renvoie la taille du fichier en octet
-unsigned long GetFileSize(char *file)
+unsigned long GetFileSize(char *file, int optionSpe)
 {
 	FILE* fileSize = NULL;
-
-	fileSize = fopen(file, "r");
+	fileSize = OpenAFile(file, optionSpe);
 
 	if (fileSize != NULL)
 	{
@@ -422,15 +415,12 @@ unsigned long GetFileSize(char *file)
 		t = ftell(fileSize);
 		fclose(fileSize);
 		return t;
-
 	}
 	else
 	{
 		printf("Impossible de lire le fichier");
 		return -1;
 	}
-
-
 }
 
 //Renvoie un tableau rempli de tous les caractères du fichier les tabulations ---> 8 espaces
@@ -438,13 +428,13 @@ unsigned long GetFileSize(char *file)
 //Caractère par caractère
 char* fileToTabsOptionT(char* file,int optionSpe)
 {
-	unsigned long fileSize = GetFileSize(file);
 	unsigned long i = 0, nbEsc = 0;
 	char* buffer;
 	char* tabEsc;
 	FILE* fileToTab = NULL;
 	
 	fileToTab = OpenAFile(file, optionSpe);
+	unsigned long fileSize = GetFileSize(file,optionSpe);
 	
 	//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
 	buffer = calloc(1, fileSize + 1);
@@ -517,8 +507,6 @@ char* fileToTabsOptionT(char* file,int optionSpe)
 	return tabEsc;
 }
 
-
-
 //Fonction diff principale (implémentations des options ultérieure)
 void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 {
@@ -548,24 +536,36 @@ int* length_next_line_from_idx(char* tab1, char* tab2, int id1, int id2)
 FILE* OpenAFile(char* nomFichier, int optionOpen)
 {
 	FILE* file = NULL;
-
 	if (optionOpen==1)
 	{
+		//Forcer l'ouverture du fichier en mode tetxe même si le fichier est un fichier binaire
+		//Peut conduire à des données certes valides mais illisibles
 		file = fopen(nomFichier, "r");
 	}
 	else
 	{
+		//Par défaut ouverture en mode binaire pour la fonction fread()
 		file = fopen(nomFichier, "rb");
 	}
-
 	//Verification de l'ouverture du fichier
 	if (file == NULL)
 	{
 		printf("Can not open input file : %s\n",nomFichier);
 		exit(EXIT_FAILURE);
-
 	}
-
 	return file;
+}
 
+/*Pointeur sur fichier, caractère par caractère
+Renvoie un pointeur à la position du curseur
+Fonction utilisée pour les fichiers > 100 000 000 octets
+A utiliser dans le diff principal si fichier > 100 000 000 octets
+incompatible pur l'instant avec le soptions de transformation telle que :
+--expand-tabs
+*/
+char* pointFile(FILE* file)
+{
+	//Prise du caractère à la position du curseur et cast en char*
+	char* actualChar = (char*)fgetc(file);
+	return actualChar;
 }
