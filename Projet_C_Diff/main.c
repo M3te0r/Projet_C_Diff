@@ -113,6 +113,8 @@ int main(int argc, char* argv[])
 		{
 			flag = 1;
 			arguments[9] = 1;
+			printf("diff 0.1\nCopyright (C) 2013 ESGI\nCeci est un logiciel libre: vous %ctes libre de le changer et de le redistribuer.",136);
+			printf("Il n'y a pas de GARANTIE, dans les limites persmises par la loi\n");
 			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
 			FILE* esgi = NULL;
 			char esgiChain[1000];

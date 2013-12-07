@@ -9,6 +9,18 @@ void help_option()
 {
 	printf("Usage: diff [OPTION]... FICHIERS\n");
 	printf("Comparer les fichiers ligne par ligne.\n");
+	printf("Les param%ctres requis pour les options longues sont %cgalement requis pour les options courtes.\n",138,130);
+	printf("--normal                  Produire un %c diff %c en format normal (par d%cfaut)\n", 174,175,130);
+	printf("-q, --brief                   Indiquer seulement si les fichiers diff%crent\n",130);
+	printf("-s, --report-identical-files  Indiquer si les deux fichiers sont identiques\n");
+	printf("-y, --side-by-side            Affichage sur deux colonnes\n");
+	printf("-t, --expand-tabs             %ctaler les tabulateurs en espaces dans la sortie\n", 144);
+	printf("-i, --ignore-case            Ignorer les diff%crences de casses dans le contenu des fichiers\n",130);
+	printf("-a, --text                    Traiter tous les fichiers comme des textes\n");
+	printf("-h, --help                    Afficher cette aide et terminer\n");
+	printf("-v, --version                 Afficher le nom et la version du logiciel et terminer\n");
+	printf("FICHIERS sont %c FICHIER1 FICHIER2 %c ou %c R%cP1 R%cP2 %c ou %c R%cP FICHIER... %c ou %c FICHIER... RÉP %c.\n", 174,175,174,144,144,175,174,144,175,174,175);
+	printf("\n");
 
 	//suite des détails d'options
 }
