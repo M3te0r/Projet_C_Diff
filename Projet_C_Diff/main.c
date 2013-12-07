@@ -13,7 +13,8 @@ int main(int argc, char* argv[])
 	//Checking of the number of arguments
 	if (argc < 2)
 	{
-		printf("Invalid number of arguments, please enter at least 2 arguments");
+		printf("diff: opérande manquante après %cdiff%c\n", 174,175);
+		printf("diff: Pour en savoir davantage, utilisez: %c diff -h/--help %c.\n", 174,175);
 		return 1;
 	}
 	/*
@@ -195,6 +196,8 @@ int main(int argc, char* argv[])
 		//modèle d'utilisation :
 		//char* cara = pointFile(file1); avec un boucle while != EOF sur les deux fichiers
 
+		fclose(file1);
+
 	}
 	if (fileSizeFile2 > 100000000)
 	{
@@ -202,6 +205,9 @@ int main(int argc, char* argv[])
 		FILE* file2 = OpenAFile(firstFile, optionSpe);
 		//Retour du curseur au début du fichier si déjà opéré dessus
 		rewind(file2);
+
+
+		fclose(file2);
 	}
 
 
