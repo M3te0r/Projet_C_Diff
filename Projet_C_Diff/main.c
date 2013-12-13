@@ -3,17 +3,8 @@
 #include <getopt.h>
 #include "Header.h"
 
-/*
-**Main of the diff fonction
-*
-**
-*/
 int main(int argc, char* argv[])
 {
-
-
-
-
 	//Checking of the number of arguments
 	if (argc < 2)
 	{
@@ -47,10 +38,8 @@ int main(int argc, char* argv[])
 		{ "text", 0, NULL, 'a' },
 		{ NULL, 0, NULL, 0 },
 	};
-
 	int longindex;
 	int option;
-
 	/*
 	Options init*/
 	//tab of options where arguments[n] = 0 or 1
@@ -152,7 +141,6 @@ int main(int argc, char* argv[])
 	//Count options to take filenames
 	for (i = 1; i<argc; i++)
 	{
-
 		if (argv[i][0] == '-')
 		{
 			countOptions++;
@@ -164,7 +152,6 @@ int main(int argc, char* argv[])
 		printf("diff: options de style de sortie conflictuelles\n");
 		printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n", 174, 175);
 		return 0;
-
 	}
 
 	//Filenames are taken after the option(s)
@@ -180,7 +167,6 @@ int main(int argc, char* argv[])
 	unsigned long fileSizeFile2 = GetFileSize(secondFile, optionSpe);
 	//Taille max du fichier à determiner
 	//100 000 000 octets valeur arbitraire
-
 
 	if (fileSizeFile1 > 100000000)
 	{
@@ -202,17 +188,12 @@ int main(int argc, char* argv[])
 		//Retour du curseur au début du fichier si déjà opéré dessus
 		rewind(file2);
 
-
 		fclose(file2);
 	}
-
-
-
 	if (optionT == 1)
 	{
 		tabFile1 = fileToTabsOptionT(firstFile, optionSpe);
 		tabFile2 = fileToTabsOptionT(secondFile, optionSpe);
-
 	}
 	else
 	{

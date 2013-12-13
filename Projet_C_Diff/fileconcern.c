@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 //Options fonctions of the diff command
 
 void help_option()
@@ -23,25 +22,6 @@ void help_option()
 	printf("\n");
 
 	//suite des détails d'options
-}
-
-// fonction strcomp source wiki
-
-int strcomp1(const char* s1, const char* s2)
-{
-	while ((*s1++ == *s2++) && (*s1 != '\0'));
-	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
-}
-
-int myStrlen(char *s)
-{
-	char *start;
-	start = s;
-	while (*s != 0)
-	{
-		++s;
-	}
-	return s - start;
 }
 
 /*Count lines
@@ -113,22 +93,18 @@ int CaractecrsOfFile(char* file)
 		fclose(fileParam);
 
 		return cars;
-
-
 	}
 	else
 	{
 		printf("Impossible de lire le fichier");
 		return -1;
 	}
-
 }
 
 //Renvoie un tableau rempli de tous les caractères du fichier
 //Caractère par caractère
 char* fileToTabs(char* file,int optionSpe)
-{
-	
+{	
 	unsigned long i = 0;
 	char* buffer;
 	FILE* fileToTab = NULL;
@@ -140,7 +116,6 @@ char* fileToTabs(char* file,int optionSpe)
 	if (buffer==NULL)
 	{
 		exit(EXIT_FAILURE);
-
 	}
 
 	//Copie du fichier dans le buffer
@@ -151,15 +126,10 @@ char* fileToTabs(char* file,int optionSpe)
 		fputs("entire read fails", stderr);
 		exit(EXIT_FAILURE);
 	}
-
 	//fileSize = la taille du fichier mais indique aussi le dernier caractère
 	buffer[fileSize] = '\0';
-				
-
 	fclose(fileToTab);
-
 	return buffer;
-
 }
 
 // Modifie le tableau existant et ajoute les caractères d'une ligne dedans
@@ -265,93 +235,6 @@ void afficheLigne(char *nomFichier, int numLigne)
 	fclose(fichier);
 }
 
-// Algorithme qui compare 2 fichiers ligne par ligne
-void compare(char *nomDuFichier1, char *nomDuFichier2)
-{
-	FILE *fichier1 = NULL, *fichier2 = NULL;
-	fichier1 = fopen(nomDuFichier1, "r");
-	fichier2 = fopen(nomDuFichier2, "r");
-	int taille1 = 0, taille2 = 0, i = 0, j = 0, nbLigneFic1 = 1, nbLigneFic2 = 1, tailleTableau = 0, nbLigneGlobale = 0;
-    long position1 = 0, position2 = 0;
-
-	if (fichier1 != NULL && fichier2 != NULL)
-	{
-		// Nombre de lignes du fichier 1
-		nbLigneFic1 = linesOfFile(nomDuFichier1);
-		// Nombre de lignes du fichier 2
-		nbLigneFic2 = linesOfFile(nomDuFichier2);
-		if (nbLigneFic1 > nbLigneFic2)
-        {
-            nbLigneGlobale = nbLigneFic1;
-        }
-        else
-        {
-            nbLigneGlobale = nbLigneFic2;
-        }
-
-		for (j=0; j<nbLigneGlobale; j++)
-		{
-            // Initialisation
-			char *tabLigne1 = NULL;
-			char *tabLigne2 = NULL;
-			taille1 = 0, taille2 = 0;
-
-            // Taille de caracteres des lignes courantes
-			taille1 = nombreCaractereLigne(nomDuFichier1, j);
-			taille2 = nombreCaractereLigne(nomDuFichier2, j);
-
-			// Taille commune des 2 tableaux
-			if (taille1 > taille2)
-			{
-				tailleTableau = taille1;
-			}
-			else
-			{
-				tailleTableau = taille2;
-			}
-
-            // Allocation d'une mémoire pour les deux tableaux
-			tabLigne1 = malloc(tailleTableau * sizeof(int));
-			tabLigne2 = malloc(tailleTableau * sizeof(int));
-
-			// Retour des curseurs au début de la ligne
-			position1 = retourLigneCurseur(nomDuFichier1, j);
-			fseek(fichier1, position1, SEEK_SET);
-			position2 = retourLigneCurseur(nomDuFichier2, j);
-			fseek(fichier2, position2, SEEK_SET);
-
-            // Ajout de la ligne courante dans le tableau (pour le fichier 1 et le fichier 2)
-			ajouterATableauLigneFichier(nomDuFichier1, tabLigne1, j, tailleTableau);
-			ajouterATableauLigneFichier(nomDuFichier2, tabLigne2, j, tailleTableau);
-
-			int different = 0;
-			for (i = 0; i < tailleTableau; i++)
-			{
-				if (tabLigne1[i] != tabLigne2[i])
-				{
-					different = 1;
-				}
-			}
-			if (different)
-			{
-				// Affichage de ligne fichier 1 et ligne fichier 2
-				afficheLigne(nomDuFichier1, j);
-				printf("\n---\n");
-				afficheLigne(nomDuFichier2, j);
-				printf("\n\n");
-			}
-			free(tabLigne1);
-			free(tabLigne2);
-		}
-		fclose(fichier1);
-		fclose(fichier2);
-	}
-	else
-	{
-		printf("Erreur de lecture du fichier %s ou le fichier %s", nomDuFichier1, nomDuFichier2);
-	}
-}
-
 /*
 Fonction -t  : Retourne le tableau en transformant les tabulations par un espace
 CODE ASCII : TAB = 09
@@ -391,13 +274,11 @@ int ignoreCase(char c1, char c2)
 		if ((c1 == c2 + 32) || (c1 == c2 - 32))
 		{
 			return 0;
-
 		}
 		else
 		{
 			return 1;
 		}
-
 	}
 	else
 	{
@@ -524,7 +405,6 @@ char* fileToTabsOptionT(char* file,int optionSpe)
 			}
 			//decrementation à cause de la boucle for qui va quand même incrementer jusqu'à 8
 			j--;
-
 		}
 		else
 		{
@@ -532,7 +412,6 @@ char* fileToTabsOptionT(char* file,int optionSpe)
 		}
 		j++;
 		i++;
-
 	}
 	//j = derniere case du tabEsc
 	tabEsc[j] = '\0';
@@ -652,7 +531,6 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 
 //Renvoie un tableau de dimension 2 contenant les tailles respectives de la prochaine ligne des tableaux passés en paramètres
 //à partir de l'indice passé (!!!!! gérer le EOF !!!!!)
-
 int* length_line_from_idx(char* tab1, char* tab2, int id1, int id2, int* lengths)
 {
 	while (tab1[id1] != '\n' && tab1[id1] != 'EOF'){
