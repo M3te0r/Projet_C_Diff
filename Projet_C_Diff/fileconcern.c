@@ -89,6 +89,10 @@ unsigned long linesOfTab(char *tab)
 			}
 		}
 	}
+	else
+	{
+		return 0;
+	}
 	return newLineCount;
 }
 
