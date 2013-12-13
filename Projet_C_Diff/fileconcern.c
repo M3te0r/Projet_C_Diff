@@ -47,7 +47,7 @@ int myStrlen(char *s)
 /*Count lines
 There is no need to define the max length  of a line
 */
-int linesOfFile(char* file)
+unsigned long linesOfFile(char* file)
 {
 	FILE* fileParam = NULL;
 	int  c;
@@ -73,6 +73,23 @@ int linesOfFile(char* file)
 		return -1;
 	}
 
+}
+
+unsigned long linesOfTab(char *tab)
+{
+	unsigned long newLineCount = 1;
+	if (tab!=NULL)
+	{/*count the newline characters*/
+		unsigned long j = 0;
+		while (tab[j]!='\0')
+		{		
+			if (tab[j]=='\n')
+			{
+				newLineCount++;
+			}
+		}
+	}
+	return newLineCount;
 }
 
 //Renvoie le nombre de caractères dans un fichier
