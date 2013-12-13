@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <getopt.h>
 #include "Header.h"
 
 /*
@@ -10,13 +11,46 @@
 int main(int argc, char* argv[])
 {
 
+
+
+
 	//Checking of the number of arguments
 	if (argc < 2)
 	{
-		printf("diff: opérande manquante après %cdiff%c\n", 174,175);
-		printf("diff: Pour en savoir davantage, utilisez: %c diff -h/--help %c.\n", 174,175);
+		printf("diff: opérande manquante après %cdiff%c\n", 174, 175);
+		printf("diff: Pour en savoir davantage, utilisez: %c diff -h/--help %c.\n", 174, 175);
 		return 1;
 	}
+	//Options Simples
+	char *optstring = "qsytNiEbhvla";
+	//Structure d'options
+	/*la colonne name comprend l'option longue
+	has_arg à 0 si l'option ne prend pas d'arguments/sous-options
+	flag à NULL pour le renvoie de val
+	val = la valeur renvoyée, correspond à l'option simple pour effectuer un switch
+	*/
+	struct option longopts[] = {
+
+		/*name      has_arg  flag       val*/
+		{ "brief", 0, NULL, 'q' },
+		{ "report-identical-files", 0, NULL, 's' },
+		{ "side-by-side", 0, NULL, 'y' },
+		{ "expand-tables", 0, NULL, 't' },
+		{ "new-file", 0, NULL, 'N' },
+		{ "ignore-case", 0, NULL, 'i' },
+		{ "ignore-tab-expansion", 0, NULL, 'E' },
+		{ "ignore-space-change", 0, NULL, 'b' },
+		{ "help", 0, NULL, 'h' },
+		{ "version", 0, NULL, 'v' },
+		{ "normal", 0, NULL, 'd' },
+		{ "paginate", 0, NULL, 'l' },
+		{ "text", 0, NULL, 'a' },
+		{ NULL, 0, NULL, 0 },
+	};
+
+	int longindex;
+	int option;
+
 	/*
 	Options init*/
 	//tab of options where arguments[n] = 0 or 1
@@ -40,81 +74,46 @@ int main(int argc, char* argv[])
 	*/
 	int arguments[13];
 
-	//count options
-
-	int i, countOptions = 0, flag = 0, optionT = 0,optionSpe = 0;
+	int i, countOptions = 0, optionT = 0, optionSpe = 0;
 	char* tabFile1;
 	char* tabFile2;
-
-	for (i = 1; i < argc; i++)
+	while ((option = getopt_long(argc, argv, optstring, longopts, &longindex)) != -1)
 	{
-		flag = 0;
-
-		if (strcomp1(argv[i], "-q") == 0 || strcomp1(argv[i], "--brief") == 0)
+		switch (option)
 		{
+
+		case 'q':
 			arguments[0] = 1;
-			countOptions++;
-			flag = 1;
-		}
-		if (strcomp1(argv[i], "-s") == 0 || strcomp1(argv[i], "--report-identical-files") == 0)
-		{
+			break;
+		case 's':
 			arguments[1] = 1;
-			countOptions++;
-			flag = 1;
-		}
-		if (strcomp1(argv[i], "-y") == 0 || strcomp1(argv[i], "--side-by-side") == 0)
-		{
+			break;
+		case 'y':
 			arguments[2] = 1;
-			countOptions++;
-			flag = 1;
-
-		}
-		if (strcomp1(argv[i], "-t") == 0 || strcomp1(argv[i], "--expand-tables") == 0)
-		{
+			break;
+		case 't':
 			arguments[3] = 1;
-			countOptions++;
-			flag = 1;
 			optionT = 1;
-
-		}
-		if (strcomp1(argv[i], "-N") == 0 || strcomp1(argv[i], "--new-file") == 0)
-		{
+			break;
+		case 'N':
 			arguments[4] = 1;
-			countOptions++;
-			flag = 1;
-
-		}
-		if (strcomp1(argv[i], "-i") == 0 || strcomp1(argv[i], "--ignore-case") == 0)
-		{
+			break;
+		case 'i':
 			arguments[5] = 1;
-			countOptions++;
-			flag = 1;
-		}
-		if (strcomp1(argv[i], "-E") == 0 || strcomp1(argv[i], "--ignore-tab-expansion") == 0)
-		{
+			break;
+		case 'E':
 			arguments[6] = 1;
-			countOptions++;
-			flag = 1;
-
-		}
-		if (strcomp1(argv[i], "-h") == 0 || strcomp1(argv[i], "--help") == 0)
-		{
+			break;
+		case 'b':
 			arguments[7] = 1;
-			countOptions++;
-			flag = 1;
-		}
-		if (strcomp1(argv[i], "-h") == 0 || strcomp1(argv[i], "--help") == 0)
-		{
-			flag = 1;
+			break;
+		case 'h':
 			arguments[8] = 1;
 			help_option();
 			return 0;
-		}
-		if (strcomp1(argv[i], "-v") == 0 || strcomp1(argv[i], "--version") == 0)
-		{
-			flag = 1;
+		case 'v':
 			arguments[9] = 1;
-			printf("diff 0.1\nCopyright (C) 2013 ESGI\nCeci est un logiciel libre: vous %ctes libre de le changer et de le redistribuer.",136);
+			printf("diff 0.1\nCopyright (C) 2013 ESGI\nCeci est un logiciel libre: vous %ctes libre de le changer et de le redistribuer.", 136);
 			printf("Il n'y a pas de GARANTIE, dans les limites persmises par la loi\n");
 			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
 			FILE* esgi = NULL;
@@ -122,7 +121,6 @@ int main(int argc, char* argv[])
 			esgi = fopen("esgi_logo.txt", "r");
 
 			if (esgi != NULL)
-
 			{
 				while (fgets(esgiChain, 1000, esgi) != NULL)
 				{
@@ -134,42 +132,37 @@ int main(int argc, char* argv[])
 				printf("\n");
 			}
 			return 0;
-		}
-
-		if (strcomp1(argv[i], "--normal") == 0)
-		{
-			flag = 1;
+		case 'd':
 			arguments[10] = 1;
-			countOptions++;
-		}
-		if (strcomp1(argv[i], "-l") == 0 || strcomp1(argv[i], "--paginate") == 0)
-		{
-			flag = 1;
+			break;
+		case 'l':
 			arguments[11] = 1;
-			countOptions++;
-		}
-
-		if (strcomp1(argv[i], "-a") == 0 || strcomp1(argv[i], "--text") == 0)
-		{
-			flag = 1;
+			break;
+		case 'a':
 			arguments[12] = 1;
 			optionSpe = 1;
-			countOptions++;
-		}
-
-		if ((argv[i][0]=='-') && (flag == 0))
-		{
-			printf("diff: l'option -- %c %s %c est invalide\n", 174, argv[i], 175);
-			printf("diff: Pour en savoir davantage, utilisez: %c diff --help %c.\n", 174, 175);
-			return 0;
-
+			break;
+		default:
+			printf("diff: l'option saisie est invalide\n");
+			printf("diff: Pour en savoir davantage, utilisez: %c diff --help/-h %c.\n", 174, 175);
+			return 1;
 		}
 	}
 
-	if ((arguments[10]==1 && arguments[2]==1))
+	//Count options to take filenames
+	for (i = 1; i<argc; i++)
+	{
+
+		if (argv[i][0] == '-')
+		{
+			countOptions++;
+		}
+	}
+
+	if ((arguments[10] == 1 && arguments[2] == 1))
 	{
 		printf("diff: options de style de sortie conflictuelles\n");
-		printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n",174,175);
+		printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n", 174, 175);
 		return 0;
 
 	}
@@ -180,10 +173,13 @@ int main(int argc, char* argv[])
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
 
+	printf("File1 = %s", firstFile);
+	printf("\nFile2 = %s\n", secondFile);
+
 	unsigned long fileSizeFile1 = GetFileSize(firstFile, optionSpe);
 	unsigned long fileSizeFile2 = GetFileSize(secondFile, optionSpe);
-	//Taille max du fichier à determiner 
-	//100 000 000 octets valeur arbitraire 
+	//Taille max du fichier à determiner
+	//100 000 000 octets valeur arbitraire
 
 
 	if (fileSizeFile1 > 100000000)
@@ -212,17 +208,17 @@ int main(int argc, char* argv[])
 
 
 
-	if (optionT==1)
+	if (optionT == 1)
 	{
-		tabFile1 = fileToTabsOptionT(firstFile,optionSpe);
-		tabFile2 = fileToTabsOptionT(secondFile,optionSpe);
+		tabFile1 = fileToTabsOptionT(firstFile, optionSpe);
+		tabFile2 = fileToTabsOptionT(secondFile, optionSpe);
 
 	}
 	else
 	{
 		//Appel de fileToTabs pour récupérer les tableaux contenant l'intégralité des fichiers
-		tabFile1 = fileToTabs(firstFile,optionSpe);
-		tabFile2 = fileToTabs(secondFile,optionSpe);
+		tabFile1 = fileToTabs(firstFile, optionSpe);
+		tabFile2 = fileToTabs(secondFile, optionSpe);
 	}
 	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests
 	/*unsigned long j = 0;
