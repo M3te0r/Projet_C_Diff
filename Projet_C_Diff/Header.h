@@ -2,10 +2,6 @@
 #include <stdlib.h>
 //Prototypes des fonctions
 
-//Prototypes des fonctions de comparaison de base
-int strcomp1(const char* s1, const char* s2);
-int myStrlen(char *s);
-
 //Prototypes des fonctions de opérant sur les fichiers
 FILE* OpenAFile(char* nomFichier, int optionOpen);
 unsigned long linesOfFile(char* file);
@@ -20,7 +16,6 @@ void ajouterATableauLigneFichier(char *nomFichier, char *tabLigne, int numLigne,
 int retourLigneCurseur(char *nomFichier, int numLigne);
 int nombreCaractereLigne(char *nomFichier, int numLigne);
 void afficheLigne(char *nomFichier, int numLigne);
-void compare(char *nomDuFichier1,char *nomDuFichier2);
 unsigned long GetFileSize(char *file,int optionSpe);
 
 //Prototypes des fonctions pour les options

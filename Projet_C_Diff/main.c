@@ -66,6 +66,11 @@ int main(int argc, char* argv[])
 	int i, countOptions = 0, optionT = 0, optionSpe = 0;
 	char* tabFile1;
 	char* tabFile2;
+	/*
+	La fonction getopt_long() prend en argument argc, argv, la chaine de car des options courtes,
+	la structure d'options longues et un pointeur sur un entier
+	Elle renverra la valeur indiqué dans le champ val si l'option est trouvée
+	donc le caractère de l'option courte*/
 	while ((option = getopt_long(argc, argv, optstring, longopts, &longindex)) != -1)
 	{
 		switch (option)
