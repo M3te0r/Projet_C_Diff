@@ -532,6 +532,9 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 		jsave = j;
 		beginLine++;
 	}
+
+
+	free(lengths);
 }
 
 //Renvoie un tableau de dimension 2 contenant les tailles respectives de la prochaine ligne des tableaux passés en paramètres
