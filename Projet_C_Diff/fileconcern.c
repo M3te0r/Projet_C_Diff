@@ -426,114 +426,113 @@ char* fileToTabsOptionT(char* file, int optionSpe)
 }
 
 //Fonction diff principale (implémentation des options ultérieure) (!!!!!! il faut une variable de nb de lignes de fichier !!!!!!)
-/*void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 {
-//Déclaration des indices de parcours des tableaux
-//et une variable pour gérer la différence
-int i = 0, j = 0;
-int isave = 0, jsave = 0;
-int beginLine = 1, lastCompLine = 1;
-int diff = 0;
+	//Déclaration des indices de parcours des tableaux
+	//et une variable pour gérer la différence
+	int i = 0, j = 0;
+	int isave = 0, jsave = 0;
+	int beginLine = 1, lastCompLine = 1;
+	int diff = 0;
 
-//Déclaration d'un tableau contenant les tailles des lignes de chaque tableau:
-// lengths[0] = old ; lengths[1] = new
-int* lengths = (int*)malloc(2 * sizeof(int));
-lengths[0] = 0; lengths[1] = 0;
+	//Déclaration d'un tableau contenant les tailles des lignes de chaque tableau:
+	// lengths[0] = old ; lengths[1] = new
+	int* lengths = (int*)malloc(2 * sizeof(int));
+	lengths[0] = 0; lengths[1] = 0;
 
-lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
+	lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
 
-while (i < lengthOldFile && j < lengthNewFile)
-{
-lastCompLine = beginLine;
+	while (i < lengthOldFile && j < lengthNewFile)
+	{
+		lastCompLine = beginLine;
 
-//test simple sur la longueur des lignes, si la taille est différente, les lignes sont différentes
-//si elles sont de taille égale, on appelle la fonction de comparaison des lignes
-if (lengths[0] != lengths[1]){
-diff = 1;
+		//test simple sur la longueur des lignes, si la taille est différente, les lignes sont différentes
+		//si elles sont de taille égale, on appelle la fonction de comparaison des lignes
+		if (lengths[0] != lengths[1]){
+			diff = 1;
+		}
+		else{
+			diff = compare_line(lengths, i, j, oldFile, newFile);
+		}
+
+
+		if (diff = 1){
+			//passage au 1er indice de la ligne suivante pour les deux fichiers
+			//et recalcul de la taille de la ligne suivante
+			//les variables save correspondent à l'indice de départ pour l'affichage
+			isave = i;
+			jsave = j;
+			i += lengths[0];
+			j += lengths[1];
+			lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
+
+			while (compare_line(lengths, i, j, oldFile, newFile) == 1 && lastCompLine <= nbLignesCommunes){
+				lastCompLine++;
+				i += lengths[0];
+				j += lengths[1];
+				lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
+			}
+
+			//AFFICHAGE : cas où il y a plus d'une ligne différente
+			if (beginLine != lastCompLine){
+				//affichage de la ligne avec le code de changement
+				printf("%i,%ic%i,%i \n", beginLine, lastCompLine, beginLine, lastCompLine);
+
+				//gestion du cas où la première ligne est différente (on affiche la première ligne avant le traitement)
+				printf("<");
+				while (oldFile[isave] != '\n'){
+					printf("%c", oldFile[isave]);
+					isave++;
+				}
+				//affichage des lignes du 1er fichier avec <"
+				printf("%c", oldFile[isave]);
+				for (int k = isave; k < i; k++){
+					if (oldFile[k - 1] == '\n'){
+						printf("<");
+					}
+					printf("%c", oldFile[k]);
+				}
+
+				//séparation
+				printf("\n - - - \n");
+
+				//affichage 1ère ligne 2ème fichier
+				printf("<");
+				while (newFile[jsave] != '\n'){
+					printf("%c", newFile[jsave]);
+					jsave++;
+				}
+				printf("%c", newFile[jsave]);
+
+				//affichage des lignes du nouveau fichier avec ">"
+				for (int k = jsave; k < j; k++){
+					if (newFile[k - 1] == '\n'){
+						printf(">");
+					}
+					printf("%c", newFile[k]);
+				}
+				beginLine = lastCompLine;
+			}
+
+			//AFFICHAGE : cas où une seule ligne diffère
+			else{
+				printf("%ic%i", beginLine, beginLine);
+				printf("<");
+				for (int k = isave; k < i; k++)
+					printf("%c", oldFile[k]);
+
+				printf("\n - - - \n");
+
+				printf(">");
+				for (int k = jsave; k < j; k++)
+					printf("%c", newFile[k]);
+			}
+		}
+		isave = i;
+		jsave = j;
+		beginLine++;
+	}
 }
-else{
-diff = compare_line(lengths, i, j, oldFile, newFile);
-}
-
-
-if (diff = 1){
-//passage au 1er indice de la ligne suivante pour les deux fichiers
-//et recalcul de la taille de la ligne suivante
-//les variables save correspondent à l'indice de départ pour l'affichage
-isave = i;
-jsave = j;
-i += lengths[0];
-j += lengths[1];
-lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
-
-while (compare_line(lengths, i, j, oldFile, newFile) == 1 && lastCompLine <= nbLignesCommunes){
-lastCompLine++;
-i += lengths[0];
-j += lengths[1];
-lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
-}
-
-//AFFICHAGE : cas où il y a plus d'une ligne différente
-if (beginLine != lastCompLine){
-//affichage de la ligne avec le code de changement
-printf("%i,%ic%i,%i \n", beginLine, lastCompLine, beginLine, lastCompLine);
-
-//gestion du cas où la première ligne est différente (on affiche la première ligne avant le traitement)
-printf("<");
-while (oldFile[isave] != '\n'){
-printf("%c", oldFile[isave]);
-isave++;
-}
-//affichage des lignes du 1er fichier avec <"
-printf("%c", oldFile[isave]);
-for (int k = isave; k < i; k++){
-if (oldFile[k - 1] == '\n'){
-printf("<");
-}
-printf("%c", oldFile[k]);
-}
-
-//séparation
-printf("\n - - - \n");
-
-//affichage 1ère ligne 2ème fichier
-printf("<");
-while (newFile[jsave] != '\n'){
-printf("%c", newFile[jsave]);
-jsave++;
-}
-printf("%c", newFile[jsave]);
-
-//affichage des lignes du nouveau fichier avec ">"
-for (int k = jsave; k < j; k++){
-if (newFile[k - 1] == '\n'){
-printf(">");
-}
-printf("%c", newFile[k]);
-}
-beginLine = lastCompLine;
-}
-
-//AFFICHAGE : cas où une seule ligne diffère
-else{
-printf("%ic%i", beginLine, beginLine);
-printf("<");
-for (int k = isave; k < i; k++)
-printf("%c", oldFile[k]);
-
-printf("\n - - - \n");
-
-printf(">");
-for (int k = jsave; k < j; k++)
-printf("%c", newFile[k]);
-}
-}
-isave = i;
-jsave = j;
-beginLine++;
-}
-}
-*/
 
 //Renvoie un tableau de dimension 2 contenant les tailles respectives de la prochaine ligne des tableaux passés en paramètres
 //à partir de l'indice passé (!!!!! gérer le EOF !!!!!)
