@@ -437,7 +437,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 
 	//Déclaration d'un tableau contenant les tailles des lignes de chaque tableau:
 	// lengths[0] = old ; lengths[1] = new
-	int* lengths = (int*)malloc(2 * sizeof(int));
+	int* lengths =malloc(2 * sizeof(int));
 	lengths[0] = 0; lengths[1] = 0;
 
 	lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
