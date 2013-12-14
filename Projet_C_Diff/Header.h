@@ -27,6 +27,6 @@ int compare_line(int* lengths, int idOld, int idNew, char* oldFile, char* newFil
 void help_option();
 int ignoreCase(char c1, char c2);
 
-void briefing(int differ, char firstFile, char secondFile);
+void briefing(int differ, const char *firstFile, const char *secondFile);
 
-void identicalFiles(int same, char firstFile, char secondFile);
+void identicalFiles(int same, const char *firstFile, const char *secondFile);
