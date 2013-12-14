@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include "Header.h"
+#include <dirent.h>
+
+#ifndef WIN32
+#include <sys/types.h>
+#endif // WIN32
 
 int main(int argc, char* argv[])
 {
@@ -158,16 +163,113 @@ int main(int argc, char* argv[])
 		printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n", 174, 175);
 		return 0;
 	}
-
 	//Filenames are taken after the option(s)
 	argv[1] = argv[countOptions + 1];
 	argv[2] = argv[countOptions + 2];
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
+	char* takeDir1 = NULL;
+	char* takeDir2 = NULL;
+	i = 0;
+	//Position du dernier caractère '/' pour avoir un chemin de répertoire
+	int savedCars = 0;
+	//Nombre de caractères du chemin complet
+	int lengthChem = 0;
+	while (firstFile[i] != '\0')
+	{
+		if (firstFile[i] == '/')
+		{
 
-	printf("File1 = %s", firstFile);
-	printf("\nFile2 = %s\n", secondFile);
+			savedCars = i;
+		}
+		i++;
+	}
+	lengthChem = i;
+	char *fileName1 = NULL;
+	fileName1 = malloc(sizeof(char)*(1 + lengthChem - savedCars));
+	int l = 0;
+	for (i = savedCars + 1; i <= lengthChem; i++, l++)
+	{
+		fileName1[l] = firstFile[i];
+	}
 
+	takeDir1 = malloc(sizeof(char)*(savedCars + 1));
+
+	for (i = 0; i <= savedCars; i++)
+	{
+		takeDir1[i] = firstFile[i];
+	}
+
+
+	i = 0;
+	savedCars = 0;
+	while (secondFile[i] != '\0')
+	{
+		if (secondFile[i] == '/')
+		{
+
+			savedCars = i;
+		}
+		i++;
+	}
+	lengthChem = i;
+	char *fileName2 = NULL;
+	fileName2 = malloc(sizeof(char)*(1 + lengthChem - savedCars));
+	l = 0;
+	for (i = savedCars + 1; i <= lengthChem; i++, l++)
+	{
+		fileName2[l] = secondFile[i];
+	}
+	takeDir2 = malloc(sizeof(char)*(savedCars + 1));
+
+	for (i = 0; i <= savedCars; i++)
+	{
+		takeDir2[i] = secondFile[i];
+	}
+
+	DIR* rep1 = NULL;
+	DIR* rep2 = NULL;
+	struct dirent* fichierLu = NULL;
+	rep1 = opendir(takeDir1);
+	rep2 = opendir(takeDir2);
+	if (rep1 == NULL || rep2 == NULL)
+	{
+		printf("Can not open such directory");
+		exit(1);
+	}
+	int fileFound = 0;
+	/*
+	Check si le fichier est bien dans le dossier*/
+	while ((fichierLu = readdir(rep1)) != NULL)
+	{
+		if (strcomp1(fichierLu->d_name, fileName1) == 0)
+		{
+			fileFound = 1;
+			break;
+		}
+	}
+	if (fileFound == 0)
+	{
+
+		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName1);
+		return 1;
+	}
+
+	fileFound = 0;
+	while ((fichierLu = readdir(rep2)) != NULL)
+	{
+		if (strcomp1(fichierLu->d_name, fileName2) == 0)
+		{
+			fileFound = 1;
+			break;
+		}
+	}
+	if (fileFound == 0)
+	{
+
+		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName2);
+		return 1;
+	}
 	unsigned long fileSizeFile1 = GetFileSize(firstFile, optionSpe);
 	unsigned long fileSizeFile2 = GetFileSize(secondFile, optionSpe);
 	//Taille max du fichier à determiner
