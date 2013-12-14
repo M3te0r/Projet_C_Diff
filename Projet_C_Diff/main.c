@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <getopt.h>
 #include "Header.h"
-#include <dirent.h>
+
 #define WIN32
 #ifdef LINUX
 #include <sys/types.h>
+#include <dirent.h>
 #endif // WIN32
 
 int main(int argc, char* argv[])
