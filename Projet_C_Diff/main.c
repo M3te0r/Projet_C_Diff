@@ -3,8 +3,8 @@
 #include <getopt.h>
 #include "Header.h"
 #include <dirent.h>
-
-#ifndef WIN32
+#define WIN32
+#ifdef LINUX
 #include <sys/types.h>
 #endif // WIN32
 
@@ -168,6 +168,9 @@ int main(int argc, char* argv[])
 	argv[2] = argv[countOptions + 2];
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
+#ifdef LINUX
+
+
 	char* takeDir1 = NULL;
 	char* takeDir2 = NULL;
 	i = 0;
@@ -270,6 +273,7 @@ int main(int argc, char* argv[])
 		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName2);
 		return 1;
 	}
+#endif // LINUX
 	unsigned long fileSizeFile1 = GetFileSize(firstFile, optionSpe);
 	unsigned long fileSizeFile2 = GetFileSize(secondFile, optionSpe);
 	//Taille max du fichier à determiner
