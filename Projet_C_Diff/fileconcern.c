@@ -61,20 +61,24 @@ unsigned long linesOfFile(char* file)
 
 }
 
-unsigned long linesOfTab(char *tab)
+unsigned long linesOfTab(char *tab, unsigned long* length)
 {
 	unsigned long newLineCount = 1;
 	if (tab != NULL)
 	{/*count the newline characters*/
 		unsigned long j = 0;
+		unsigned long* taille = &j;
+
 		while (tab[j] != '\0')
 		{
+			//printf("%i\n", j);
 			if (tab[j] == '\n')
 			{
 				newLineCount++;
 			}
 			j++;
 		}
+		*length = j;
 
 	}
 	else
