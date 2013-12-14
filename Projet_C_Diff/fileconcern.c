@@ -497,11 +497,12 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				for (k = isave; k < i; k++){
 					if (oldFile[k - 1] == '\n'){
 						printf("<");
+						if (displayOption == 1)
+						{
+							printf("\t");
+						}
 					}
-					if (displayOption == 1)
-					{
-						printf("\t");
-					}
+
 					printf("%c", oldFile[k]);
 				}
 
@@ -524,10 +525,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				for (k = jsave; k < j; k++){
 					if (newFile[k - 1] == '\n'){
 						printf(">");
-					}
-					if (displayOption == 1)
-					{
-						printf("\t");
+						if (displayOption == 1)
+						{
+							printf("\t");
+						}
 					}
 					printf("%c", newFile[k]);
 				}
