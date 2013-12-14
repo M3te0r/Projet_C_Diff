@@ -426,7 +426,7 @@ char* fileToTabsOptionT(char* file, int optionSpe)
 }
 
 //Fonction diff principale (implémentation des options ultérieure) (!!!!!! il faut une variable de nb de lignes de fichier !!!!!!)
-void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines)
 {
 	//Déclaration des indices de parcours des tableaux
 	//et une variable pour gérer la différence
@@ -464,13 +464,13 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 			jsave = j;
 			i += lengths[0];
 			j += lengths[1];
-			lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
+			length_line_from_idx(oldFile, newFile, i, j, lengths);
 
-			while (compare_line(lengths, i, j, oldFile, newFile) == 1 && lastCompLine <= nbLignesCommunes){
+			while (compare_line(lengths, i, j, oldFile, newFile) == 1 && lastCompLine <= nbCommonLines){
 				lastCompLine++;
 				i += lengths[0];
 				j += lengths[1];
-				lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
+				length_line_from_idx(oldFile, newFile, i, j, lengths);
 			}
 
 			//AFFICHAGE : cas où il y a plus d'une ligne différente
