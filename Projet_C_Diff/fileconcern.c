@@ -430,7 +430,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 {
 	//Déclaration des indices de parcours des tableaux
 	//et une variable pour gérer la différence
-	int i = 0, j = 0;
+	int i = 0, j = 0, k;
 	int isave = 0, jsave = 0;
 	int beginLine = 1, lastCompLine = 1;
 	int diff = 0;
@@ -440,7 +440,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 	int* lengths =malloc(2 * sizeof(int));
 	lengths[0] = 0; lengths[1] = 0;
 
-	lengths = length_line_from_idx(oldFile, newFile, i, j, lengths);
+	length_line_from_idx(oldFile, newFile, i, j, lengths);
 
 	while (i < lengthOldFile && j < lengthNewFile)
 	{
@@ -486,7 +486,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 				}
 				//affichage des lignes du 1er fichier avec <"
 				printf("%c", oldFile[isave]);
-				for (int k = isave; k < i; k++){
+				for (k = isave; k < i; k++){
 					if (oldFile[k - 1] == '\n'){
 						printf("<");
 					}
@@ -505,7 +505,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 				printf("%c", newFile[jsave]);
 
 				//affichage des lignes du nouveau fichier avec ">"
-				for (int k = jsave; k < j; k++){
+				for (k = jsave; k < j; k++){
 					if (newFile[k - 1] == '\n'){
 						printf(">");
 					}
@@ -518,13 +518,13 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 			else{
 				printf("%ic%i", beginLine, beginLine);
 				printf("<");
-				for (int k = isave; k < i; k++)
+				for (k = isave; k < i; k++)
 					printf("%c", oldFile[k]);
 
 				printf("\n - - - \n");
 
 				printf(">");
-				for (int k = jsave; k < j; k++)
+				for (k = jsave; k < j; k++)
 					printf("%c", newFile[k]);
 			}
 		}
