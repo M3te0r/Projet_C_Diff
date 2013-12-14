@@ -1,318 +1,608 @@
+#include "Header.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
-#include "Header.h"
-#include <dirent.h>
 
-#ifndef WIN32
-#include <sys/types.h>
-#endif // WIN32
+//Options fonctions of the diff command
 
-int main(int argc, char* argv[])
+int strcomp1(const char* s1, const char* s2)
 {
-	//Checking of the number of arguments
-	if (argc < 2)
+	while ((*s1++ == *s2++) && (*s1 != '\0'));
+	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
+}
+
+void help_option()
+{
+	printf("Usage: diff [OPTION]... FICHIERS\n");
+	printf("Comparer les fichiers ligne par ligne.\n");
+	printf("Les param%ctres requis pour les options longues sont %cgalement requis pour les options courtes.\n", 138, 130);
+	printf("--normal                  Produire un %c diff %c en format normal (par d%cfaut)\n", 174, 175, 130);
+	printf("-q, --brief                   Indiquer seulement si les fichiers diff%crent\n", 130);
+	printf("-s, --report-identical-files  Indiquer si les deux fichiers sont identiques\n");
+	printf("-y, --side-by-side            Affichage sur deux colonnes\n");
+	printf("-t, --expand-tabs             %ctaler les tabulateurs en espaces dans la sortie\n", 144);
+	printf("-i, --ignore-case            Ignorer les diff%crences de casses dans le contenu des fichiers\n", 130);
+	printf("-a, --text                    Traiter tous les fichiers comme des textes\n");
+	printf("-h, --help                    Afficher cette aide et terminer\n");
+	printf("-v, --version                 Afficher le nom et la version du logiciel et terminer\n");
+	printf("FICHIERS sont %c FICHIER1 FICHIER2 %c ou %c R%cP1 R%cP2 %c ou %c R%cP FICHIER... %c ou %c FICHIER... RÉP %c.\n", 174, 175, 174, 144, 144, 175, 174, 144, 175, 174, 175);
+	printf("\n");
+
+	//suite des détails d'options
+}
+
+/*Count lines
+There is no need to define the max length  of a line
+*/
+unsigned long linesOfFile(char* file)
+{
+	FILE* fileParam = NULL;
+	int  c;
+	unsigned long newline_count = 1;
+	fileParam = fopen(file, "r");
+
+	if (fileParam != NULL)
 	{
-		printf("diff: opérande manquante après %cdiff%c\n", 174, 175);
-		printf("diff: Pour en savoir davantage, utilisez: %c diff -h/--help %c.\n", 174, 175);
-		return 1;
-	}
-	//Options Simples
-	char *optstring = "qsytNiEbhvla";
-	//Structure d'options
-	/*la colonne name comprend l'option longue
-	has_arg à 0 si l'option ne prend pas d'arguments/sous-options
-	flag à NULL pour le renvoie de val
-	val = la valeur renvoyée, correspond à l'option simple pour effectuer un switch
-	*/
-	struct option longopts[] = {
-
-		/*name      has_arg  flag       val*/
-		{ "brief", 0, NULL, 'q' },
-		{ "report-identical-files", 0, NULL, 's' },
-		{ "side-by-side", 0, NULL, 'y' },
-		{ "expand-tables", 0, NULL, 't' },
-		{ "new-file", 0, NULL, 'N' },
-		{ "ignore-case", 0, NULL, 'i' },
-		{ "ignore-tab-expansion", 0, NULL, 'E' },
-		{ "ignore-space-change", 0, NULL, 'b' },
-		{ "help", 0, NULL, 'h' },
-		{ "version", 0, NULL, 'v' },
-		{ "normal", 0, NULL, 'd' },
-		{ "paginate", 0, NULL, 'l' },
-		{ "text", 0, NULL, 'a' },
-		{ NULL, 0, NULL, 0 },
-	};
-	int longindex;
-	int option;
-	/*
-	Options init*/
-	//tab of options where arguments[n] = 0 or 1
-	//n is the option
-	/*
-	index 0 = -q || --brief
-	index 1 = -s || --report-identical-files
-	index 2 = -y || --side-by-side
-	index 3 = -t || --expand-tables
-	index 4 = -N || --new-file
-	index 5 = -i || --ignore-case
-	index 6 = -E || --ignore-tab-expansion
-	index 7 = -b || --ignore-space-change
-	index 8 = -h || --help
-	index 9 = -v || --version
-	index 10 = --normal
-	index 11 = -l || --paginate
-	index 12 = -a || --text
-
-	Autres options à envisager...
-	*/
-	int arguments[13];
-
-	int i, countOptions = 0, optionT = 0, optionSpe = 0;
-	char* tabFile1;
-	char* tabFile2;
-	/*
-	La fonction getopt_long() prend en argument argc, argv, la chaine de car des options courtes,
-	la structure d'options longues et un pointeur sur un entier
-	Elle renverra la valeur indiqué dans le champ val si l'option est trouvée
-	donc le caractère de l'option courte*/
-	while ((option = getopt_long(argc, argv, optstring, longopts, &longindex)) != -1)
-	{
-		switch (option)
-		{
-
-		case 'q':
-			arguments[0] = 1;
-			break;
-		case 's':
-			arguments[1] = 1;
-			break;
-		case 'y':
-			arguments[2] = 1;
-			break;
-		case 't':
-			arguments[3] = 1;
-			optionT = 1;
-			break;
-		case 'N':
-			arguments[4] = 1;
-			break;
-		case 'i':
-			arguments[5] = 1;
-			break;
-		case 'E':
-			arguments[6] = 1;
-			break;
-		case 'b':
-			arguments[7] = 1;
-			break;
-		case 'h':
-			arguments[8] = 1;
-			help_option();
-			return 0;
-		case 'v':
-			arguments[9] = 1;
-			printf("diff 0.1\nCopyright (C) 2013 ESGI\nCeci est un logiciel libre: vous %ctes libre de le changer et de le redistribuer.", 136);
-			printf("Il n'y a pas de GARANTIE, dans les limites persmises par la loi\n");
-			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
-			FILE* esgi = NULL;
-			char esgiChain[1000];
-			esgi = fopen("esgi_logo.txt", "r");
-
-			if (esgi != NULL)
-			{
-				while (fgets(esgiChain, 1000, esgi) != NULL)
-				{
-					printf("%s", esgiChain);
-
-				}
-
-				fclose(esgi);
-				printf("\n");
-			}
-			return 0;
-		case 'd':
-			arguments[10] = 1;
-			break;
-		case 'l':
-			arguments[11] = 1;
-			break;
-		case 'a':
-			arguments[12] = 1;
-			optionSpe = 1;
-			break;
-		default:
-			printf("diff: l'option saisie est invalide\n");
-			printf("diff: Pour en savoir davantage, utilisez: %c diff --help/-h %c.\n", 174, 175);
-			return 1;
+		/* count the newline characters */
+		while ((c = fgetc(fileParam)) != EOF) {
+			if (c == '\n')
+				newline_count++;
 		}
-	}
+		fclose(fileParam);
 
-	//Count options to take filenames
-	for (i = 1; i<argc; i++)
-	{
-		if (argv[i][0] == '-')
-		{
-			countOptions++;
-		}
-	}
-
-	if ((arguments[10] == 1 && arguments[2] == 1))
-	{
-		printf("diff: options de style de sortie conflictuelles\n");
-		printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n", 174, 175);
-		return 0;
-	}
-	//Filenames are taken after the option(s)
-	argv[1] = argv[countOptions + 1];
-	argv[2] = argv[countOptions + 2];
-	char* firstFile = argv[1];
-	char* secondFile = argv[2];
-	char* takeDir1 = NULL;
-	char* takeDir2 = NULL;
-	i = 0;
-	//Position du dernier caractère '/' pour avoir un chemin de répertoire
-	int savedCars = 0;
-	//Nombre de caractères du chemin complet
-	int lengthChem = 0;
-	while (firstFile[i] != '\0')
-	{
-		if (firstFile[i] == '/')
-		{
-
-			savedCars = i;
-		}
-		i++;
-	}
-	lengthChem = i;
-	char *fileName1 = NULL;
-	fileName1 = malloc(sizeof(char)*(1 + lengthChem - savedCars));
-	int l = 0;
-	for (i = savedCars + 1; i <= lengthChem; i++, l++)
-	{
-		fileName1[l] = firstFile[i];
-	}
-
-	takeDir1 = malloc(sizeof(char)*(savedCars + 1));
-
-	for (i = 0; i <= savedCars; i++)
-	{
-		takeDir1[i] = firstFile[i];
-	}
+		return newline_count;
 
 
-	i = 0;
-	savedCars = 0;
-	while (secondFile[i] != '\0')
-	{
-		if (secondFile[i] == '/')
-		{
-
-			savedCars = i;
-		}
-		i++;
-	}
-	lengthChem = i;
-	char *fileName2 = NULL;
-	fileName2 = malloc(sizeof(char)*(1 + lengthChem - savedCars));
-	l = 0;
-	for (i = savedCars + 1; i <= lengthChem; i++, l++)
-	{
-		fileName2[l] = secondFile[i];
-	}
-	takeDir2 = malloc(sizeof(char)*(savedCars + 1));
-
-	for (i = 0; i <= savedCars; i++)
-	{
-		takeDir2[i] = secondFile[i];
-	}
-
-	DIR* rep1 = NULL;
-	DIR* rep2 = NULL;
-	struct dirent* fichierLu = NULL;
-	rep1 = opendir(takeDir1);
-	rep2 = opendir(takeDir2);
-	if (rep1 == NULL || rep2 == NULL)
-	{
-		printf("Can not open such directory");
-		exit(1);
-	}
-	int fileFound = 0;
-	/*
-	Check si le fichier est bien dans le dossier*/
-	while ((fichierLu = readdir(rep1)) != NULL)
-	{
-		if (strcomp1(fichierLu->d_name, fileName1) == 0)
-		{
-			fileFound = 1;
-			break;
-		}
-	}
-	if (fileFound == 0)
-	{
-
-		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName1);
-		return 1;
-	}
-
-	fileFound = 0;
-	while ((fichierLu = readdir(rep2)) != NULL)
-	{
-		if (strcomp1(fichierLu->d_name, fileName2) == 0)
-		{
-			fileFound = 1;
-			break;
-		}
-	}
-	if (fileFound == 0)
-	{
-
-		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName2);
-		return 1;
-	}
-	unsigned long fileSizeFile1 = GetFileSize(firstFile, optionSpe);
-	unsigned long fileSizeFile2 = GetFileSize(secondFile, optionSpe);
-	//Taille max du fichier à determiner
-	//100 000 000 octets valeur arbitraire
-
-	if (fileSizeFile1 > 100000000)
-	{
-		short overSized1 = 1;
-		FILE* file1 = OpenAFile(firstFile, optionSpe);
-		//Retour du curseur au début du fichier si déjà opéré dessus
-		rewind(file1);
-
-		//modèle d'utilisation :
-		//char* cara = pointFile(file1); avec un boucle while != EOF sur les deux fichiers
-
-		fclose(file1);
-
-	}
-	if (fileSizeFile2 > 100000000)
-	{
-		short overSized2 = 1;
-		FILE* file2 = OpenAFile(firstFile, optionSpe);
-		//Retour du curseur au début du fichier si déjà opéré dessus
-		rewind(file2);
-
-		fclose(file2);
-	}
-	if (optionT == 1)
-	{
-		tabFile1 = fileToTabsOptionT(firstFile, optionSpe);
-		tabFile2 = fileToTabsOptionT(secondFile, optionSpe);
 	}
 	else
 	{
-		//Appel de fileToTabs pour récupérer les tableaux contenant l'intégralité des fichiers
-		tabFile1 = fileToTabs(firstFile, optionSpe);
-		tabFile2 = fileToTabs(secondFile, optionSpe);
+		printf("Impossible de lire le fichier");
+		return -1;
 	}
-	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests
-	/*unsigned long j = 0;
-	while (tabFile1[j]!='\0')
+
+}
+
+unsigned long linesOfTab(char *tab)
+{
+	unsigned long newLineCount = 1;
+	if (tab != NULL)
+	{/*count the newline characters*/
+		unsigned long j = 0;
+		while (tab[j] != '\0')
+		{
+			if (tab[j] == '\n')
+			{
+				newLineCount++;
+			}
+		}
+	}
+	else
 	{
-	printf("%c", tabFile1[j]);
-	j++;
-	}*/
+		return 0;
+	}
+	return newLineCount;
+}
+
+//Renvoie le nombre de caractères dans un fichier
+int CaractecrsOfFile(char* file)
+{
+	FILE* fileParam = NULL;
+	int  c = 0;
+	int cars = 0;
+	fileParam = fopen(file, "r");
+
+	if (fileParam != NULL)
+	{
+		/* count the numbers of characters */
+		while ((c = fgetc(fileParam)) != EOF) {
+			cars++;
+		}
+		fclose(fileParam);
+
+		return cars;
+	}
+	else
+	{
+		printf("Impossible de lire le fichier");
+		return -1;
+	}
+}
+
+//Renvoie un tableau rempli de tous les caractères du fichier
+//Caractère par caractère
+char* fileToTabs(char* file, int optionSpe)
+{
+	unsigned long i = 0;
+	char* buffer;
+	FILE* fileToTab = NULL;
+
+	fileToTab = OpenAFile(file, optionSpe);
+	unsigned long fileSize = GetFileSize(file, optionSpe);
+	//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
+	buffer = calloc(1, fileSize + 1);
+	if (buffer == NULL)
+	{
+		exit(EXIT_FAILURE);
+	}
+
+	//Copie du fichier dans le buffer
+	if (1 != fread(buffer, fileSize, 1, fileToTab))
+	{
+		fclose(fileToTab);
+		free(buffer);
+		fputs("entire read fails", stderr);
+		exit(EXIT_FAILURE);
+	}
+	//fileSize = la taille du fichier mais indique aussi le dernier caractère
+	buffer[fileSize] = '\0';
+	fclose(fileToTab);
+	return buffer;
+}
+
+// Modifie le tableau existant et ajoute les caractères d'une ligne dedans
+void ajouterATableauLigneFichier(char *nomFichier, char *tabLigne, int numLigne, int tailleTableau)
+{
+	FILE *fichier = NULL;
+	int caractereActuel = 0, i = 0;
+	long position = 0;
+	fichier = fopen(nomFichier, "r");
+	position = retourLigneCurseur(nomFichier, numLigne);
+	fseek(fichier, position, SEEK_SET);
+	if (fichier != NULL)
+	{
+		for (i = 0; i<tailleTableau; i++)
+		{
+			caractereActuel = fgetc(fichier);
+			tabLigne[i] = caractereActuel;
+		}
+	}
+	fclose(fichier);
+}
+
+// Retourne la position du curseur au début de la ligne voulue
+int retourLigneCurseur(char *nomFichier, int numLigne)
+{
+	FILE *fichier = NULL;
+	int caractereActuel = 0, nb = 0, nombreBackSlashN = 0;
+	fichier = fopen(nomFichier, "r");
+	if (fichier != NULL)
+	{
+		while (nombreBackSlashN != numLigne)
+		{
+			caractereActuel = fgetc(fichier);
+			if (caractereActuel == '\n' || caractereActuel == EOF)
+			{
+				nombreBackSlashN++;
+			}
+		}
+		nb = ftell(fichier);
+	}
+	else
+	{
+		nb = 0;
+	}
+	fclose(fichier);
+	return nb;
+}
+
+// Renvoie le nombre de caractères pour une ligne
+int nombreCaractereLigne(char *nomFichier, int numLigne)
+{
+	FILE *fichier = NULL;
+	int caractereActuel = 0, nb = 0;
+	long position = 0;
+	fichier = fopen(nomFichier, "r");
+	position = retourLigneCurseur(nomFichier, numLigne);
+	fseek(fichier, position, SEEK_SET);
+	if (fichier != NULL)
+	{
+		while (caractereActuel != '\n')
+		{
+			if (caractereActuel == '\n' || caractereActuel == EOF)
+			{
+				break;
+			}
+			caractereActuel = fgetc(fichier);
+			nb++;
+		}
+	}
+	else
+	{
+		nb = 1;
+	}
+	fclose(fichier);
+	return nb - 1;
+}
+
+// Affichage de la ligne voulue
+void afficheLigne(char *nomFichier, int numLigne)
+{
+	FILE *fichier = NULL;
+	int caractereActuel = 0, i = 0;
+	long position = 0;
+	fichier = fopen(nomFichier, "r");
+	position = retourLigneCurseur(nomFichier, numLigne);
+	fseek(fichier, position, SEEK_SET);
+	if (fichier != NULL)
+	{
+		while (caractereActuel != '\n' || caractereActuel == EOF)
+		{
+			if (caractereActuel == EOF)
+			{
+				break;
+			}
+			caractereActuel = fgetc(fichier);
+			// On affiche tous les caractères sauf les '\n' (retour à la ligne)
+			if (caractereActuel != '\n')
+			{
+				printf("%c", caractereActuel);
+			}
+		}
+	}
+	fclose(fichier);
+}
+
+/*
+Fonction -t  : Retourne le tableau en transformant les tabulations par un espace
+CODE ASCII : TAB = 09
+SP = 32
+*/
+char* tabToSpace(char *tab, int tailleTab)
+{
+	int i;
+	if (tab != NULL)
+	{
+		for (i = 0; i < tailleTab; i++)
+		{
+			if (tab[i] == '\t')
+			{
+				tab[i] = ' ';
+			}
+		}
+	}
+	return tab;
+}
+
+/*Fonction ignoreCase
+Renvoie 1 si c1!=c2 même en ignorant la casse
+Renvoie 0 si c1==c2 en ignorant la casse
++32 et -32 = Table ACSII maj vers min ou min vers maj
+
+A intégrer dans le diff principal si option -i pour chaque caractère*/
+int ignoreCase(char c1, char c2)
+{
+	if (c1 == c2)
+	{
+		return 1;
+	}
+
+	if (((c1 >= 65 && c1 <= 90) || (c1 >= 97 && c1 <= 122)) && ((c2 >= 65 && c2 <= 90) || (c2 >= 97 && c2 <= 122)))
+	{
+		if ((c1 == c2 + 32) || (c1 == c2 - 32))
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	else
+	{
+		return 1;
+	}
+}
+
+/*
+Appel dans le diff après les options de comportement
+Dans le diff principal dès qu'un caractère diffère on envoie 1
+
+Sinon à la fin du diff principal si toujours aucun caractère ne diffère on envoie 0
+*/
+void briefing(int differ, char firstFile, char secondFile)
+{
+	if (differ == 1)
+	{
+		printf("Files %s and %s", firstFile, secondFile);
+	}
+	//Rien si 0
+}
+
+/*
+-s N'empeche pas l'affichage du diff principale si les fichiers diffèrent
+Appel à la fin du diff princpal après toutes les options de comportement s'il y en a
+Reçoie 1 si différent
+Rzçoie 0 si contenu identique
+*/
+void identicalFiles(int same, char firstFile, char secondFile)
+{
+	if (same == 0)
+	{
+		printf("\nContent of files %s and %s are the same", firstFile, secondFile);
+	}
+	//Rien si different
+}
+
+//Renvoie la taille du fichier en octet
+unsigned long GetFileSize(char *file, int optionSpe)
+{
+	FILE* fileSize = NULL;
+	fileSize = OpenAFile(file, optionSpe);
+
+	if (fileSize != NULL)
+	{
+		unsigned long t = 0;
+		fseek(fileSize, 0, SEEK_END);
+		t = ftell(fileSize);
+		fclose(fileSize);
+		return t;
+	}
+	else
+	{
+		printf("Impossible de lire le fichier");
+		return -1;
+	}
+}
+
+//Renvoie un tableau rempli de tous les caractères du fichier les tabulations ---> 8 espaces
+//Donc ajout de 7 caractères
+//Caractère par caractère
+char* fileToTabsOptionT(char* file, int optionSpe)
+{
+	unsigned long i = 0, nbEsc = 0;
+	char* buffer;
+	char* tabEsc;
+	FILE* fileToTab = NULL;
+
+	fileToTab = OpenAFile(file, optionSpe);
+	unsigned long fileSize = GetFileSize(file, optionSpe);
+
+	//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
+	buffer = calloc(1, fileSize + 1);
+	if (buffer == NULL)
+	{
+		exit(EXIT_FAILURE);
+
+	}
+	//Copie du fichier dans le buffer
+	if (1 != fread(buffer, fileSize, 1, fileToTab))
+	{
+		fclose(fileToTab);
+		free(buffer);
+		fputs("entire read fails", stderr);
+		exit(EXIT_FAILURE);
+	}
+	//fileSize = la taille du fichier mais indique aussi le dernier caractère
+	buffer[fileSize] = '\0';
+
+	fclose(fileToTab);
+	//Si caractère tabulation \t nbEsc +7 : caractère tab en moins + 8 espaces
+	i = 0;
+	while (buffer[i] != '\0')
+	{
+		if (buffer[i] == '\t')
+		{
+			nbEsc += 7;
+		}
+		i++;
+	}
+
+	fileSize += nbEsc;
+	tabEsc = calloc(1, fileSize + 1);
+
+	if (tabEsc == NULL)
+	{
+		exit(EXIT_FAILURE);
+
+	}
+	i = 0;
+	int k = 0;
+	unsigned long j = 0;
+
+	while (buffer[i] != '\0')
+	{
+		if (buffer[i] == '\t')
+		{
+			k = 0;
+			//si tab trouvé tabEsc est rempli de 8 espaces
+			for (k = 0; k < 8; j++, k++)
+			{
+				//Code ASCII de espace = 32
+				tabEsc[j] = 32;
+			}
+			//decrementation à cause de la boucle for qui va quand même incrementer jusqu'à 8
+			j--;
+		}
+		else
+		{
+			tabEsc[j] = buffer[i];
+		}
+		j++;
+		i++;
+	}
+	//j = derniere case du tabEsc
+	tabEsc[j] = '\0';
+	free(buffer);
+	return tabEsc;
+}
+
+//Fonction diff principale (implémentation des options ultérieure) (!!!!!! il faut une variable de nb de lignes de fichier !!!!!!)
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines)
+{
+	//Déclaration des indices de parcours des tableaux
+	//et une variable pour gérer la différence
+	int i = 0, j = 0, k;
+	int isave = 0, jsave = 0;
+	int beginLine = 1, lastCompLine = 1;
+	int diff = 0;
+
+	//Déclaration d'un tableau contenant les tailles des lignes de chaque tableau:
+	// lengths[0] = old ; lengths[1] = new
+	int* lengths = malloc(2 * sizeof(int));
+	lengths[0] = 0; lengths[1] = 0;
+
+	length_line_from_idx(oldFile, newFile, i, j, lengths);
+
+	while (i < lengthOldFile && j < lengthNewFile)
+	{
+		lastCompLine = beginLine;
+
+		//test simple sur la longueur des lignes, si la taille est différente, les lignes sont différentes
+		//si elles sont de taille égale, on appelle la fonction de comparaison des lignes
+		if (lengths[0] != lengths[1]){
+			diff = 1;
+		}
+		else{
+			diff = compare_line(lengths, i, j, oldFile, newFile);
+		}
+
+
+		if (diff == 1){
+			//passage au 1er indice de la ligne suivante pour les deux fichiers
+			//et recalcul de la taille de la ligne suivante
+			//les variables save correspondent à l'indice de départ pour l'affichage
+			isave = i;
+			jsave = j;
+			i += lengths[0];
+			j += lengths[1];
+			length_line_from_idx(oldFile, newFile, i, j, lengths);
+
+			while (compare_line(lengths, i, j, oldFile, newFile) == 1 && lastCompLine <= nbCommonLines){
+				lastCompLine++;
+				i += lengths[0];
+				j += lengths[1];
+				length_line_from_idx(oldFile, newFile, i, j, lengths);
+			}
+
+			//AFFICHAGE : cas où il y a plus d'une ligne différente
+			if (beginLine != lastCompLine){
+				//affichage de la ligne avec le code de changement
+				printf("%i,%ic%i,%i \n", beginLine, lastCompLine, beginLine, lastCompLine);
+
+				//gestion du cas où la première ligne est différente (on affiche la première ligne avant le traitement)
+				printf("<");
+				while (oldFile[isave] != '\n'){
+					printf("%c", oldFile[isave]);
+					isave++;
+				}
+				//affichage des lignes du 1er fichier avec <"
+				printf("%c", oldFile[isave]);
+				for (k = isave; k < i; k++){
+					if (oldFile[k - 1] == '\n'){
+						printf("<");
+					}
+					printf("%c", oldFile[k]);
+				}
+
+				//séparation
+				printf("\n - - - \n");
+
+				//affichage 1ère ligne 2ème fichier
+				printf("<");
+				while (newFile[jsave] != '\n'){
+					printf("%c", newFile[jsave]);
+					jsave++;
+				}
+				printf("%c", newFile[jsave]);
+
+				//affichage des lignes du nouveau fichier avec ">"
+				for (k = jsave; k < j; k++){
+					if (newFile[k - 1] == '\n'){
+						printf(">");
+					}
+					printf("%c", newFile[k]);
+				}
+				beginLine = lastCompLine;
+			}
+
+			//AFFICHAGE : cas où une seule ligne diffère
+			else{
+				printf("%ic%i", beginLine, beginLine);
+				printf("<");
+				for (k = isave; k < i; k++)
+					printf("%c", oldFile[k]);
+
+				printf("\n - - - \n");
+
+				printf(">");
+				for (k = jsave; k < j; k++)
+					printf("%c", newFile[k]);
+			}
+		}
+		isave = i;
+		jsave = j;
+		beginLine++;
+	}
+
+
+	free(lengths);
+}
+
+//Renvoie un tableau de dimension 2 contenant les tailles respectives de la prochaine ligne des tableaux passés en paramètres
+//à partir de l'indice passé (!!!!! gérer le EOF !!!!!)
+void length_line_from_idx(const char* tab1, const  char* tab2, int id1, int id2, int* lengths)
+{
+	while (tab1[id1] != '\n' && tab1[id1] != '\0'){
+		lengths[0]++;
+		id1++;
+	}
+	id1++;
+
+	while (tab2[id2] != '\n' && tab2[id2] != '\0'){
+		lengths[1]++;
+		id2++;
+	}
+	id2++;
+}
+
+//fonction de comparaison de 2 lignes, utile seulement dans le cas où les lignes sont de taille égale
+int compare_line(int* lengths, int idOld, int idNew, char* oldFile, char* newFile){
+	int diff = 0;
+	int imax = idOld + lengths[0], jmax = idNew + lengths[1];
+	while ((diff == 0) && (idOld < imax) && (idNew < jmax)){
+		if (oldFile[idOld] != newFile[idNew]){
+			diff = 1;
+		}
+		idOld++;
+		idNew++;
+	}
+	return diff;
+}
+
+//Fonction d'ouverture de fichier renvoi un pointeur de type FILE
+//Création de cette fonction pour simplification, gestion des options et fichiers *lourds
+FILE* OpenAFile(char* nomFichier, int optionOpen)
+{
+	FILE* file = NULL;
+	if (optionOpen == 1)
+	{
+		//Forcer l'ouverture du fichier en mode tetxe même si le fichier est un fichier binaire
+		//Peut conduire à des données certes valides mais illisibles
+		file = fopen(nomFichier, "r");
+	}
+	else
+	{
+		//Par défaut ouverture en mode binaire pour la fonction fread()
+		file = fopen(nomFichier, "rb");
+	}
+	//Verification de l'ouverture du fichier
+	if (file == NULL)
+	{
+		printf("Can not open input file : %s\n", nomFichier);
+		exit(EXIT_FAILURE);
+	}
+	return file;
+}
+
+/*Pointeur sur fichier, caractère par caractère
+Renvoie un pointeur à la position du curseur
+Fonction utilisée pour les fichiers > 100 000 000 octets
+A utiliser dans le diff principal si fichier > 100 000 000 octets
+incompatible pur l'instant avec le soptions de transformation telle que :
+--expand-tabs
+*/
+char* pointFile(FILE* file)
+{
+	//Prise du caractère à la position du curseur et cast en char*
+	char* actualChar = (char*)fgetc(file);
+	return actualChar;
 }
