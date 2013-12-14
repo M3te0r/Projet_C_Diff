@@ -437,7 +437,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 	//Déclaration d'un tableau contenant les tailles des lignes de chaque tableau:
 	// lengths[0] = old ; lengths[1] = new
-	int* lengths =malloc(2 * sizeof(int));
+	int* lengths = malloc(2 * sizeof(int));
 	lengths[0] = 0; lengths[1] = 0;
 
 	length_line_from_idx(oldFile, newFile, i, j, lengths);
@@ -456,7 +456,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 		}
 
 
-		if (diff = 1){
+		if (diff == 1){
 			//passage au 1er indice de la ligne suivante pour les deux fichiers
 			//et recalcul de la taille de la ligne suivante
 			//les variables save correspondent à l'indice de départ pour l'affichage
@@ -539,15 +539,15 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 //Renvoie un tableau de dimension 2 contenant les tailles respectives de la prochaine ligne des tableaux passés en paramètres
 //à partir de l'indice passé (!!!!! gérer le EOF !!!!!)
-void length_line_from_idx(char* tab1, char* tab2, int id1, int id2, int* lengths)
+void length_line_from_idx(const char* tab1, const  char* tab2, int id1, int id2, int* lengths)
 {
-	while (tab1[id1] != '\n' && tab1[id1] != 'EOF'){
+	while (tab1[id1] != '\n' && tab1[id1] != '\0'){
 		lengths[0]++;
 		id1++;
 	}
 	id1++;
 
-	while (tab2[id2] != '\n' && tab2[id2] != 'EOF'){
+	while (tab2[id2] != '\n' && tab2[id2] != '\0'){
 		lengths[1]++;
 		id2++;
 	}

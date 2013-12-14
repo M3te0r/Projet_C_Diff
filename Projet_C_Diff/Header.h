@@ -19,8 +19,9 @@ void afficheLigne(char *nomFichier, int numLigne);
 unsigned long GetFileSize(char *file, int optionSpe);
 
 void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines);
-int* length_line_from_idx(char* tab1, char* tab2, int id1, int id2, int* lengths);
+void length_line_from_idx(const char* tab1, const  char* tab2, int id1, int id2, int* lengths);
 int compare_line(int* lengths, int idOld, int idNew, char* oldFile, char* newFile);
+
 
 //Prototypes des fonctions pour les options
 void help_option();
