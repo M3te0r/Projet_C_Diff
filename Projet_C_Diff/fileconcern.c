@@ -539,7 +539,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile)
 
 //Renvoie un tableau de dimension 2 contenant les tailles respectives de la prochaine ligne des tableaux passés en paramètres
 //à partir de l'indice passé (!!!!! gérer le EOF !!!!!)
-int* length_line_from_idx(char* tab1, char* tab2, int id1, int id2, int* lengths)
+void length_line_from_idx(char* tab1, char* tab2, int id1, int id2, int* lengths)
 {
 	while (tab1[id1] != '\n' && tab1[id1] != 'EOF'){
 		lengths[0]++;
@@ -552,8 +552,6 @@ int* length_line_from_idx(char* tab1, char* tab2, int id1, int id2, int* lengths
 		id2++;
 	}
 	id2++;
-
-	return lengths;
 }
 
 //fonction de comparaison de 2 lignes, utile seulement dans le cas où les lignes sont de taille égale
