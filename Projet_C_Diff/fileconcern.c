@@ -73,6 +73,7 @@ unsigned long linesOfTab(char *tab)
 			{
 				newLineCount++;
 			}
+			j++;
 		}
 
 	}
