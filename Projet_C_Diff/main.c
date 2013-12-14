@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
 		{ "normal", 0, NULL, 'd' },
 		{ "paginate", 0, NULL, 'l' },
 		{ "text", 0, NULL, 'a' },
+		{ "initial-tab", 0, NULL, 'T' },
 		{ NULL, 0, NULL, 0 },
 	};
 	int longindex;
@@ -64,12 +65,13 @@ int main(int argc, char* argv[])
 	index 10 = --normal
 	index 11 = -l || --paginate
 	index 12 = -a || --text
+	index 13 = -T || --initial-tab
 
 	Autres options à envisager...
 	*/
-	int arguments[13];
+	int arguments[14];
 
-	int i, countOptions = 0, optionT = 0, optionSpe = 0;
+	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0;
 	char* tabFile1;
 	char* tabFile2;
 	/*
@@ -141,6 +143,10 @@ int main(int argc, char* argv[])
 		case 'a':
 			arguments[12] = 1;
 			optionSpe = 1;
+			break;
+		case 'T':
+			arguments[13] = 1;
+			displayOption = 1;
 			break;
 		default:
 			printf("diff: l'option saisie est invalide\n");
@@ -313,6 +319,7 @@ int main(int argc, char* argv[])
 		tabFile1 = fileToTabs(firstFile, optionSpe);
 		tabFile2 = fileToTabs(secondFile, optionSpe);
 	}
+
 	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests
 	/*unsigned long j = 0;
 	while (tabFile1[j]!='\0')
@@ -320,4 +327,5 @@ int main(int argc, char* argv[])
 	printf("%c", tabFile1[j]);
 	j++;
 	}*/
+	return 0;
 }

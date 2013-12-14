@@ -61,7 +61,7 @@ unsigned long linesOfFile(char* file)
 
 }
 
-unsigned long linesOfTab(char *tab, unsigned long* length)
+unsigned long linesOfTab(char *tab)
 {
 	unsigned long newLineCount = 1;
 	if (tab != NULL)
@@ -77,7 +77,6 @@ unsigned long linesOfTab(char *tab, unsigned long* length)
 			}
 			j++;
 		}
-		*length = j;
 
 	}
 	else
@@ -431,7 +430,7 @@ char* fileToTabsOptionT(char* file, int optionSpe)
 }
 
 //Fonction diff principale (implémentation des options ultérieure) (!!!!!! il faut une variable de nb de lignes de fichier !!!!!!)
-void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines)
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption)
 {
 	//Déclaration des indices de parcours des tableaux
 	//et une variable pour gérer la différence
@@ -485,6 +484,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 				//gestion du cas où la première ligne est différente (on affiche la première ligne avant le traitement)
 				printf("<");
+				if (displayOption == 1)
+				{
+					printf("\t");
+				}
 				while (oldFile[isave] != '\n'){
 					printf("%c", oldFile[isave]);
 					isave++;
@@ -495,6 +498,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					if (oldFile[k - 1] == '\n'){
 						printf("<");
 					}
+					if (displayOption == 1)
+					{
+						printf("\t");
+					}
 					printf("%c", oldFile[k]);
 				}
 
@@ -503,6 +510,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 				//affichage 1ère ligne 2ème fichier
 				printf("<");
+				if (displayOption == 1)
+				{
+					printf("\t");
+				}
 				while (newFile[jsave] != '\n'){
 					printf("%c", newFile[jsave]);
 					jsave++;
@@ -514,6 +525,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					if (newFile[k - 1] == '\n'){
 						printf(">");
 					}
+					if (displayOption == 1)
+					{
+						printf("\t");
+					}
 					printf("%c", newFile[k]);
 				}
 				beginLine = lastCompLine;
@@ -523,12 +538,20 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 			else{
 				printf("%ic%i", beginLine, beginLine);
 				printf("<");
+				if (displayOption == 1)
+				{
+					printf("\t");
+				}
 				for (k = isave; k < i; k++)
 					printf("%c", oldFile[k]);
 
 				printf("\n - - - \n");
 
 				printf(">");
+				if (displayOption == 1)
+				{
+					printf("\t");
+				}
 				for (k = jsave; k < j; k++)
 					printf("%c", newFile[k]);
 			}
