@@ -74,6 +74,7 @@ unsigned long linesOfTab(char *tab)
 				newLineCount++;
 			}
 		}
+
 	}
 	else
 	{
@@ -298,7 +299,7 @@ Dans le diff principal dès qu'un caractère diffère on envoie 1
 
 Sinon à la fin du diff principal si toujours aucun caractère ne diffère on envoie 0
 */
-void briefing(int differ, char firstFile, char secondFile)
+void briefing(int differ, const char *firstFile, const char *secondFile)
 {
 	if (differ == 1)
 	{
@@ -313,7 +314,7 @@ Appel à la fin du diff princpal après toutes les options de comportement s'il y 
 Reçoie 1 si différent
 Rzçoie 0 si contenu identique
 */
-void identicalFiles(int same, char firstFile, char secondFile)
+void identicalFiles(int same, const char *firstFile, const char *secondFile)
 {
 	if (same == 0)
 	{
