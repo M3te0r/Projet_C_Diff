@@ -67,7 +67,6 @@ unsigned long linesOfTab(char *tab, unsigned long* length)
 	if (tab != NULL)
 	{/*count the newline characters*/
 		unsigned long j = 0;
-		unsigned long* taille = &j;
 
 		while (tab[j] != '\0')
 		{
