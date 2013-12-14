@@ -85,7 +85,7 @@ unsigned long linesOfTab(char *tab)
 }
 
 //Renvoie le nombre de caractères dans un fichier
-int CaractecrsOfFile(char* file)
+int CaractersOfFile(char* file)
 {
 	FILE* fileParam = NULL;
 	int  c = 0;

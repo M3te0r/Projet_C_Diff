@@ -6,7 +6,7 @@ int strcomp1(const char* s1, const char* s2);
 FILE* OpenAFile(char* nomFichier, int optionOpen);
 unsigned long linesOfFile(char* file);
 unsigned long linesOfTab(char *tab);
-int CaractecrsOfFile(char* file);
+int CaractersOfFile(char* file);
 char* fileToTabs(char* file, int optionSpe);
 char* fileToTabsOptionT(char* file, int optionSpe);
 char* pointFile(FILE* file);
