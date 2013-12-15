@@ -348,6 +348,11 @@ int main(int argc, char* argv[])
 	}
 	//Taille max du fichier à determiner
 	//100 000 000 octets valeur arbitraire
+	if (arguments[0] == 1 && (fileSizeFile1 != fileSizeFile2))
+	{
+		printf("Files %s and %s differ\n", firstFile, secondFile);
+		exit(EXIT_SUCCESS);
+	}
 
 	if (fileSizeFile1 > 100000000)
 	{
