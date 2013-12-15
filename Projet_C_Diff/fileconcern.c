@@ -667,13 +667,11 @@ void length_line_from_idx(const char* tab1, const  char* tab2, int id1, int id2,
 		lengths[0]++;
 		id1++;
 	}
-	id1++;
 
 	while (tab2[id2] != '\n' && tab2[id2] != '\0'){
 		lengths[1]++;
 		id2++;
 	}
-	id2++;
 }
 
 //fonction de comparaison de 2 lignes, utile seulement dans le cas où les lignes sont de taille égale
