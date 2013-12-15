@@ -442,6 +442,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 	int isave = 0, jsave = 0;
 	int beginLine = 1, lastCompLine = 1;
 	int diff = 0;
+	int nbDisplayLines = 0;
 
 	//Déclaration d'un tableau contenant les tailles des lignes de chaque tableau:
 	// lengths[0] = old ; lengths[1] = new
@@ -500,6 +501,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				{
 					printf("\t");
 				}
+				if (displayOption == 3)
+				{
+					nbDisplayLines++;
+				}
 				while (oldFile[isave] != '\n'){
 					printf("%c", oldFile[isave]);
 					isave++;
@@ -512,6 +517,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 						if (displayOption == 1)
 						{
 							printf("\t");
+						}
+						if (displayOption == 3)
+						{
+							nbDisplayLines++;
 						}
 					}
 
@@ -527,6 +536,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				{
 					printf("\t");
 				}
+				if (displayOption == 3)
+				{
+					nbDisplayLines++;
+				}
 				while (newFile[jsave] != '\n'){
 					printf("%c", newFile[jsave]);
 					jsave++;
@@ -540,6 +553,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 						if (displayOption == 1)
 						{
 							printf("\t");
+						}
+						if (displayOption == 3)
+						{
+							nbDisplayLines++;
 						}
 					}
 					printf("%c", newFile[k]);
@@ -555,6 +572,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				{
 					printf("\t");
 				}
+				if (displayOption == 3)
+				{
+					nbDisplayLines++;
+				}
 				for (k = isave; k < i; k++)
 					printf("%c", oldFile[k]);
 
@@ -565,6 +586,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				{
 					printf("\t");
 				}
+				if (displayOption == 3)
+				{
+					nbDisplayLines++;
+				}
 				for (k = jsave; k < j; k++)
 					printf("%c", newFile[k]);
 			}
@@ -573,7 +598,8 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 		jsave = j;
 		beginLine++;
 	}
-
+	printf("\n");
+	printf("%d", nbDisplayLines);
 
 	free(lengths);
 }

@@ -329,5 +329,18 @@ int main(int argc, char* argv[])
 	printf("%c", tabFile1[j]);
 	j++;
 	}*/
+	/*unsigned long lines1 = linesOfTab(tabFile1);
+	unsigned long lines2 = linesOfTab(tabFile2);
+	unsigned long common = 0;
+	if(lines1<lines2)
+	{
+		common = lines1;
+	}
+	else
+	{
+		common = lines2;
+	}
+	diff(tabFile1,tabFile2, fileSizeFile1, fileSizeFile2, common, 3,firstFile,secondFile);
+	printf("\n");*/
 	return 0;
 }
