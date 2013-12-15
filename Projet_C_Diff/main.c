@@ -86,6 +86,7 @@ int main(int argc, char* argv[])
 
 		case 'q':
 			arguments[0] = 1;
+			displayOption = 2;
 			break;
 		case 's':
 			arguments[1] = 1;
