@@ -18,6 +18,38 @@ int main(int argc, char* argv[])
 		printf("diff: Pour en savoir davantage, utilisez: %c diff -h/--help %c.\n", 174, 175);
 		return 1;
 	}
+
+
+
+	int countCharArgs = 0, indarg = 0, indarg2 = 0, indarg3 = 0;
+
+	for (indarg = 0; indarg<argc; indarg++)
+	{
+		indarg2 = 0;
+		while (argv[indarg][indarg2] != '\0')
+		{
+			countCharArgs++;
+			indarg2++;
+		}
+		countCharArgs++;
+	}
+
+	char *chaineArgs = NULL;
+	chaineArgs = calloc(1, countCharArgs + 1);
+
+	for (indarg = 0; indarg<argc; indarg++)
+	{
+		indarg2 = 0;
+		while (argv[indarg][indarg2] != '\0')
+		{
+			chaineArgs[indarg3] = argv[indarg][indarg2];
+			indarg3++;
+			indarg2++;
+
+		}
+		chaineArgs[indarg3] = ' ';
+		indarg3++;
+	}
 	//Options Simples
 	char *optstring = "qsytNiEbhvla";
 	//Structure d'options
