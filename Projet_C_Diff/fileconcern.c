@@ -302,13 +302,17 @@ Dans le diff principal dès qu'un caractère diffère on envoie 1
 
 Sinon à la fin du diff principal si toujours aucun caractère ne diffère on envoie 0
 */
-void briefing(int differ, const char *firstFile, const char *secondFile)
+void briefing(int differ, const char *firstFileName, const char *secondFileName)
 {
 	if (differ == 1)
 	{
-		printf("Files %s and %s", firstFile, secondFile);
+		printf("Files %s and %s differ\n", firstFileName, secondFileName);
+		exit(EXIT_SUCCESS);
+
 	}
-	//Rien si 0
+	else{//Sinon fermeture direct
+		exit(EXIT_SUCCESS);
+	}
 }
 
 /*
@@ -430,7 +434,7 @@ char* fileToTabsOptionT(char* file, int optionSpe)
 }
 
 //Fonction diff principale (implémentation des options ultérieure) (!!!!!! il faut une variable de nb de lignes de fichier !!!!!!)
-void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption)
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption, const char* firstFileName, const char* secondFileName)
 {
 	//Déclaration des indices de parcours des tableaux
 	//et une variable pour gérer la différence
@@ -454,6 +458,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 		//si elles sont de taille égale, on appelle la fonction de comparaison des lignes
 		if (lengths[0] != lengths[1]){
 			diff = 1;
+			if (displayOption == 2)
+			{
+				briefing(1, firstFileName, secondFileName);
+			}
 		}
 		else{
 			diff = compare_line(lengths, i, j, oldFile, newFile);
@@ -461,6 +469,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 
 		if (diff == 1){
+			if (displayOption == 2)
+			{
+				briefing(1, firstFileName, secondFileName);
+			}
 			//passage au 1er indice de la ligne suivante pour les deux fichiers
 			//et recalcul de la taille de la ligne suivante
 			//les variables save correspondent à l'indice de départ pour l'affichage

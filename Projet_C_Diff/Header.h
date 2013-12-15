@@ -18,7 +18,7 @@ int nombreCaractereLigne(char *nomFichier, int numLigne);
 void afficheLigne(char *nomFichier, int numLigne);
 unsigned long GetFileSize(char *file, int optionSpe);
 
-void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption);
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption, const char* firstFileName, const char* secondFileName);
 void length_line_from_idx(const char* tab1, const  char* tab2, int id1, int id2, int* lengths);
 int compare_line(int* lengths, int idOld, int idNew, char* oldFile, char* newFile);
 
@@ -27,6 +27,6 @@ int compare_line(int* lengths, int idOld, int idNew, char* oldFile, char* newFil
 void help_option();
 int ignoreCase(char c1, char c2);
 
-void briefing(int differ, const char *firstFile, const char *secondFile);
+void briefing(int differ, const char *firstFileName, const char *secondFileName);
 
 void identicalFiles(int same, const char *firstFile, const char *secondFile);
