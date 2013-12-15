@@ -113,34 +113,50 @@ int CaractersOfFile(char* file)
 
 //Renvoie un tableau rempli de tous les caractères du fichier
 //Caractère par caractère
-char* fileToTabs(char* file, int optionSpe)
+char* fileToTabs(char* file, int optionSpe, int optionN)
 {
 	unsigned long i = 0;
 	char* buffer;
 	FILE* fileToTab = NULL;
+	unsigned long fileSize = 0;
 
 	fileToTab = OpenAFile(file, optionSpe);
-	unsigned long fileSize = GetFileSize(file, optionSpe);
-	//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
-	buffer = calloc(1, fileSize + 1);
-	if (buffer == NULL)
+	if (fileToTab == NULL && optionN == 0)
 	{
+		printf("Can not open input file : %s\n", file);
 		exit(EXIT_FAILURE);
+
+	}
+	else if (fileToTab == NULL && optionN == 1)
+	{
+		buffer = calloc(1, fileSize + 1);
+		buffer[0] = '\0';
+	}
+	else{
+		fileSize = GetFileSize(file, optionSpe);
+		//calloc = allocation d'un tableau de 1 élément de taille fileSize+1
+		buffer = calloc(1, fileSize + 1);
+		if (buffer == NULL)
+		{
+			exit(EXIT_FAILURE);
+		}
+
+		//Copie du fichier dans le buffer
+		if (1 != fread(buffer, fileSize, 1, fileToTab))
+		{
+			fclose(fileToTab);
+			free(buffer);
+			fputs("entire read fails", stderr);
+			exit(EXIT_FAILURE);
+		}
+		//fileSize = la taille du fichier mais indique aussi le dernier caractère
+		buffer[fileSize] = '\0';
+		fclose(fileToTab);
 	}
 
-	//Copie du fichier dans le buffer
-	if (1 != fread(buffer, fileSize, 1, fileToTab))
-	{
-		fclose(fileToTab);
-		free(buffer);
-		fputs("entire read fails", stderr);
-		exit(EXIT_FAILURE);
-	}
-	//fileSize = la taille du fichier mais indique aussi le dernier caractère
-	buffer[fileSize] = '\0';
-	fclose(fileToTab);
 	return buffer;
 }
+
 
 // Modifie le tableau existant et ajoute les caractères d'une ligne dedans
 void ajouterATableauLigneFichier(char *nomFichier, char *tabLigne, int numLigne, int tailleTableau)
@@ -651,12 +667,8 @@ FILE* OpenAFile(char* nomFichier, int optionOpen)
 		//Par défaut ouverture en mode binaire pour la fonction fread()
 		file = fopen(nomFichier, "rb");
 	}
-	//Verification de l'ouverture du fichier
-	if (file == NULL)
-	{
-		printf("Can not open input file : %s\n", nomFichier);
-		exit(EXIT_FAILURE);
-	}
+	//Verification de l'ouverture du fichier dans les autres fonctions cause option N
+
 	return file;
 }
 

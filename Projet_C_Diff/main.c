@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
 	*/
 	int arguments[14];
 
-	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0;
+	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0, optionN = 0, notFoundFile1 = 0, notFoundFile2 = 0;
 	char* tabFile1;
 	char* tabFile2;
 	/*
@@ -100,6 +100,7 @@ int main(int argc, char* argv[])
 			break;
 		case 'N':
 			arguments[4] = 1;
+			optionN = 1;
 			break;
 		case 'i':
 			arguments[5] = 1;
@@ -260,11 +261,15 @@ int main(int argc, char* argv[])
 			break;
 		}
 	}
-	if (fileFound == 0)
+	if (fileFound == 0 && optionN == 0)
 	{
 
 		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName1);
 		return 1;
+	}
+	else if(fileFound == 0 && optionN == 1)
+	{
+		notFoundFile1 = 1;
 	}
 
 	fileFound = 0;
@@ -276,15 +281,37 @@ int main(int argc, char* argv[])
 			break;
 		}
 	}
-	if (fileFound == 0)
+	if (fileFound == 0 && optionN == 0)
 	{
 
 		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName2);
 		return 1;
 	}
+	else if (fileFound == 0 && optionN == 1)
+	{
+		notFoundFile2 = 1;
+
+	}
 #endif // LINUX
-	unsigned long fileSizeFile1 = GetFileSize(firstFile, optionSpe);
-	unsigned long fileSizeFile2 = GetFileSize(secondFile, optionSpe);
+	unsigned long fileSizeFile1 = 0;
+	unsigned long fileSizeFile2 = 0;
+	if (notFoundFile1 == 1)
+	{
+		fileSizeFile1 = 1;
+	}
+	else
+	{
+		fileSizeFile1 = GetFileSize(firstFile, optionSpe);
+	}
+
+	if (notFoundFile2 == 1)
+	{
+
+		fileSizeFile2 = 1;
+	}
+	else{
+		fileSizeFile2 = GetFileSize(secondFile, optionSpe);
+	}
 	//Taille max du fichier à determiner
 	//100 000 000 octets valeur arbitraire
 
@@ -318,8 +345,8 @@ int main(int argc, char* argv[])
 	else
 	{
 		//Appel de fileToTabs pour récupérer les tableaux contenant l'intégralité des fichiers
-		tabFile1 = fileToTabs(firstFile, optionSpe);
-		tabFile2 = fileToTabs(secondFile, optionSpe);
+		tabFile1 = fileToTabs(firstFile, optionSpe, optionN);
+		tabFile2 = fileToTabs(secondFile, optionSpe, optionN);
 	}
 
 	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests

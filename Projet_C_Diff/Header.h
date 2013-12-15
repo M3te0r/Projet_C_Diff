@@ -7,7 +7,7 @@ FILE* OpenAFile(char* nomFichier, int optionOpen);
 unsigned long linesOfFile(char* file);
 unsigned long linesOfTab(char *tab);
 int CaractersOfFile(char* file);
-char* fileToTabs(char* file, int optionSpe);
+char* fileToTabs(char* file, int optionSpe, int optionN);
 char* fileToTabsOptionT(char* file, int optionSpe);
 char* pointFile(FILE* file);
 
