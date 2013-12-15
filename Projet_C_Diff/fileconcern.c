@@ -468,8 +468,6 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 	// lengths[0] = old ; lengths[1] = new
 	int* lengths = malloc(2 * sizeof(int));
 	lengths[0] = 0; lengths[1] = 0;
-
-	length_line_from_idx(oldFile, newFile, i, j, lengths);
 	
 	char *arg0 = "diff.exe";
 	char *arg1 = "test1.txt";
@@ -482,6 +480,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 	while (i < lengthOldFile && j < lengthNewFile)
 	{
 		lastCompLine = beginLine;
+		length_line_from_idx(oldFile, newFile, i, j, lengths);
 
 		//test simple sur la longueur des lignes, si la taille est différente, les lignes sont différentes
 		//si elles sont de taille égale, on appelle la fonction de comparaison des lignes
@@ -507,14 +506,14 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 			//les variables save correspondent à l'indice de départ pour l'affichage
 			isave = i;
 			jsave = j;
-			i += lengths[0];
-			j += lengths[1];
+			i += lengths[0]+1;
+			j += lengths[1]+1;
 			length_line_from_idx(oldFile, newFile, i, j, lengths);
 
 			while (compare_line(lengths, i, j, oldFile, newFile) == 1 && lastCompLine <= nbCommonLines){
 				lastCompLine++;
-				i += lengths[0];
-				j += lengths[1];
+				i += lengths[0]+1;
+				j += lengths[1]+1;
 				length_line_from_idx(oldFile, newFile, i, j, lengths);
 			}
 
@@ -651,6 +650,8 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					printf("%c", newFile[k]);
 			}
 		}
+		i += lengths[0] + 1;
+		j += lengths[1] + 1;
 		isave = i;
 		jsave = j;
 		beginLine++;
