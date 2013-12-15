@@ -140,7 +140,6 @@ int main(int argc, char* argv[])
 			break;
 		case 'l':
 			arguments[11] = 1;
-			displayOption = 3;
 			break;
 		case 'a':
 			arguments[12] = 1;
