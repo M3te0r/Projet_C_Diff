@@ -50,6 +50,8 @@ int main(int argc, char* argv[])
 		chaineArgs[indarg3] = ' ';
 		indarg3++;
 	}
+
+	chaineArgs[indarg3 - 1] = '\0';
 	//Options Simples
 	char *optstring = "qsytNiEbhvla";
 	//Structure d'options
