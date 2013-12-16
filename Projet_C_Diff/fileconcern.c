@@ -422,7 +422,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 	int* lengths = malloc(2 * sizeof(int));
 	lengths[0] = 0; lengths[1] = 0;
 
-	if (ldisplayOption == 3)
+	if (ldisplayOption == 1)
 	{
 		printf("\n\n%u-%u-%u %u:%u %s page 1\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs);
 	}
@@ -466,7 +466,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 			if (beginLine != lastCompLine){
 				//affichage de la ligne avec le code de changement
 				printf("%i,%ic%i,%i \n", beginLine, lastCompLine, beginLine, lastCompLine);
-				if (ldisplayOption == 3)
+				if (ldisplayOption == 1)
 				{
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
@@ -491,7 +491,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				printf("%c", oldFile[isave]);
 				for (k = isave; k < i; k++){
 					if (oldFile[k - 1] == '\n'){
-						if (ldisplayOption == 3)
+						if (ldisplayOption == 1)
 						{
 							nbDisplayLines++;
 							if (nbDisplayLines % 56 == 0)
@@ -513,7 +513,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				}
 
 				//séparation
-				if (ldisplayOption == 3)
+				if (ldisplayOption == 1)
 				{
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
@@ -526,7 +526,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				printf("\n - - - \n");
 
 				//affichage 1ère ligne 2ème fichier
-				if (ldisplayOption == 3)
+				if (ldisplayOption == 1)
 				{
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
@@ -551,7 +551,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				//affichage des lignes du nouveau fichier avec ">"
 				for (k = jsave; k < j; k++){
 					if (newFile[k - 1] == '\n'){
-						if (ldisplayOption == 3)
+						if (ldisplayOption == 1)
 						{
 							nbDisplayLines++;
 							if (nbDisplayLines % 56 == 0)
@@ -576,7 +576,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 			//AFFICHAGE : cas où une seule ligne diffère
 			else{
 				printf("%ic%i", beginLine, beginLine);
-				if (ldisplayOption == 3)
+				if (ldisplayOption == 1)
 				{
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
@@ -596,7 +596,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					printf("%c", oldFile[k]);
 
 				printf("\n - - - \n");
-				if (ldisplayOption == 3)
+				if (ldisplayOption == 1)
 				{
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
@@ -624,11 +624,15 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 		beginLine++;
 	}
 
-	while (nbDisplayLines % 60 != 0)
+	if (ldisplayOption == 1)
 	{
-		printf("\n");
-		nbDisplayLines++;
+		while (nbDisplayLines % 60 != 0)
+		{
+			printf("\n");
+			nbDisplayLines++;
+		}
 	}
+
 	free(lengths);
 }
 
