@@ -4,13 +4,6 @@
 #include <time.h>
 
 //Options fonctions of the diff command
-
-int strcomp1(const char* s1, const char* s2)
-{
-	while ((*s1++ == *s2++) && (*s1 != '\0'));
-	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
-}
-
 void help_option()
 {
 	printf("Usage: diff [OPTION]... FICHIERS\n");
@@ -58,10 +51,16 @@ unsigned long linesOfFile(char* file)
 	}
 	else
 	{
-		printf("Impossible de lire le fichier");
+		printf("Impossible de lire le fichier\n");
 		return 0;
 	}
 
+}
+
+int strcomp1(const char* s1, const char* s2)
+{
+	while ((*s1++ == *s2++) && (*s1 != '\0'));
+	return (*((unsigned char *)--s1) < *((unsigned char *)--s2)) ? -1 : (*(unsigned char *)s1 != *(unsigned char *)s2);
 }
 
 unsigned long linesOfTab(char *tab, unsigned long* length)
@@ -76,7 +75,6 @@ unsigned long linesOfTab(char *tab, unsigned long* length)
 
 		while (tab[j] != '\0')
 		{
-			//printf("%i\n", j);
 			if (tab[j] == '\n')
 			{
 				newLineCount++;
@@ -112,7 +110,7 @@ unsigned long CaractersOfFile(char* file)
 	}
 	else
 	{
-		printf("Impossible de lire le fichier");
+		printf("Impossible de lire le fichier\n");
 		return 0;
 	}
 }
@@ -157,7 +155,6 @@ char* fileToTabs(char* file, int optionSpe, int optionN)
 		buffer[fileSize] = '\0';
 		fclose(fileToTab);
 	}
-
 	return buffer;
 }
 
@@ -187,35 +184,6 @@ int retourLigneCurseur(char *nomFichier, int numLigne)
 	return nb;
 }
 
-// Renvoie le nombre de caractères pour une ligne
-int nombreCaractereLigne(char *nomFichier, int numLigne)
-{
-	FILE *fichier = NULL;
-	int caractereActuel = 0, nb = 0;
-	long position = 0;
-	fichier = fopen(nomFichier, "r");
-	position = retourLigneCurseur(nomFichier, numLigne);
-	fseek(fichier, position, SEEK_SET);
-	if (fichier != NULL)
-	{
-		while (caractereActuel != '\n')
-		{
-			if (caractereActuel == '\n' || caractereActuel == EOF)
-			{
-				break;
-			}
-			caractereActuel = fgetc(fichier);
-			nb++;
-		}
-	}
-	else
-	{
-		nb = 1;
-	}
-	fclose(fichier);
-	return nb - 1;
-}
-
 /*
 Fonction -t  : Retourne le tableau en transformant les tabulations par un espace
 CODE ASCII : TAB = 09
@@ -240,9 +208,7 @@ char* tabToSpace(char *tab, int tailleTab)
 /*Function ignoreCase
 Return 1 if c1!=c2 even ignoring case
 Return 0 if c1==c2 ignoring case
-+32 et -32 = Table ACSII maj to min or min to maj
-
-A intégrer dans le diff principal si option -i pour chaque caractère*/
++32 et -32 = Table ACSII maj to min or min to maj*/
 int ignoreCase(char c1, char c2)
 {
 	if (c1 == c2)
@@ -296,7 +262,7 @@ void identicalFiles(int same, const char *firstFile, const char *secondFile)
 {
 	if (same == 0)
 	{
-		printf("\nContent of files %s and %s are the same", firstFile, secondFile);
+		printf("\nContent of files %s and %s are the same\n", firstFile, secondFile);
 	}
 	//Rien si different
 }
@@ -317,7 +283,7 @@ unsigned long GetFileSize(char *file, int optionSpe)
 	}
 	else
 	{
-		printf("Impossible de lire le fichier");
+		printf("Impossible de lire le fichier\n");
 		return 0;
 	}
 }
@@ -347,7 +313,7 @@ char* fileToTabsOptionT(char* file, int optionSpe)
 	{
 		fclose(fileToTab);
 		free(buffer);
-		fputs("entire read fails", stderr);
+		fputs("entire read fails\n", stderr);
 		exit(EXIT_FAILURE);
 	}
 	//fileSize = la taille du fichier mais indique aussi le dernier caractère
@@ -483,7 +449,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					}
 				}
 				//gestion du cas où la première ligne est différente (on affiche la première ligne avant le traitement)
-				printf("<");
+				printf("< ");
 				if (displayOption == 1)
 				{
 					printf("\t");
@@ -507,7 +473,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 								nbDisplayLines = 0;
 							}
 						}
-						printf("<");
+						printf("< ");
 						if (displayOption == 1)
 						{
 							printf("\t");
@@ -542,7 +508,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 						nbDisplayLines = 0;
 					}
 				}
-				printf(">");
+				printf("> ");
 				if (ldisplayOption == 1)
 				{
 					printf("\t");
@@ -567,7 +533,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 								nbDisplayLines = 0;
 							}
 						}
-						printf(">");
+						printf("> ");
 						if (displayOption == 1)
 						{
 							printf("\t");
@@ -592,7 +558,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 						nbDisplayLines = 0;
 					}
 				}
-				printf("<");
+				printf("< ");
 				if (displayOption == 1)
 				{
 					printf("\t");
@@ -613,7 +579,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					}
 				}
 
-				printf(">");
+				printf("> ");
 				if (displayOption == 1)
 				{
 					printf("\t");

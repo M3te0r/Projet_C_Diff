@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 
 	chaineArgs[indarg3 - 1] = '\0';
 	//Simple options
-	char *optstring = "qsytNiEbhvlaT";
+	char *optstring = "qstNihvlaT";
 	//Structure d'options
 	/*la colonne name comprend l'option longue
 	has_arg à 0 si l'option ne prend pas d'arguments/sous-options
@@ -65,8 +65,6 @@ int main(int argc, char* argv[])
 		{ "expand-tables", 0, NULL, 't' },
 		{ "new-file", 0, NULL, 'N' },
 		{ "ignore-case", 0, NULL, 'i' },
-		{ "ignore-tab-expansion", 0, NULL, 'E' },
-		{ "ignore-space-change", 0, NULL, 'b' },
 		{ "help", 0, NULL, 'h' },
 		{ "version", 0, NULL, 'v' },
 		{ "normal", 0, NULL, 'O' },
@@ -87,18 +85,14 @@ int main(int argc, char* argv[])
 	index 2 = -t || --expand-tables
 	index 3 = -N || --new-file
 	index 4 = -i || --ignore-case
-	index 5 = -E || --ignore-tab-expansion
-	index 6 = -b || --ignore-space-change
-	index 7 = -h || --help
-	index 8 = -v || --version
-	index 9 = --normal
-	index 10 = -l || --paginate
-	index 11 = -a || --text
-	index 12 = -T || --initial-tab
-
-	Autres options à envisager...
+	index 5 = -h || --help
+	index 6 = -v || --version
+	index 7 = --normal
+	index 8 = -l || --paginate
+	index 9 = -a || --text
+	index 10 = -T || --initial-tab
 	*/
-	int arguments[13];
+	int arguments[11];
 
 	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0, optionN = 0, notFoundFile1 = 0, notFoundFile2 = 0, ldisplayOption = 0, optionCase = 0;
 	char* tabFile1;
@@ -112,7 +106,6 @@ int main(int argc, char* argv[])
 	{
 		switch (option)
 		{
-
 		case 'q':
 			arguments[0] = 1;
 			displayOption = 2;
@@ -132,18 +125,12 @@ int main(int argc, char* argv[])
 			arguments[4] = 1;
 			optionCase = 1;
 			break;
-		case 'E':
-			arguments[5] = 1;
-			break;
-		case 'b':
-			arguments[6] = 1;
-			break;
 		case 'h':
-			arguments[7] = 1;
+			arguments[5] = 1;
 			help_option();
 			return 0;
 		case 'v':
-			arguments[8] = 1;
+			arguments[6] = 1;
 			printf("diff 1.0\nCopyright (C) 2013 ESGI\nCeci est un logiciel libre: vous %ctes libre de le changer et de le redistribuer.", 136);
 			printf("Il n'y a pas de GARANTIE, dans les limites permises par la loi\n");
 			printf("Version 1.0\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
@@ -158,24 +145,23 @@ int main(int argc, char* argv[])
 					printf("%s", esgiChain);
 
 				}
-
 				fclose(esgi);
 				printf("\n");
 			}
 			return 0;
 		case 'O':
-			arguments[9] = 1;
+			arguments[7] = 1;
 			break;
 		case 'l':
-			arguments[10] = 1;
+			arguments[8] = 1;
 			ldisplayOption = 1;
 			break;
 		case 'a':
-			arguments[11] = 1;
+			arguments[9] = 1;
 			optionSpe = 1;
 			break;
 		case 'T':
-			arguments[12] = 1;
+			arguments[10] = 1;
 			displayOption = 1;
 			break;
 		default:
@@ -206,8 +192,6 @@ int main(int argc, char* argv[])
 	char* firstFile = argv[1];
 	char* secondFile = argv[2];
 #ifdef LINUX
-
-
 	char* takeDir1 = NULL;
 	char* takeDir2 = NULL;
 	i = 0;
@@ -239,15 +223,12 @@ int main(int argc, char* argv[])
 	{
 		takeDir1[i] = firstFile[i];
 	}
-
-
 	i = 0;
 	savedCars = 0;
 	while (secondFile[i] != '\0')
 	{
 		if (secondFile[i] == '/')
 		{
-
 			savedCars = i;
 		}
 		i++;
@@ -274,7 +255,7 @@ int main(int argc, char* argv[])
 	rep2 = opendir(takeDir2);
 	if (rep1 == NULL || rep2 == NULL)
 	{
-		printf("Can not open such directory");
+		printf("Can not open such directory\n");
 		exit(1);
 	}
 	int fileFound = 0;
@@ -290,7 +271,6 @@ int main(int argc, char* argv[])
 	}
 	if (fileFound == 0 && optionN == 0)
 	{
-
 		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName1);
 		return 1;
 	}
@@ -310,14 +290,12 @@ int main(int argc, char* argv[])
 	}
 	if (fileFound == 0 && optionN == 0)
 	{
-
 		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName2);
 		return 1;
 	}
 	else if (fileFound == 0 && optionN == 1)
 	{
 		notFoundFile2 = 1;
-
 	}
 #endif // LINUX
 	unsigned long fileSizeFile1 = 0;
@@ -358,7 +336,6 @@ int main(int argc, char* argv[])
 		//char* cara = pointFile(file1); avec un boucle while != EOF sur les deux fichiers
 
 		fclose(file1);
-
 	}
 	if (fileSizeFile2 > 100000000)
 	{
