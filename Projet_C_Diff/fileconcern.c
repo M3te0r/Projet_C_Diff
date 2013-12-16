@@ -160,27 +160,6 @@ char* fileToTabs(char* file, int optionSpe, int optionN)
 	return buffer;
 }
 
-
-// Modifie le tableau existant et ajoute les caractères d'une ligne dedans
-void ajouterATableauLigneFichier(char *nomFichier, char *tabLigne, int numLigne, int tailleTableau)
-{
-	FILE *fichier = NULL;
-	int caractereActuel = 0, i = 0;
-	long position = 0;
-	fichier = fopen(nomFichier, "r");
-	position = retourLigneCurseur(nomFichier, numLigne);
-	fseek(fichier, position, SEEK_SET);
-	if (fichier != NULL)
-	{
-		for (i = 0; i<tailleTableau; i++)
-		{
-			caractereActuel = fgetc(fichier);
-			tabLigne[i] = caractereActuel;
-		}
-	}
-	fclose(fichier);
-}
-
 // Retourne la position du curseur au début de la ligne voulue
 int retourLigneCurseur(char *nomFichier, int numLigne)
 {
@@ -234,34 +213,6 @@ int nombreCaractereLigne(char *nomFichier, int numLigne)
 	}
 	fclose(fichier);
 	return nb - 1;
-}
-
-// Affichage de la ligne voulue
-void afficheLigne(char *nomFichier, int numLigne)
-{
-	FILE *fichier = NULL;
-	int caractereActuel = 0, i = 0;
-	long position = 0;
-	fichier = fopen(nomFichier, "r");
-	position = retourLigneCurseur(nomFichier, numLigne);
-	fseek(fichier, position, SEEK_SET);
-	if (fichier != NULL)
-	{
-		while (caractereActuel != '\n' || caractereActuel == EOF)
-		{
-			if (caractereActuel == EOF)
-			{
-				break;
-			}
-			caractereActuel = fgetc(fichier);
-			// On affiche tous les caractères sauf les '\n' (retour à la ligne)
-			if (caractereActuel != '\n')
-			{
-				printf("%c", caractereActuel);
-			}
-		}
-	}
-	fclose(fichier);
 }
 
 /*

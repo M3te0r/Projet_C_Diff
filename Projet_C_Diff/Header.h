@@ -12,10 +12,8 @@ char* fileToTabsOptionT(char* file, int optionSpe);
 char* pointFile(FILE* file);
 
 int compteLigneFichier(char *nomFichier);
-void ajouterATableauLigneFichier(char *nomFichier, char *tabLigne, int numLigne, int tailleTableau);
 int retourLigneCurseur(char *nomFichier, int numLigne);
 int nombreCaractereLigne(char *nomFichier, int numLigne);
-void afficheLigne(char *nomFichier, int numLigne);
 unsigned long GetFileSize(char *file, int optionSpe);
 
 void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption, const char* firstFileName, const char* secondFileName, const char *chaineArgs, int ldisplayOption);
