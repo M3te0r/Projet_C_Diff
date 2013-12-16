@@ -5,7 +5,7 @@ int strcomp1(const char* s1, const char* s2);
 //Prototypes des fonctions de opérant sur les fichiers
 FILE* OpenAFile(char* nomFichier, int optionOpen);
 unsigned long linesOfFile(char* file);
-unsigned long linesOfTab(char *tab);
+unsigned long linesOfTab(char *tab, unsigned long* length);
 int CaractersOfFile(char* file);
 char* fileToTabs(char* file, int optionSpe, int optionN);
 char* fileToTabsOptionT(char* file, int optionSpe);

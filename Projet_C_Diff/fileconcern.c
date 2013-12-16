@@ -119,7 +119,6 @@ int CaractersOfFile(char* file)
 //Caractère par caractère
 char* fileToTabs(char* file, int optionSpe, int optionN)
 {
-	unsigned long i = 0;
 	char* buffer;
 	FILE* fileToTab = NULL;
 	unsigned long fileSize = 0;
