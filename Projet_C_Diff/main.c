@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
 	index 9 = -a || --text
 	index 10 = -T || --initial-tab
 	*/
-	int arguments[11];
+	int *arguments = calloc(sizeof(int), 11);
 
 	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0, optionN = 0, notFoundFile1 = 0, notFoundFile2 = 0, ldisplayOption = 0, optionCase = 0;
 	char* tabFile1;
