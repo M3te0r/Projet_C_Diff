@@ -247,7 +247,7 @@ int ignoreCase(char c1, char c2)
 {
 	if (c1 == c2)
 	{
-		return 1;
+		return 0;
 	}
 
 	if (((c1 >= 65 && c1 <= 90) || (c1 >= 97 && c1 <= 122)) && ((c2 >= 65 && c2 <= 90) || (c2 >= 97 && c2 <= 122)))
@@ -405,7 +405,7 @@ char* fileToTabsOptionT(char* file, int optionSpe)
 }
 
 //Fonction diff principale (implémentation des options ultérieure) (!!!!!! il faut une variable de nb de lignes de fichier !!!!!!)
-void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption, const char* firstFileName, const char* secondFileName, const char *chaineArgs, int ldisplayOption)
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption, const char* firstFileName, const char* secondFileName, const char *chaineArgs, int ldisplayOption, int optionCase)
 {
 	//Déclaration des indices de parcours des tableaux
 	//et une variable pour gérer la différence
@@ -443,7 +443,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 			diff = 1;
 		}
 		else{
-			diff = compare_line(lengths, i, j, oldFile, newFile);
+			diff = compare_line(lengths, i, j, oldFile, newFile, optionCase);
 		}
 
 
@@ -461,7 +461,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 			j += lengths[1] + 1;
 			length_line_from_idx(oldFile, newFile, i, j, lengths);
 
-			while (compare_line(lengths, i, j, oldFile, newFile) == 1 && lastCompLine < nbCommonLines && i < lengthOldFile && j < lengthNewFile){
+			while (compare_line(lengths, i, j, oldFile, newFile, optionCase) == 1 && lastCompLine < nbCommonLines && i < lengthOldFile && j < lengthNewFile){
 				lastCompLine++;
 				i += lengths[0] + 1;
 				j += lengths[1] + 1;
@@ -543,7 +543,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					}
 				}
 				printf(">");
-				if (ldisplayOption == 3)
+				if (ldisplayOption == 1)
 				{
 					printf("\t");
 				}
@@ -658,14 +658,23 @@ void length_line_from_idx(const char* tab1, const  char* tab2, int id1, int id2,
 		id2++;
 	}
 }
-
 //fonction de comparaison de 2 lignes, utile seulement dans le cas où les lignes sont de taille égale
-int compare_line(int* lengths, int idOld, int idNew, char* oldFile, char* newFile){
+int compare_line(int* lengths, int idOld, int idNew, char* oldFile, char* newFile, int optionCase){
 	int diff = 0;
-	int imax = idOld + lengths[0], jmax = idNew + lengths[1];
+	int imax = idOld + lengths[0], jmax = idNew + lengths[1], diffCase = 0;
 	while ((diff == 0) && (idOld < imax) && (idNew < jmax)){
 		if (oldFile[idOld] != newFile[idNew]){
-			diff = 1;
+			if (optionCase == 1)
+			{
+				if ((diffCase = ignoreCase(oldFile[idOld], newFile[idNew]) == 1))
+				{
+					diff = 1;
+				}
+			}
+			else
+			{
+				diff = 1;
+			}
 		}
 		idOld++;
 		idNew++;

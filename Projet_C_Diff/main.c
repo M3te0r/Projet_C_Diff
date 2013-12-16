@@ -18,12 +18,9 @@ int main(int argc, char* argv[])
 		printf("diff: Pour en savoir davantage, utilisez: %c diff -h/--help %c.\n", 174, 175);
 		return 1;
 	}
-
-
-
 	int countCharArgs = 0, indarg = 0, indarg2 = 0, indarg3 = 0;
 
-	for (indarg = 0; indarg<argc; indarg++)
+	for (indarg = 0; indarg < argc; indarg++)
 	{
 		indarg2 = 0;
 		while (argv[indarg][indarg2] != '\0')
@@ -37,7 +34,7 @@ int main(int argc, char* argv[])
 	char *chaineArgs = NULL;
 	chaineArgs = calloc(1, countCharArgs + 1);
 
-	for (indarg = 0; indarg<argc; indarg++)
+	for (indarg = 0; indarg < argc; indarg++)
 	{
 		indarg2 = 0;
 		while (argv[indarg][indarg2] != '\0')
@@ -103,7 +100,7 @@ int main(int argc, char* argv[])
 	*/
 	int arguments[13];
 
-	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0, optionN = 0, notFoundFile1 = 0, notFoundFile2 = 0, ldisplayOption = 0;
+	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0, optionN = 0, notFoundFile1 = 0, notFoundFile2 = 0, ldisplayOption = 0, optionCase = 0;
 	char* tabFile1;
 	char* tabFile2;
 	/*
@@ -133,6 +130,7 @@ int main(int argc, char* argv[])
 			break;
 		case 'i':
 			arguments[4] = 1;
+			optionCase = 1;
 			break;
 		case 'E':
 			arguments[5] = 1;
@@ -188,7 +186,7 @@ int main(int argc, char* argv[])
 	}
 
 	//Count options to take filenames
-	for (i = 1; i<argc; i++)
+	for (i = 1; i < argc; i++)
 	{
 		if (argv[i][0] == '-')
 		{
@@ -198,9 +196,9 @@ int main(int argc, char* argv[])
 
 	/*if ((arguments[10] == 1 && arguments[2] == 1))
 	{
-		printf("diff: options de style de sortie conflictuelles\n");
-		printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n", 174, 175);
-		return 0;
+	printf("diff: options de style de sortie conflictuelles\n");
+	printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n", 174, 175);
+	return 0;
 	}*/
 	//Filenames are taken after the option(s)
 	argv[1] = argv[countOptions + 1];
@@ -296,7 +294,7 @@ int main(int argc, char* argv[])
 		printf("diff: %s: Aucun fichier ou dossier de ce type\n", fileName1);
 		return 1;
 	}
-	else if(fileFound == 0 && optionN == 1)
+	else if (fileFound == 0 && optionN == 1)
 	{
 		notFoundFile1 = 1;
 	}
@@ -400,7 +398,7 @@ int main(int argc, char* argv[])
 	{
 		commonLines = other;
 	}
-	diff(tabFile1, tabFile2, nb1, nb2, commonLines, displayOption, firstFile, secondFile, chaineArgs, ldisplayOption);
+	diff(tabFile1, tabFile2, nb1, nb2, commonLines, displayOption, firstFile, secondFile, chaineArgs, ldisplayOption, optionCase);
 	printf("\n");
 	return 0;
 }
