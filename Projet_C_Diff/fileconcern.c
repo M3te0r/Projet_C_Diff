@@ -568,7 +568,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				printf("\n - - - \n");
 
 				//affichage 1ère ligne 2ème fichier
-				printf("<");
+				printf(">");
 				if (displayOption == 1)
 				{
 					printf("\t");
