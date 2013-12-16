@@ -586,7 +586,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 						nbDisplayLines = 0;
 					}
 				}
-				printf("<");
+				printf(">");
 				if (ldisplayOption == 3)
 				{
 					printf("\t");
