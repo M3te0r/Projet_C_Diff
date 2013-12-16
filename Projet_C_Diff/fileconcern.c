@@ -646,11 +646,13 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 //à partir de l'indice passé (!!!!! gérer le EOF !!!!!)
 void length_line_from_idx(const char* tab1, const  char* tab2, int id1, int id2, int* lengths)
 {
+	lengths[0] = 0;
 	while (tab1[id1] != '\n' && tab1[id1] != '\0'){
 		lengths[0]++;
 		id1++;
 	}
 
+	lengths[1] = 0;
 	while (tab2[id2] != '\n' && tab2[id2] != '\0'){
 		lengths[1]++;
 		id2++;
