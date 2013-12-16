@@ -65,7 +65,6 @@ int main(int argc, char* argv[])
 		/*name      has_arg  flag       val*/
 		{ "brief", 0, NULL, 'q' },
 		{ "report-identical-files", 0, NULL, 's' },
-		{ "side-by-side", 0, NULL, 'y' },
 		{ "expand-tables", 0, NULL, 't' },
 		{ "new-file", 0, NULL, 'N' },
 		{ "ignore-case", 0, NULL, 'i' },
@@ -88,22 +87,21 @@ int main(int argc, char* argv[])
 	/*
 	index 0 = -q || --brief
 	index 1 = -s || --report-identical-files
-	index 2 = -y || --side-by-side
-	index 3 = -t || --expand-tables
-	index 4 = -N || --new-file
-	index 5 = -i || --ignore-case
-	index 6 = -E || --ignore-tab-expansion
-	index 7 = -b || --ignore-space-change
-	index 8 = -h || --help
-	index 9 = -v || --version
-	index 10 = --normal
-	index 11 = -l || --paginate
-	index 12 = -a || --text
-	index 13 = -T || --initial-tab
+	index 2 = -t || --expand-tables
+	index 3 = -N || --new-file
+	index 4 = -i || --ignore-case
+	index 5 = -E || --ignore-tab-expansion
+	index 6 = -b || --ignore-space-change
+	index 7 = -h || --help
+	index 8 = -v || --version
+	index 9 = --normal
+	index 10 = -l || --paginate
+	index 11 = -a || --text
+	index 12 = -T || --initial-tab
 
 	Autres options à envisager...
 	*/
-	int arguments[14];
+	int arguments[13];
 
 	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0, optionN = 0, notFoundFile1 = 0, notFoundFile2 = 0, ldisplayOption = 0;
 	char* tabFile1;
@@ -125,32 +123,29 @@ int main(int argc, char* argv[])
 		case 's':
 			arguments[1] = 1;
 			break;
-		case 'y':
-			arguments[2] = 1;
-			break;
 		case 't':
-			arguments[3] = 1;
+			arguments[2] = 1;
 			optionT = 1;
 			break;
 		case 'N':
-			arguments[4] = 1;
+			arguments[3] = 1;
 			optionN = 1;
 			break;
 		case 'i':
-			arguments[5] = 1;
+			arguments[4] = 1;
 			break;
 		case 'E':
-			arguments[6] = 1;
+			arguments[5] = 1;
 			break;
 		case 'b':
-			arguments[7] = 1;
+			arguments[6] = 1;
 			break;
 		case 'h':
-			arguments[8] = 1;
+			arguments[7] = 1;
 			help_option();
 			return 0;
 		case 'v':
-			arguments[9] = 1;
+			arguments[8] = 1;
 			printf("diff 0.1\nCopyright (C) 2013 ESGI\nCeci est un logiciel libre: vous %ctes libre de le changer et de le redistribuer.", 136);
 			printf("Il n'y a pas de GARANTIE, dans les limites persmises par la loi\n");
 			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
@@ -171,18 +166,18 @@ int main(int argc, char* argv[])
 			}
 			return 0;
 		case 'd':
-			arguments[10] = 1;
+			arguments[9] = 1;
 			break;
 		case 'l':
-			arguments[11] = 1;
+			arguments[10] = 1;
 			ldisplayOption = 1;
 			break;
 		case 'a':
-			arguments[12] = 1;
+			arguments[11] = 1;
 			optionSpe = 1;
 			break;
 		case 'T':
-			arguments[13] = 1;
+			arguments[12] = 1;
 			displayOption = 1;
 			break;
 		default:
@@ -201,12 +196,12 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	if ((arguments[10] == 1 && arguments[2] == 1))
+	/*if ((arguments[10] == 1 && arguments[2] == 1))
 	{
 		printf("diff: options de style de sortie conflictuelles\n");
 		printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n", 174, 175);
 		return 0;
-	}
+	}*/
 	//Filenames are taken after the option(s)
 	argv[1] = argv[countOptions + 1];
 	argv[2] = argv[countOptions + 2];
