@@ -367,15 +367,16 @@ int main(int argc, char* argv[])
 	}*/
 	unsigned long nb1 = 0;
 	unsigned long nb2 = 0;
-	int commonLines = 0, other = 0;
-	commonLines = linesOfTab(tabFile1, &nb1);
+	int commonLines = 0, linesNew = 0, linesOld = 0;
+	linesOld = linesOfTab(tabFile1, &nb1);
 
-	other = linesOfTab(tabFile2, &nb2);
-	if (commonLines > other)
+	linesNew = linesOfTab(tabFile2, &nb2);
+	commonLines = linesOld;
+	if (commonLines > linesNew)
 	{
-		commonLines = other;
+		commonLines = linesNew;
 	}
-	diff(tabFile1, tabFile2, nb1, nb2, commonLines, displayOption, firstFile, secondFile, chaineArgs, ldisplayOption, optionCase);
+	diff(tabFile1, tabFile2, nb1, nb2, commonLines, displayOption, firstFile, secondFile, chaineArgs, ldisplayOption, optionCase, linesOld, linesNew);
 	printf("\n");
 	return 0;
 }

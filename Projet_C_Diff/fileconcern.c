@@ -371,11 +371,13 @@ char* fileToTabsOptionT(char* file, int optionSpe)
 }
 
 //Fonction diff principale (implémentation des options ultérieure) (!!!!!! il faut une variable de nb de lignes de fichier !!!!!!)
-void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption, const char* firstFileName, const char* secondFileName, const char *chaineArgs, int ldisplayOption, int optionCase)
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption, 
+	const char* firstFileName, const char* secondFileName, const char *chaineArgs, int ldisplayOption, int optionCase,
+	int nbLinesOld, int nbLinesNew)
 {
 	//Déclaration des indices de parcours des tableaux
 	//et une variable pour gérer la différence
-	int i = 0, j = 0, k;
+	int i = 0, j = 0, k, temp1 = 0, temp2 = 0;;
 	int isave = 0, jsave = 0;
 	int beginLine = 1, lastCompLine = 1;
 	int diff = 0;
@@ -460,7 +462,6 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					isave++;
 				}
 				//affichage des lignes du 1er fichier avec <"
-				printf("%c", oldFile[isave]);
 				for (k = isave; k < i; k++){
 					if (oldFile[k - 1] == '\n'){
 						if (ldisplayOption == 1)
@@ -518,7 +519,6 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					printf("%c", newFile[jsave]);
 					jsave++;
 				}
-				printf("%c", newFile[jsave]);
 
 				//affichage des lignes du nouveau fichier avec ">"
 				for (k = jsave; k < j; k++){
@@ -589,10 +589,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					printf("%c", newFile[k]);
 			}
 		}
+		temp1 = i;
+		temp2 = j;
 		i += lengths[0] + 1;
 		j += lengths[1] + 1;
-		isave = i;
-		jsave = j;
 		beginLine++;
 	}
 
@@ -602,6 +602,66 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 		{
 			printf("\n");
 			nbDisplayLines++;
+		}
+	}
+
+	//GESTION ADD ET DELETE
+
+	//cas où le nouveau fichier contient plus de lignes -> add
+	if (nbLinesNew > nbLinesOld){
+		if (nbLinesNew == nbLinesOld + 1){
+			printf("%da%d\n", (nbCommonLines + 1), (nbCommonLines + 1));
+			printf(">");
+			while (newFile[temp2] != '\0'){
+				printf("%c", newFile[temp2]);
+				temp2++;
+			}
+		}
+		else{
+			printf("%da%d,%d\n", (nbCommonLines + 1), (nbCommonLines + 1), nbLinesNew);
+			printf(">");
+			while (newFile[temp2] != '\n'){
+				printf("%c", newFile[temp2]);
+				temp2++;
+			}
+			printf("%c", newFile[temp2]);
+			temp2++;
+
+			for (k = temp2; newFile[k] != '\0'; k++){
+				if (newFile[k - 1] == '\n'){
+					printf(">");
+				}
+				printf("%c", newFile[k]);
+			}
+		}
+	}
+
+	//cas où le nouveau fichier contient moins de lignes -> delete
+	else if (nbLinesOld > nbLinesNew){
+		if (nbLinesNew == nbLinesOld - 1){
+			printf("%dd%d\n", (nbCommonLines + 1), (nbCommonLines));
+			printf("<");
+			while (oldFile[temp1] != '\0'){
+				printf("%c", oldFile[temp1]);
+				temp1++;
+			}
+		}
+		else{
+			printf("%d,%dd%d\n", (nbCommonLines + 1), (nbLinesOld), nbCommonLines);
+			printf("<");
+			while (oldFile[temp1] != '\n'){
+				printf("%c", oldFile[temp1]);
+				temp1++;
+			}
+			printf("%c", oldFile[temp1]);
+			temp1++;
+
+			for (k = temp1; oldFile[k] != '\0'; k++){
+				if (oldFile[k - 1] == '\n'){
+					printf("<");
+				}
+				printf("%c", oldFile[k]);
+			}
 		}
 	}
 
