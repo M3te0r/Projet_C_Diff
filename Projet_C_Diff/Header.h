@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-//Prototypes des fonctions
+//Functions prototypes
 int strcomp1(const char* s1, const char* s2);
 //Prototypes des fonctions de opérant sur les fichiers
 FILE* OpenAFile(char* nomFichier, int optionOpen);

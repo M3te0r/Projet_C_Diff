@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 	}
 
 	chaineArgs[indarg3 - 1] = '\0';
-	//Options Simples
+	//Simple options
 	char *optstring = "qsytNiEbhvlaT";
 	//Structure d'options
 	/*la colonne name comprend l'option longue
@@ -218,9 +218,9 @@ int main(int argc, char* argv[])
 	char* takeDir1 = NULL;
 	char* takeDir2 = NULL;
 	i = 0;
-	//Position du dernier caractère '/' pour avoir un chemin de répertoire
+	//Position of last '/' to take full path
 	int savedCars = 0;
-	//Nombre de caractères du chemin complet
+	//Number of characters of full path
 	int lengthChem = 0;
 	while (firstFile[i] != '\0')
 	{

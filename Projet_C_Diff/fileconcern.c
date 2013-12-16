@@ -90,7 +90,7 @@ unsigned long linesOfTab(char *tab, unsigned long* length)
 	return newLineCount;
 }
 
-//Renvoie le nombre de caractères dans un fichier
+//Return the number of characters in a file
 int CaractersOfFile(char* file)
 {
 	FILE* fileParam = NULL;
@@ -114,9 +114,8 @@ int CaractersOfFile(char* file)
 		return -1;
 	}
 }
-
-//Renvoie un tableau rempli de tous les caractères du fichier
-//Caractère par caractère
+//Return a tab fulled by all the characters of file
+//char per char
 char* fileToTabs(char* file, int optionSpe, int optionN)
 {
 	char* buffer;
@@ -144,7 +143,7 @@ char* fileToTabs(char* file, int optionSpe, int optionN)
 			exit(EXIT_FAILURE);
 		}
 
-		//Copie du fichier dans le buffer
+		//Copy of file to the buffer tab
 		if (1 != fread(buffer, fileSize, 1, fileToTab))
 		{
 			fclose(fileToTab);
@@ -236,10 +235,10 @@ char* tabToSpace(char *tab, int tailleTab)
 	return tab;
 }
 
-/*Fonction ignoreCase
-Renvoie 1 si c1!=c2 même en ignorant la casse
-Renvoie 0 si c1==c2 en ignorant la casse
-+32 et -32 = Table ACSII maj vers min ou min vers maj
+/*Function ignoreCase
+Return 1 if c1!=c2 even ignoring case
+Return 0 if c1==c2 ignoring case
++32 et -32 = Table ACSII maj to min or min to maj
 
 A intégrer dans le diff principal si option -i pour chaque caractère*/
 int ignoreCase(char c1, char c2)
@@ -300,7 +299,7 @@ void identicalFiles(int same, const char *firstFile, const char *secondFile)
 	//Rien si different
 }
 
-//Renvoie la taille du fichier en octet
+//Return the file size in bytes (octet)
 unsigned long GetFileSize(char *file, int optionSpe)
 {
 	FILE* fileSize = NULL;
@@ -422,6 +421,11 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 	int* lengths = malloc(2 * sizeof(int));
 	lengths[0] = 0; lengths[1] = 0;
 
+	/*
+	paginate option prints a header of five lines : 2 empty lines the header(time, arguments, page) and 2 empty lines
+	it prints 56 lines of text
+	and a footer of five empty lines
+	*/
 	if (ldisplayOption == 1)
 	{
 		printf("\n\n%u-%u-%u %u:%u %s page 1\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs);
