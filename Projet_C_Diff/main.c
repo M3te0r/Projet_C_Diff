@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
 		{ "ignore-space-change", 0, NULL, 'b' },
 		{ "help", 0, NULL, 'h' },
 		{ "version", 0, NULL, 'v' },
-		{ "normal", 0, NULL, 'd' },
+		{ "normal", 0, NULL, 'O' },
 		{ "paginate", 0, NULL, 'l' },
 		{ "text", 0, NULL, 'a' },
 		{ "initial-tab", 0, NULL, 'T' },
@@ -146,9 +146,9 @@ int main(int argc, char* argv[])
 			return 0;
 		case 'v':
 			arguments[8] = 1;
-			printf("diff 0.1\nCopyright (C) 2013 ESGI\nCeci est un logiciel libre: vous %ctes libre de le changer et de le redistribuer.", 136);
-			printf("Il n'y a pas de GARANTIE, dans les limites persmises par la loi\n");
-			printf("Version 0.1 pre-alpha\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
+			printf("diff 1.0\nCopyright (C) 2013 ESGI\nCeci est un logiciel libre: vous %ctes libre de le changer et de le redistribuer.", 136);
+			printf("Il n'y a pas de GARANTIE, dans les limites permises par la loi\n");
+			printf("Version 1.0\n\nProgramme %ccrit par :\nPequin Mathieu\nBlondeau Guillaume\nFayette Alexandre", 130);
 			FILE* esgi = NULL;
 			char esgiChain[1000];
 			esgi = fopen("esgi_logo.txt", "r");
@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
 				printf("\n");
 			}
 			return 0;
-		case 'd':
+		case 'O':
 			arguments[9] = 1;
 			break;
 		case 'l':

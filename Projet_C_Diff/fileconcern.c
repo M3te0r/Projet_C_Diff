@@ -20,6 +20,9 @@ void help_option()
 	printf("-q, --brief                   Indiquer seulement si les fichiers diff%crent\n", 130);
 	printf("-s, --report-identical-files  Indiquer si les deux fichiers sont identiques\n");
 	printf("-t, --expand-tabs             %ctaler les tabulateurs en espaces dans la sortie\n", 144);
+	print("-T, --initial-tab            Aligner les tabulateurs en préfixant un tabulateur\n");
+	printf("-l, --paginate                Pagine la sortie du diff, une page est par défaut à 66 lignes dont 56 lignes de textes\n");
+	printf("-N, --new-file                Traiter les fichiers absents comme des fichiers vides");
 	printf("-i, --ignore-case            Ignorer les diff%crences de casses dans le contenu des fichiers\n", 130);
 	printf("-a, --text                    Traiter tous les fichiers comme des textes\n");
 	printf("-h, --help                    Afficher cette aide et terminer\n");
