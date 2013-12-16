@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
 
 	chaineArgs[indarg3 - 1] = '\0';
 	//Options Simples
-	char *optstring = "qsytNiEbhvla";
+	char *optstring = "qsytNiEbhvlaT";
 	//Structure d'options
 	/*la colonne name comprend l'option longue
 	has_arg à 0 si l'option ne prend pas d'arguments/sous-options
@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
 	*/
 	int arguments[14];
 
-	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0, optionN = 0, notFoundFile1 = 0, notFoundFile2 = 0;
+	int i, countOptions = 0, optionT = 0, optionSpe = 0, displayOption = 0, optionN = 0, notFoundFile1 = 0, notFoundFile2 = 0, ldisplayOption = 0;
 	char* tabFile1;
 	char* tabFile2;
 	/*
@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
 			break;
 		case 'l':
 			arguments[11] = 1;
-			displayOption = 3;
+			ldisplayOption = 1;
 			break;
 		case 'a':
 			arguments[12] = 1;
@@ -395,18 +395,17 @@ int main(int argc, char* argv[])
 	printf("%c", tabFile1[j]);
 	j++;
 	}*/
-	/*unsigned long lines1 = linesOfTab(tabFile1);
-	unsigned long lines2 = linesOfTab(tabFile2);
-	unsigned long common = 0;
-	if(lines1<lines2)
+	unsigned long nb1 = 0;
+	unsigned long nb2 = 0;
+	int commonLines = 0, other = 0;
+	commonLines = linesOfTab(tabFile1, &nb1);
+
+	other = linesOfTab(tabFile2, &nb2);
+	if (commonLines > other)
 	{
-		common = lines1;
+		commonLines = other;
 	}
-	else
-	{
-		common = lines2;
-	}
-	diff(tabFile1,tabFile2, fileSizeFile1, fileSizeFile2, common, 3,firstFile,secondFile);
-	printf("\n");*/
+	diff(tabFile1, tabFile2, nb1, nb2, commonLines, displayOption, firstFile, secondFile, chaineArgs, ldisplayOption);
+	printf("\n");
 	return 0;
 }
