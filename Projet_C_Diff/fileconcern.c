@@ -56,7 +56,7 @@ unsigned long linesOfFile(char* file)
 	else
 	{
 		printf("Impossible de lire le fichier");
-		return -1;
+		return 0;
 	}
 
 }
@@ -90,7 +90,7 @@ unsigned long linesOfTab(char *tab, unsigned long* length)
 }
 
 //Return the number of characters in a file
-int CaractersOfFile(char* file)
+unsigned long CaractersOfFile(char* file)
 {
 	FILE* fileParam = NULL;
 	int  c = 0;
@@ -110,7 +110,7 @@ int CaractersOfFile(char* file)
 	else
 	{
 		printf("Impossible de lire le fichier");
-		return -1;
+		return 0;
 	}
 }
 //Return a tab fulled by all the characters of file
@@ -315,7 +315,7 @@ unsigned long GetFileSize(char *file, int optionSpe)
 	else
 	{
 		printf("Impossible de lire le fichier");
-		return -1;
+		return 0;
 	}
 }
 
