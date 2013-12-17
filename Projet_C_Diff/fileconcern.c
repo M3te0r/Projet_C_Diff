@@ -439,6 +439,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					printf("%c", oldFile[isave]);
 					isave++;
 				}
+				printf("\n");
 				//affichage des lignes du 1er fichier avec <"
 				for (k = isave; k < i; k++){
 					if (oldFile[k - 1] == '\n'){
