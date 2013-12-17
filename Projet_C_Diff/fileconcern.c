@@ -358,7 +358,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 	int i = 0, j = 0, k, temp1 = 0, temp2 = 0;;
 	int isave = 0, jsave = 0;
 	int beginLine = 1, lastCompLine = 1;
-	int diff = 0;
+	int diff = 0, diffFinal = 0;
 	unsigned long nbDisplayLines = 0;
 	time_t now = time(NULL);
 	struct tm * tm = localtime(&now);
@@ -398,6 +398,8 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 			{
 				briefing(1, firstFileName, secondFileName);
 			}
+
+			diffFinal = 1;
 			//passage au 1er indice de la ligne suivante pour les deux fichiers
 			//et recalcul de la taille de la ligne suivante
 			//les variables save correspondent à l'indice de départ pour l'affichage
@@ -742,8 +744,11 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 			nbDisplayLines++;
 		}
 	}
-
 	free(lengths);
+	if (diffFinal == 0 && displayOption == 3)
+	{
+		identicalFiles(0, firstFileName, secondFileName);
+	}
 }
 
 //Renvoie un tableau de dimension 2 contenant les tailles respectives de la prochaine ligne des tableaux passés en paramètres

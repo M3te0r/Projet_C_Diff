@@ -112,6 +112,7 @@ int main(int argc, char* argv[])
 			break;
 		case 's':
 			arguments[1] = 1;
+			displayOption = 3;
 			break;
 		case 't':
 			arguments[2] = 1;
@@ -179,13 +180,6 @@ int main(int argc, char* argv[])
 			countOptions++;
 		}
 	}
-
-	/*if ((arguments[10] == 1 && arguments[2] == 1))
-	{
-	printf("diff: options de style de sortie conflictuelles\n");
-	printf("diff: Pour en savoir davantage, utilisez: %cdiff --help%c.\n", 174, 175);
-	return 0;
-	}*/
 	//Filenames are taken after the option(s)
 	argv[1] = argv[countOptions + 1];
 	argv[2] = argv[countOptions + 2];
@@ -358,13 +352,6 @@ int main(int argc, char* argv[])
 		tabFile2 = fileToTabs(secondFile, optionSpe, optionN);
 	}
 
-	//debug affichage tableau, a ne pas faire pour de gros fichiers, sauf tests
-	/*unsigned long j = 0;
-	while (tabFile1[j]!='\0')
-	{
-	printf("%c", tabFile1[j]);
-	j++;
-	}*/
 	unsigned long nb1 = 0;
 	unsigned long nb2 = 0;
 	int commonLines = 0, linesNew = 0, linesOld = 0;
