@@ -522,6 +522,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					}
 					printf("%c", newFile[k]);
 				}
+				printf("\n");
 				beginLine = lastCompLine;
 			}
 
@@ -577,6 +578,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 				for (k = jsave; k < j; k++)
 					printf("%c", newFile[k]);
+				printf("\n");
 			}
 		}
 		temp1 = i;
