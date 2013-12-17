@@ -489,7 +489,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					}
 				}
 				printf("> ");
-				if (ldisplayOption == 1)
+				if (displayOption == 1)
 				{
 					printf("\t");
 				}
