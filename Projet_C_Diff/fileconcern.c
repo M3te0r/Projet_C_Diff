@@ -183,28 +183,6 @@ int retourLigneCurseur(char *nomFichier, int numLigne)
 	fclose(fichier);
 	return nb;
 }
-
-/*
-Fonction -t  : Retourne le tableau en transformant les tabulations par un espace
-CODE ASCII : TAB = 09
-SP = 32
-*/
-char* tabToSpace(char *tab, int tailleTab)
-{
-	int i;
-	if (tab != NULL)
-	{
-		for (i = 0; i < tailleTab; i++)
-		{
-			if (tab[i] == '\t')
-			{
-				tab[i] = ' ';
-			}
-		}
-	}
-	return tab;
-}
-
 /*Function ignoreCase
 Return 1 if c1!=c2 even ignoring case
 Return 0 if c1==c2 ignoring case
@@ -371,7 +349,7 @@ char* fileToTabsOptionT(char* file, int optionSpe)
 }
 
 //Fonction diff principale (implémentation des options ultérieure) (!!!!!! il faut une variable de nb de lignes de fichier !!!!!!)
-void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption, 
+void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, int nbCommonLines, int displayOption,
 	const char* firstFileName, const char* secondFileName, const char *chaineArgs, int ldisplayOption, int optionCase,
 	int nbLinesOld, int nbLinesNew)
 {
@@ -398,7 +376,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 	*/
 	if (ldisplayOption == 1)
 	{
-		printf("\n\n%u-%u-%u %u:%u %s page 1\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs);
+		printf("\n\n%u-%u-%u %u:%u %s Page 1\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs);
 	}
 	while ((i < lengthOldFile) && (j < lengthNewFile))
 	{
@@ -445,7 +423,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
 					{
-						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
 						nbPages++;
 						nbDisplayLines = 0;
 					}
@@ -469,7 +447,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 							nbDisplayLines++;
 							if (nbDisplayLines % 56 == 0)
 							{
-								printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+								printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
 								nbPages++;
 								nbDisplayLines = 0;
 							}
@@ -491,7 +469,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
 					{
-						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
 						nbPages++;
 						nbDisplayLines = 0;
 					}
@@ -504,7 +482,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
 					{
-						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
 						nbPages++;
 						nbDisplayLines = 0;
 					}
@@ -526,9 +504,10 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 						if (ldisplayOption == 1)
 						{
 							nbDisplayLines++;
+
 							if (nbDisplayLines % 56 == 0)
 							{
-								printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+								printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
 								nbPages++;
 								nbDisplayLines = 0;
 							}
@@ -553,7 +532,7 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
 					{
-						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
 						nbPages++;
 						nbDisplayLines = 0;
 					}
@@ -567,13 +546,23 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 				for (k = isave; k < i; k++)
 					printf("%c", oldFile[k]);
 
+				if (ldisplayOption == 1)
+				{
+					nbDisplayLines++;
+					if (nbDisplayLines % 56 == 0)
+					{
+						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+						nbPages++;
+						nbDisplayLines = 0;
+					}
+				}
 				printf("\n - - - \n");
 				if (ldisplayOption == 1)
 				{
 					nbDisplayLines++;
 					if (nbDisplayLines % 56 == 0)
 					{
-						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+						printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
 						nbPages++;
 						nbDisplayLines = 0;
 					}
@@ -595,31 +584,50 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 		j += lengths[1] + 1;
 		beginLine++;
 	}
-
-	if (ldisplayOption == 1)
-	{
-		while (nbDisplayLines % 60 != 0)
-		{
-			printf("\n");
-			nbDisplayLines++;
-		}
-	}
-
 	//GESTION ADD ET DELETE
 
 	//cas où le nouveau fichier contient plus de lignes -> add
 	if (nbLinesNew > nbLinesOld){
 		if (nbLinesNew == nbLinesOld + 1){
+			if (ldisplayOption == 1)
+			{
+				nbDisplayLines++;
+				if (nbDisplayLines % 56 == 0)
+				{
+					printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+					nbPages++;
+					nbDisplayLines = 0;
+				}
+			}
 			printf("%da%d\n", (nbCommonLines + 1), (nbCommonLines + 1));
-			printf(">");
+			printf("> ");
+			if (displayOption == 1)
+			{
+				printf("\t");
+			}
 			while (newFile[temp2] != '\0'){
 				printf("%c", newFile[temp2]);
 				temp2++;
 			}
 		}
 		else{
+
+			if (ldisplayOption == 1)
+			{
+				nbDisplayLines++;
+				if (nbDisplayLines % 56 == 0)
+				{
+					printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+					nbPages++;
+					nbDisplayLines = 0;
+				}
+			}
 			printf("%da%d,%d\n", (nbCommonLines + 1), (nbCommonLines + 1), nbLinesNew);
-			printf(">");
+			printf("> ");
+			if (displayOption == 1)
+			{
+				printf("\t");
+			}
 			while (newFile[temp2] != '\n'){
 				printf("%c", newFile[temp2]);
 				temp2++;
@@ -629,7 +637,21 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 			for (k = temp2; newFile[k] != '\0'; k++){
 				if (newFile[k - 1] == '\n'){
-					printf(">");
+					if (ldisplayOption == 1)
+					{
+						nbDisplayLines++;
+						if (nbDisplayLines % 56 == 0)
+						{
+							printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+							nbPages++;
+							nbDisplayLines = 0;
+						}
+					}
+					printf("> ");
+					if (displayOption == 1)
+					{
+						printf("\t");
+					}
 				}
 				printf("%c", newFile[k]);
 			}
@@ -638,17 +660,47 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 	//cas où le nouveau fichier contient moins de lignes -> delete
 	else if (nbLinesOld > nbLinesNew){
+
 		if (nbLinesNew == nbLinesOld - 1){
+			if (ldisplayOption == 1)
+			{
+				nbDisplayLines++;
+				if (nbDisplayLines % 56 == 0)
+				{
+					printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+					nbPages++;
+					nbDisplayLines = 0;
+				}
+			}
 			printf("%dd%d\n", (nbCommonLines + 1), (nbCommonLines));
-			printf("<");
+			printf("< ");
+			if (displayOption == 1)
+			{
+				printf("\t");
+			}
 			while (oldFile[temp1] != '\0'){
 				printf("%c", oldFile[temp1]);
 				temp1++;
 			}
 		}
 		else{
+
+			if (ldisplayOption == 1)
+			{
+				nbDisplayLines++;
+				if (nbDisplayLines % 56 == 0)
+				{
+					printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+					nbPages++;
+					nbDisplayLines = 0;
+				}
+			}
 			printf("%d,%dd%d\n", (nbCommonLines + 1), (nbLinesOld), nbCommonLines);
-			printf("<");
+			printf("< ");
+			if (displayOption == 1)
+			{
+				printf("\t");
+			}
 			while (oldFile[temp1] != '\n'){
 				printf("%c", oldFile[temp1]);
 				temp1++;
@@ -658,10 +710,33 @@ void diff(char* oldFile, char* newFile, int lengthOldFile, int lengthNewFile, in
 
 			for (k = temp1; oldFile[k] != '\0'; k++){
 				if (oldFile[k - 1] == '\n'){
-					printf("<");
+					if (ldisplayOption == 1)
+					{
+						nbDisplayLines++;
+						if (nbDisplayLines % 56 == 0)
+						{
+							printf("\n\n\n\n\n\n\n%u-%u-%u %u:%u %s Page %d\n\n\n", (1900 + tm->tm_year), (1 + tm->tm_mon), tm->tm_mday, tm->tm_hour, tm->tm_min, chaineArgs, nbPages);
+							nbPages++;
+							nbDisplayLines = 0;
+						}
+					}
+					printf("< ");
+					if (displayOption == 1)
+					{
+						printf("\t");
+					}
 				}
 				printf("%c", oldFile[k]);
 			}
+		}
+	}
+
+	if (ldisplayOption == 1)
+	{
+		while (nbDisplayLines % 60 != 0)
+		{
+			printf("\n");
+			nbDisplayLines++;
 		}
 	}
 
